@@ -31,29 +31,18 @@ public class Main {
         } 
         catch (Exception ex) 
         {
-            System.out.println(String.format("Среди введных чисел имеется нечисленный ввод, проверьте правильность, завершение. \n %s \n %s \n %s", ex.toString(), ex.getMessage(), ex.getCause()));
+            System.out.println(String.format("Среди введных чисел имеется нечисленный ввод, проверьте правильность, завершение. \n %s \n %s \n %s", ex.toString(), ex.getMessage(), ex.getCause())+"\n"+"/*---------------*/");
                     
             return;
         } 
         
         try 
         {
-            String equation = "";
-            if(!DoubleEqual(a,0))
-                    {
-                        equation +=a+"x^2"+Signum(b);
-                    }
-            if (!DoubleEqual(b,0))
-            {
-                equation +=Math.abs(b)+"x"+Signum(c);
-            }
-            if (!DoubleEqual(c,0))
-            {
-                equation += Math.abs(c);
-            }
-            System.out.println("Решается уравнение:" + equation + "=0");
+
+            System.out.println("Решается ур-ние:"+Signum(a)+"x^2"+Signum(b)+"x"+c+"=0");
             
             System.out.println("Решение: " + (SquareEquationSolution.SolveSquareEquation(a,b,c)));
+            System.out.println("/*---------------*/");
         } 
         catch (Exception ex) 
         {
@@ -155,7 +144,8 @@ public class Main {
     {
         if (DoubleEqual(k, 0) && DoubleEqual(b, 0)) 
         {
-            throw new ArithmeticException("Уравнение имеет вид 0*X=0 => континум решений.");
+            throw new ArithmeticException("Уравнение имеет вид 0*X=0 => континум решений."+"\n"+"/*---------------*/");
+
         } else 
         {
             return b / k;
@@ -168,39 +158,48 @@ public class Main {
      */
     public static double[] HandleInputFromKeyBoard() 
     {
+        int wrongElement  = 0;
         double[] input = new double[3];
         try {
-            Scanner scanner = new Scanner(System.in);
+            Scanner scanner = new Scanner (System.in);
             System.out.println("Введите a");
             input[0] = scanner.nextDouble();
             System.out.println("Введите b");
+            wrongElement = 1;
             input[1] = scanner.nextDouble();
             System.out.println("Введите c");
+            wrongElement = 2;
             input[2] = scanner.nextDouble();
             scanner.close();
         } 
         catch (Exception ex) {
-            System.out.println("Ввод был нечисленным или непполным. Попробуйте еще раз!");
-            return HandleInputFromKeyBoard();
+            System.out.println("Ввод был нечисленным или непполным c эл-та "+wrongElement+", зануляем ");
+            for (int i = wrongElement; i < input.length; i++)
+            {
+                input[i]  = 0;
+            }
+            //return HandleInputFromKeyBoard();
+            
         }
-        return input;
+        finally 
+        {
+            return input;
+        }
     }
 public static String Signum(double num)
 {
     if (num > 0)
     {
-        return "+";
+        return "+"+Math.abs(num);
     }
     else if (num < 0)
     {
-        return "-";
+        return "-"+Math.abs(num);
     }
     else 
     {
-        return "";
+        return "+0";
     }
 }
     
 }
- 
-     
