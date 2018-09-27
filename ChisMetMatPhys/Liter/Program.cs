@@ -31,7 +31,7 @@ namespace lab1RK
 			R_K_Answers.RemoveAt (R_K_Answers.Count-1);
 			for (int i = 0; i < R_K_Answers.Count; i++) 
 			{
-				Console.WriteLine ("Y[{0}]={1}", i, R_K_Answers [i]);
+				//Console.WriteLine ("Y[{0}]={1}", i, R_K_Answers [i]);
 			}
 			Console.WriteLine ("/*------------------------------------------*/");
 			List <double> Adams_Y = new List<double> (Runge_Kutt.calculateRunge_Kutt(x0,X,y0,n));
@@ -39,21 +39,28 @@ namespace lab1RK
 			Console.WriteLine ("Адамс-Башфорт:");
 			for (int i = 0; i <4; i++) 
 			{
-				Console.WriteLine ("Y[{0}] = {1}", i, Adams_Y[i]);
+				//Console.WriteLine ("Y[{0}] = {1}", i, Adams_Y[i]);
 			}
 
 			for (int i = 4; i <= n; i++) 
 			{
 				Adams_Y [i] = Adams_Y[i-1] + h/24.0 *(55*Runge_Kutt.Function(Xs[i-1],Adams_Y[i-1])-59*Runge_Kutt.Function(Xs[i-2],Adams_Y[i-2])+37*Runge_Kutt.Function(Xs[i-3],Adams_Y[i-3])-9*Runge_Kutt.Function(Xs[i-4],Adams_Y[i-4]));
-				Console.WriteLine ("Y[{0}]={1}", i, Adams_Y [i]);
+				//Console.WriteLine ("Y[{0}]={1}", i, Adams_Y [i]);
 			}
 			for (int i = 0; i <= n; i++) 
 			{
-				Console.WriteLine ("Точное в точке {0} = {1}", Xs [i], Runge_Kutt.ExactSolution (Xs [i]));
+				//Console.WriteLine ("Точное в точке {0} = {1}", Xs [i], Runge_Kutt.ExactSolution (Xs [i]));
 			}
 			for (int i = 0; i <= n; i++) 
 			{
 				Console.WriteLine ("R_K[{0}]={1} \t A_B[{0}]={2}", i, R_K_Answers [i], Adams_Y [i]);
+			}
+			List<double> yStar = new List<double> (Runge_Kutt.calculateRunge_Kutt(x0,X,y0,n));
+			yStar.Insert (0, y0);
+			yStar.RemoveAt (yStar.Count - 1);
+			for (int i = 0; i < yStar.Count;i++)
+			{
+				Console.WriteLine("Y*[{0}] = 
 			}
 		}
 	}
