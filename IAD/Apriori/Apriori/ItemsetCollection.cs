@@ -38,13 +38,20 @@ namespace Apriori.DataStructures
 
         public double FindSupport(Itemset itemset)
         {
-            int matchCount = (from i in this
+            /*int matchCount = (from i in this //обыкновеныый саппорт
                               where i.Contains(itemset)
                               select i).Count();
 
-            double support = ((double)matchCount / (double)this.Count) * 100.0;
-            return (support);
-        }
+            double support = ((double)matchCount / (double)this.Count) * 100.0;*/
+            /*
+             * return (support);
+             */
+            int matchCount = (from i in this //обыкновеныый саппорт
+                              where i.Contains(itemset)
+                              select i).Count();
+
+            return matchCount; //~~suppport~~ -- сколько раз встречается данный товар всего 
+                    }
 
         public override string ToString()
         {
