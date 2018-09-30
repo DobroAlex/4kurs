@@ -1,0 +1,19 @@
+﻿<Properties StartupConfiguration="{1817AE8E-9BBD-488F-B3E9-E5B30C5E9C28}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Apriori/AprioriMining.cs">
+    <Files>
+      <File FileName="Apriori/Program.cs" Line="2" Column="1" />
+      <File FileName="Apriori/AprioriMining.cs" Line="9" Column="6" />
+      <File FileName="Apriori/AssociationRule.cs" Line="6" Column="19" />
+      <File FileName="Apriori/Bit.cs" Line="7" Column="1" />
+      <File FileName="Apriori/ItemSet.cs" Line="8" Column="33" />
+      <File FileName="Apriori/ItemsetCollection.cs" Line="56" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.Apriori PreferredExecutionTarget="MonoDevelop.Default" />
+  <MultiItemStartupConfigurations />
+</Properties>
