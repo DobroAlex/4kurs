@@ -40,7 +40,7 @@ public  class Main
         	startTime = System.nanoTime();/*измеряем время в начале*/
         	for(Integer I : getSomeSpecificNumbers(start,end, denoms))   /*foreach. Для каждого элемента, который вернёт функция*/
         	{
-        		System.out.println(I);
+        		//System.out.println(I);
         	}
         }
         else
@@ -69,7 +69,7 @@ public  class Main
         	}
         	for (Integer I : Globals.AllSelectedNumbers)
         	{
-        		System.out.println(I);
+        		//System.out.println(I);
         	}
         	
         }

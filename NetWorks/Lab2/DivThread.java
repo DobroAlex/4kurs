@@ -14,25 +14,31 @@ public class DivThread implements Runnable /*Создаем свой собст�
 {
 	public TreeSet<Integer>  denoms;    /*Делители, делимость на которые проверяем */
 	private int start, end; /*Начало-конец отрезка */
-	@Override
-	public void run()
-	{
-		for (Integer I : Main.getSomeSpecificNumbers(start,end, denoms))
-		{
-			Globals.AllSelectedNumbers.add(I);
-			//System.out.println(I);
-		}
-	}
+	public static int  amountOfFinded;
+	private long threadId;
 	public DivThread(int Start, int End, TreeSet<Integer> Denoms)
 	{
 		start = Start;
 		end = End;
 		denoms = Denoms;
+		amountOfFinded= 0;
+		threadId = Thread.currentThread().getId();
 		if (start > end)
 		{
-			var tmp = end;
+			int tmp = end;
 			end = start;
 			start = tmp;
 		}
 	}
+	@Override
+	public void run()
+	{
+		for (Integer I : Main.getSomeSpecificNumbers(start,end, denoms))
+		{
+			//Globals.AllSelectedNumbers.add(I);
+			System.out.println(threadId + ">"+I+" ");
+			amountOfFinded++;
+		}
+	}
+	
 }
