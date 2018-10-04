@@ -1,0 +1,5 @@
+/home/myfamily/MyStudy/4kurs/IAD/k-means/k-means/k-means/bin/Debug/k-means.exe
+/home/myfamily/MyStudy/4kurs/IAD/k-means/k-means/k-means/bin/Debug/k-means.pdb
+/home/myfamily/MyStudy/4kurs/IAD/k-means/k-means/k-means/obj/x86/Debug/KMeans.csproj.CoreCompileInputs.cache
+/home/myfamily/MyStudy/4kurs/IAD/k-means/k-means/k-means/obj/x86/Debug/k-means.exe
+/home/myfamily/MyStudy/4kurs/IAD/k-means/k-means/k-means/obj/x86/Debug/k-means.pdb
