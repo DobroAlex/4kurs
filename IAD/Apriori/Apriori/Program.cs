@@ -64,14 +64,38 @@ namespace Apriori
             Console.WriteLine((L.Count + " Large Itemsets (by Apriori)\n"));
             foreach (Itemset itemset in L)
             {
-                Console.WriteLine(itemset.ToString());
+                Console.WriteLine(itemset.ToString() + " Длина " + itemset.Count);
             }
             Console.WriteLine("\n");
+            int maxLSize = L[0].Count;
+            Console.WriteLine("maxLSize=" + maxLSize);
+            foreach (Itemset itemset in L)
+            {
+                if (maxLSize < itemset.Count)
+                {
+                    maxLSize = itemset.Count;
+                }
+            }
+
+            Console.WriteLine("maxLSize=" + maxLSize);
+            foreach (Itemset itemset in L)
+            {
+                if (itemset.Count < maxLSize)
+                {
+                    itemset.Clear();
+                }
+            }
+
+            foreach (Itemset itemset in L)
+            {
+                Console.WriteLine(itemset.ToString() + " Длина " + itemset.Count);
+            }
             List<AssociationRule> allRules = AprioriMining.Mine(_db, L, confidence);
+
             Console.WriteLine(allRules.Count + " Association Rules\n");
             foreach (AssociationRule rule in allRules)
             {
-                Console.WriteLine(rule.ToString()+"\n");
+                Console.WriteLine(rule.ToString()+ "Длина="+rule.getTotalLength()+"\n");
             }
         }
         public static bool IsHashSetContainsThisString(HashSet<string> hashset, string str)
@@ -85,5 +109,6 @@ namespace Apriori
             }
             return false;
         }
+         
     }
 }

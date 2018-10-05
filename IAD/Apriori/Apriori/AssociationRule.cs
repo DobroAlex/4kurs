@@ -37,7 +37,10 @@ namespace Apriori.DataStructures
         {
             return (X + " => " + Y + " (support: " + Math.Round(Support, 2) + "%, confidence: " + Math.Round(Confidence, 2) + "%)");
         }
-
+		public int getTotalLength()
+		{
+			return X.Count + Y.Count;
+		}
         #endregion
     }
 }
