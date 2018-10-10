@@ -16,10 +16,28 @@ public class Main {
             if (!IsArrayNullOrEmpty(args)) 
             { /*Проверяем, есть ли хоть один параметр с консоли*/
 
-                
-                double[] input = new double[args.length]; //принимается ровно 3 параметра
+                String[] croppedArgs = new String[3];
+		if (args.length>=3)
+		{
+			for (int i = 0; i < 3;i++)
+			{
+				croppedArgs[i] = args[i];
+			}
+		}
+		else
+		{
+			for (int i = 0; i < args.length;i++)
+			{
+				croppedArgs[i] = args[i];
+			}
+			for (int i = args.length; i < 3;i++)
+			{
+				croppedArgs[i] = "0";
+			}
+		}
+                double[] input = new double[croppedArgs.length]; //принимается ровно 3 параметра
                
-                input = GetInputFromConsole(args); 
+                input = GetInputFromConsole(croppedArgs); 
                 a = input[0]; /*присваиваем весь ненулевой ввод коэф-ам*/
                 b = input[1];
                 c = input[2];
@@ -64,6 +82,14 @@ public class Main {
     public static double[] GetInputFromConsole(String[] args)  
     {
         double[] parsedValues = new double[3];
+	/*if (args.length < 3)
+	{
+		for (int i = args.length; i < 3;i++)
+		{
+			parsedValues[i] = 0;
+		}
+
+	}*/
         for (int i = 0; i < 3; i++) 
         {
             if (!isStringNullOrEmpty(args[i])) 
