@@ -35,13 +35,21 @@ public class DivThread implements Runnable /*Создаем свой собст�
 	public void run()
 	{
 		startTime = System.nanoTime();
-		for (Integer I : Main.getSomeSpecificNumbers(start,end, denoms))
+		/*for (Integer I : Main.getSomeSpecificNumbers(start,end, denoms))
 		{
 			//Globals.AllSelectedNumbers.add(I);
-			System.out.print(threadId + ">"+I+'\t');
+			//System.out.print(threadId + ">"+I+'\t');
 			amountOfFinded++;
+		}*/
+		for (int i = start; i <= end;i++)
+		{
+			if (Main.isNumDevidedByAllNumbers(i, denoms))
+			{
+				System.out.print(threadId + ">"+i+'\t');
+				amountOfFinded++;
+			}
 		}
-		System.out.println("Тред " + threadId + "нашел " + amountOfFinded + " чисел за " + (System.nanoTime() - startTime)*1E-6 + "мс");
+		System.out.println("\nТред " + threadId + "нашел " + amountOfFinded + " чисел за " + (System.nanoTime() - startTime)*1E-6 + "мс");
 		Globals.totalThreadsTime += (System.nanoTime() - startTime)*1E-6;
 	}
 	
