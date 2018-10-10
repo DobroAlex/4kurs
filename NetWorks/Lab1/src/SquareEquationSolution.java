@@ -108,11 +108,11 @@ public final  class SquareEquationSolution {
     {
         if (Main.DoubleEqual(a, 0) && Main.DoubleEqual(b, 0) && Main.DoubleEqual(c, 0) ) 
         {
-            throw new ArithmeticException("Уравнение имеет вид 0*X=0 => континум решений."+"\n"+"/*---------------*/");
+            throw new ArithmeticException("Уравнение имеет вид 0*X=0 => континум решений.");
         }
         if (Main.DoubleEqual(a, 0) && Main.DoubleEqual(b, 0) ) 
         {
-            throw new ArithmeticException("Уравнение выродилось в случай число == 0, решений нет, отмена."+"\n"+"/*---------------*/");
+            throw new ArithmeticException("Уравнение выродилось в случай число == 0, решений нет, отмена.");
         }
         
 

@@ -2,19 +2,23 @@
 import java.util.Scanner;
 import static java.lang.Double.parseDouble;
 
-
+ 
 
 public class Main {
     
     public static void main(String[] args) 
     {
+        
         double a = 0, b = 0, c = 0;   /*коэффициенты квадратного уравнения*/
+        
         try 
         {
             if (!IsArrayNullOrEmpty(args)) 
             { /*Проверяем, есть ли хоть один параметр с консоли*/
 
-                double[] input = new double[args.length];
+                
+                double[] input = new double[args.length]; //принимается ровно 3 параметра
+               
                 input = GetInputFromConsole(args); 
                 a = input[0]; /*присваиваем весь ненулевой ввод коэф-ам*/
                 b = input[1];
@@ -31,18 +35,17 @@ public class Main {
         } 
         catch (Exception ex) 
         {
-            System.out.println(String.format("Среди введных чисел имеется нечисленный ввод, проверьте правильность, завершение. \n %s \n %s \n %s", ex.toString(), ex.getMessage(), ex.getCause())+"\n"+"/*---------------*/");
+            System.out.println(String.format("Среди введных чисел имеется нечисленный ввод, проверьте правильность, завершение. \n %s \n %s \n %s", ex.toString(), ex.getMessage(), ex.getCause()));
                     
             return;
         } 
         
         try 
         {
-
-            System.out.println("Решается ур-ние:"+Signum(a)+"x^2"+Signum(b)+"x"+c+"=0");
+            String equation = Signum(a)+"x^2"+Signum(b)+"x"+Signum(c);
+            System.out.println("Решается уравнение:" + equation + "=0");
             
             System.out.println("Решение: " + (SquareEquationSolution.SolveSquareEquation(a,b,c)));
-            System.out.println("/*---------------*/");
         } 
         catch (Exception ex) 
         {
@@ -53,24 +56,32 @@ public class Main {
     }
 
     /**
-     * Анализатор ввода с консоли, при его налчии заполняет массив соответсвующими занченями 
+     * Анализатор ввода с консоли, при его налчии заполняет массив соответсвующими занченями. Если ввод некорректен, элеменеты обнуляются
      * @param args - массив строк, переданный как stdin при вызове из консоли. Может быть пуст 
      * @return массив той же длины, что и <b>args</b>. При наличии соответсвующего аргумента, элемент массива заполняется, иначе 0.
      * 
      */
-    public static double[] GetInputFromConsole(String[] args) throws Exception 
+    public static double[] GetInputFromConsole(String[] args)  
     {
-        double[] parsedValues = new double[args.length];
-        for (int i = 0; i < args.length; i++) 
+        double[] parsedValues = new double[3];
+        for (int i = 0; i < 3; i++) 
         {
             if (!isStringNullOrEmpty(args[i])) 
             {   /*Если аргумент не пуст*/
-                
+                if (!isNumeric(args[i]))    //если строка не только числовая
                 {
+                    System.out.println("Аргумент #" + i + " имеет неправильный формат, обнуляем");  //сообщаем об этом
+                    parsedValues[i] = 0;    // и обнуляем соответствующий элемент
+                }
+                else
+                {
+                    
                     parsedValues[i] = parseDouble(args[i]);
                 }
-            } else 
+            } 
+            else 
             {
+                System.out.println("Аргумент #" + i + "не был передан, обнуляем");
                 parsedValues[i] = 0 ;
             }
         }
@@ -144,8 +155,7 @@ public class Main {
     {
         if (DoubleEqual(k, 0) && DoubleEqual(b, 0)) 
         {
-            throw new ArithmeticException("Уравнение имеет вид 0*X=0 => континум решений."+"\n"+"/*---------------*/");
-
+            throw new ArithmeticException("Уравнение имеет вид 0*X=0 => континум решений.");
         } else 
         {
             return b / k;
@@ -158,48 +168,40 @@ public class Main {
      */
     public static double[] HandleInputFromKeyBoard() 
     {
-        int wrongElement  = 0;
         double[] input = new double[3];
         try {
-            Scanner scanner = new Scanner (System.in);
+            Scanner scanner = new Scanner(System.in);
             System.out.println("Введите a");
             input[0] = scanner.nextDouble();
             System.out.println("Введите b");
-            wrongElement = 1;
             input[1] = scanner.nextDouble();
             System.out.println("Введите c");
-            wrongElement = 2;
             input[2] = scanner.nextDouble();
             scanner.close();
         } 
         catch (Exception ex) {
-            System.out.println("Ввод был нечисленным или непполным c эл-та "+wrongElement+", зануляем ");
-            for (int i = wrongElement; i < input.length; i++)
-            {
-                input[i]  = 0;
-            }
-            //return HandleInputFromKeyBoard();
-            
+            System.out.println("Ввод был нечисленным или непполным. Попробуйте еще раз!");
+            return HandleInputFromKeyBoard();
         }
-        finally 
-        {
-            return input;
-        }
+        return input;
     }
 public static String Signum(double num)
 {
-    if (num > 0)
+    if (num >= 0)
     {
-        return "+"+Math.abs(num);
+        return "+"+num;
     }
-    else if (num < 0)
+    else  
     {
-        return "-"+Math.abs(num);
+        return "-"+num;
     }
-    else 
-    {
-        return "+0";
-    }
-}
     
 }
+public static boolean isNumeric(String str)
+{
+  return str.matches("-?\\d+(\\.\\d+)?");/*Проверяет строку на численность. Проходят строки с - и .*/ 
+}    
+}
+ 
+     
+
