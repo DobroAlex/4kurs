@@ -10,6 +10,8 @@
  */
 import java.io.IOException;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 public  class Main
 {
 	public static void main(String [] args)
@@ -40,7 +42,7 @@ public  class Main
         	startTime = System.nanoTime();/*измеряем время в начале*/
         	for(Integer I : getSomeSpecificNumbers(start,end, denoms))   /*foreach. Для каждого элемента, который вернёт функция*/
         	{
-        		//System.out.println(I);
+        		System.out.println(I);
         	}
         }
         else
@@ -60,18 +62,26 @@ public  class Main
                     System.out.println("При вводе числа потоков что-то пошло не так");
                 }
         	startTime = System.nanoTime(); /*Засекаем время старта*/
-        	Runnable[] myThreads = new DivThread[steps];
+                
         	int i = 0;
         	for (int smallStart = start; smallStart <= end - Math.abs(end-start)/steps; smallStart +=Math.abs(end-start)/steps)
         	{
-        		myThreads[i] = new DivThread(smallStart, smallStart + Math.abs(end-start)/steps, denoms);
-        		myThreads[i].run();
-        	}
-        	for (Integer I : Globals.AllSelectedNumbers)
+        		DivThread dat  = new DivThread(smallStart, smallStart + Math.abs(end-start)/steps, denoms);
+        		dat.start();
+                    try {
+                        dat.join();
+                    } 
+                    catch (InterruptedException ex) 
+                    {
+                        Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+		}
+			scan.close();
+        	/*for (Integer I : Globals.AllSelectedNumbers)
         	{
         		//System.out.println(I);
-        	}
-        	
+        	}*/
+        	System.out.println("Суммарное время потоков " +  Globals.totalThreadsTime);
         }
         System.out.println("Прошло времени "+ (System.nanoTime() - startTime)*1E-6 + "мс");
 	}
@@ -84,7 +94,7 @@ public  class Main
          */
 	public static TreeSet<Integer> getSomeSpecificNumbers(int  start, int end, TreeSet<Integer> denoms)
 	{
-		TreeSet<Integer> goodNums = new TreeSet<Integer>(); /*Все числа, удовлетворяющие условию*/
+		TreeSet<Integer> goodNums = new TreeSet<>(); /*Все числа, удовлетворяющие условию*/
 		for (int i = start; i <= end;i++)
 		{
 			if (isNumDevidedByAllNumbers(i,  denoms)) /*Если данное число прошло проверку на делимость, добавляем в массив*/

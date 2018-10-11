@@ -9,6 +9,9 @@
  * @author DobroAlex
  */
 import java.util.*;
-public class Globals {
+public class Globals 
+{
     public static  TreeSet<Integer> AllSelectedNumbers = new TreeSet<>();
+    public static long  amountOfThreads = 1;
+    public static long totalThreadsTime = 0;
 }
