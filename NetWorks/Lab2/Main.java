@@ -10,8 +10,6 @@
  */
 import java.io.IOException;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 public  class Main
 {
 	public static void main(String [] args)
@@ -62,20 +60,26 @@ public  class Main
                     System.out.println("При вводе числа потоков что-то пошло не так");
                 }
         	startTime = System.nanoTime(); /*Засекаем время старта*/
-                
-        	int i = 0;
+			DivThread[] jobs = new DivThread[steps];
+			int ii = 0;
         	for (int smallStart = start; smallStart <= end - Math.abs(end-start)/steps; smallStart +=Math.abs(end-start)/steps)
         	{
-        		DivThread dat  = new DivThread(smallStart, smallStart + Math.abs(end-start)/steps, denoms);
-        		dat.start();
-                    try {
-                        dat.join();
-                    } 
-                    catch (InterruptedException ex) 
-                    {
-                        Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-		}
+				jobs[ii] = new DivThread(smallStart, smallStart + Math.abs(end-start)/steps, denoms);
+				jobs[ii].start();
+				ii++;
+			}
+			for (int i = 0; i < steps; i++)
+			{
+				try
+				{
+					jobs[i].join();
+				}
+				catch (Exception ex)
+				{
+					System.err.println("Shit happend!");
+					return ;
+				}
+			}
 			scan.close();
         	/*for (Integer I : Globals.AllSelectedNumbers)
         	{
@@ -94,7 +98,7 @@ public  class Main
          */
 	public static TreeSet<Integer> getSomeSpecificNumbers(int  start, int end, TreeSet<Integer> denoms)
 	{
-		TreeSet<Integer> goodNums = new TreeSet<>(); /*Все числа, удовлетворяющие условию*/
+		TreeSet<Integer> goodNums = new TreeSet<Integer>(); /*Все числа, удовлетворяющие условию*/
 		for (int i = start; i <= end;i++)
 		{
 			if (isNumDevidedByAllNumbers(i,  denoms)) /*Если данное число прошло проверку на делимость, добавляем в массив*/

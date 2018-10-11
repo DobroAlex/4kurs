@@ -10,12 +10,12 @@
  */
 import java.util.*;
 public class DivThread extends Thread /*Создаем свой собственный потоковый класс, выполняющий указанную функцию. 
-        Для этого имплиментируем интерфейс Runnable*/
+        Для этого имплиментируем наследуем Thread*/
 {
 	public TreeSet<Integer>  denoms;    /*Делители, делимость на которые проверяем */
 	private int start, end; /*Начало-конец отрезка */
 	public  int  amountOfFinded;
-	private final long threadId;
+	private long threadId;
 	private  long startTime;
 	public DivThread(int Start, int End, TreeSet<Integer> Denoms)
 	{
