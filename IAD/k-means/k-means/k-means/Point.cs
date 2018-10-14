@@ -60,7 +60,7 @@ namespace KMeans.DataStructures
             if (obj is Point)
             {
                 Point point = (Point)obj;
-                if (this.X == point.X && this.Y == point.Y)
+                if (this.X.Equals(point.X) && this.Y.Equals(point.Y)) 
                 {
                     return (true);
                 }
@@ -71,7 +71,7 @@ namespace KMeans.DataStructures
 
         public override string ToString()
         {
-            return ("{" + this.X + "," + this.Y + "}");
+            return ("{" + this.X + ";" + this.Y + "}");
         }
 
         #endregion

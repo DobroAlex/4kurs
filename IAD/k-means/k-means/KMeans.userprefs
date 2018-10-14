@@ -1,14 +1,6 @@
 ﻿<Properties StartupConfiguration="{B6130CB3-B441-4CDF-85DB-3CC29D0B0EEA}|Default">
   <MonoDevelop.Ide.ItemProperties.KMeans PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="k-means/Program.cs">
-    <Files>
-      <File FileName="k-means/Program.cs" Line="11" Column="21" />
-      <File FileName="k-means/Point.cs" Line="8" Column="23" />
-      <File FileName="k-means/PointCollection.cs" Line="77" Column="10" />
-      <File FileName="k-means/KMeans.cs" Line="5" Column="19" />
-      <File FileName="k-means/ListUtility.cs" Line="6" Column="1" />
-    </Files>
-  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
