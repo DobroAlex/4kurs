@@ -5,7 +5,7 @@ import java.util.*;
 public class CalculClient
 {
     private BufferedReader in;
-    private PrintWriter out;
+    public PrintWriter out;
     private int start, end;
     private TreeSet<Integer> denoms;
     private String serverAdress;
@@ -55,10 +55,17 @@ public class CalculClient
             CalculClient client = new CalculClient( serverAdress, 9898);
             client.ConnectToServer();
             client.out.println((CalcUtils.getSomeSpecificNumbers(client.start, client.end, client.denoms)).size() );
+            client.in.close();
+            client.out.close();
+            return;
         }
         catch (Exception ex)
         {
             System.out.print(ex.getMessage() + "\n" + ex.getStackTrace());
+            return;
+        }
+        finally
+        {
             return;
         }
     }
