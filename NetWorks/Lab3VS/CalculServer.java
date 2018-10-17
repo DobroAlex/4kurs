@@ -1,17 +1,17 @@
-import java.io.*;
-import java.net.*;
-import java.util.*;
-import java.lang.*;
+import java.io.*;   /*input output*/
+import java.net.*;  /*управление сетевыми коннектами*/
+import java.util.*; /*трисеты и прочие структуры данных*/
+import java.lang.*; /*хэндл консольного ввода вывода*/
 public class CalculServer
 {
      public static void main(String[] args) 
     {
         System.out.println("Вычислительный сервер запущен и ожидает коннекта");
         int clientNumber = 0;
-        ServerSocket listener;
+        ServerSocket listener;   /*сокет, который будет слушать конннекты*/
         try
         {
-            listener  = new ServerSocket(9898);
+            listener = new ServerSocket(9898);   /*пробуем запустить слушатель на этом порте*/
         }
         catch(IOException ex)
         {
@@ -23,7 +23,8 @@ public class CalculServer
         {
             while(true)
             {
-                new Divisor(listener.accept(), clientNumber++).start();
+                new Divisor(listener.accept(), clientNumber++).start();   /*Запускаем параллельный поток, работающий на сокете, 
+                                                                           который вернёт accept и присваиваем клиенту номер*/
             }
         }
         catch (Exception ex)
@@ -37,13 +38,13 @@ public class CalculServer
             {
                 listener.close();
             }
-            catch (IOException ex)
+            catch (IOException ex)   /*не должно наступать в нормальных условиях*/
             {
                 System.out.println("Ого, нельзя закрыть слушатель" + ex.getMessage());
             }
         }
     }
-    private static class Divisor extends Thread
+    private static class Divisor extends Thread   /*поток слушатель-отправитель*/
     {
         private Socket socket;
         private int clientNumber;
