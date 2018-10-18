@@ -6,22 +6,27 @@ public class CalculServer
 {
      public static void main(String[] args) 
     {
-        
+        int step;
         ServerSocket listener;   /*сокет, который будет слушать конннекты*/
 
         ArrayList<Integer> denomList = new ArrayList<>();
-        if ( args == null || args[0] == "")
+        if ( args == null || args.length == 0 )
 	{
 		denomList.add(11);
 		denomList.add(13);
-		denomList.add(17);
+        denomList.add(17);
+        System.out.println("Введите шаг");
+        Scanner scan = new Scanner (System.in);
+        step = Integer.parseInt(scan.nextLine()); 
 	}
 	else
 	{
+        System.out.println(args.length);
 		for (int i = 0; i < args.length-1; i++)
 		{
 			denomList.add(Integer.parseInt(args[i]));
-		}
+        }
+        step = Integer.parseInt(args[args.length-1]);
 	}
 	System.out.println("Вычислительный сервер запущен и ожидает коннекта");
         int clientNumber = 0;
@@ -34,15 +39,15 @@ public class CalculServer
             System.out.println("не удалось запустить слушатель на сокете 9898 " + ex.getMessage());
             return;
         }        
-        
+        int start = 0;
         try
         {
             while(true)
             {
-                Divisor calc = new Divisor(listener.accept(), clientNumber++, denomList);   /*Запускаем параллельный поток, работающий на сокете, 
+                Divisor calc = new Divisor(listener.accept(), clientNumber++, denomList, start, start+step);   /*Запускаем параллельный поток, работающий на сокете, 
                                                                            который вернёт accept и присваиваем клиенту номер*/
                 calc.run();
-                
+                start+=step;
             }
         }
         catch (Exception ex)
@@ -69,12 +74,22 @@ public class CalculServer
         private Socket socket;
         private int clientNumber;
         private ArrayList<Integer> denoms;
-        public Divisor(Socket socket, int clientNumber, ArrayList<Integer> denoms)
+        private int start;
+        private int end;
+        public Divisor(Socket socket, int clientNumber, ArrayList<Integer> denoms, int start, int end)
         {
             this.socket = socket;
             this.clientNumber = clientNumber;
             this.denoms = denoms;
-            System.out.println("Новыый коннект #"+this.clientNumber+" на порте " + this.socket);
+            this.start = start;
+            this.end = end;
+            if (start > end)
+            {
+                    int tmp = start;
+                    start = end;
+                    end = tmp;
+            }
+            System.out.println("Новый коннект #"+this.clientNumber+" на порте " + this.socket+"\nПоиск на интервале["+this.start+";"+this.end+"]");
         }
         //@Override
         public void run()
@@ -85,18 +100,6 @@ public class CalculServer
                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
                 out.println("Вы клиент #" + clientNumber + ".");
                 out.println("Ctrl+C для выхода");
-                System.out.println("Введите начало отрезка, на котором хотите искать числа:");
-                Scanner scan = new Scanner(System.in);
-                int start = Integer.parseInt(scan.nextLine());
-                System.out.println("Введите конец отрезка, на котором хотите искать числа:");
-                int end = Integer.parseInt(scan.nextLine());
-                
-                if (start > end)
-                {
-                    int tmp = start;
-                    start = end;
-                    end = tmp;
-                }
                 out.println("Ваш интервал поиска:");
                 out.println(start);
                 out.println(end);
@@ -111,7 +114,6 @@ public class CalculServer
                 System.out.println("Клиент #"+clientNumber+"нашел " + in.readLine());
                 in.close();
                 out.close();
-                scan.close();
             }
             catch (Exception ex)
             {

@@ -49,10 +49,25 @@ public class CalculClient
     {
         try
         {
-            System.out.println("Введите адрес сервера:");
-            Scanner scan = new Scanner(System.in);
-            String serverAdress = scan.nextLine();
-            CalculClient client = new CalculClient( serverAdress, 9898);
+            String serverAdress;
+            int port;
+            if (args.length == 0 || args == null)
+            {
+
+                System.out.println("Введите адрес сервера:");
+                Scanner scan = new Scanner(System.in);
+                serverAdress = scan.nextLine();
+                System.out.println("Введите порт сервера:");
+                port = Integer.parseInt(scan.nextLine());
+                scan.close();                
+            }
+            else 
+            {
+                serverAdress = args[0];
+                port = Integer.parseInt(args[1]);
+                System.out.println(String.format("Подключаемся к {0}:{1}", serverAdress, port));
+            }
+            CalculClient client = new CalculClient(serverAdress, port);
             client.ConnectToServer();
             client.out.println((CalcUtils.getSomeSpecificNumbers(client.start, client.end, client.denoms)).size() );
             client.in.close();
