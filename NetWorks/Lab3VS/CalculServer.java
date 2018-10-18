@@ -6,18 +6,25 @@ public class CalculServer
 {
      public static void main(String[] args) 
     {
-        System.out.println("Вычислительный сервер запущен и ожидает коннекта");
-        int clientNumber = 0;
+        
         ServerSocket listener;   /*сокет, который будет слушать конннекты*/
-        System.out.println("ВВедите ваши делители. Пустая строка для окончания ввода");
+
         ArrayList<Integer> denomList = new ArrayList<>();
-        Scanner scan =  new Scanner(System.in);
-        String input = scan.nextLine();
-        input =  input.replaceAll("[\\s]{2,}", " ");
-        for (String item : input.split(" "))
-        {
-            denomList.add(Integer.parseInt(item));
-        }
+        if ( args == null || args[0] == "")
+	{
+		denomList.add(11);
+		denomList.add(13);
+		denomList.add(17);
+	}
+	else
+	{
+		for (int i = 0; i < args.length-1; i++)
+		{
+			denomList.add(Integer.parseInt(args[i]));
+		}
+	}
+	System.out.println("Вычислительный сервер запущен и ожидает коннекта");
+        int clientNumber = 0;
         try
         {
             listener = new ServerSocket(9898);   /*пробуем запустить слушатель на этом порте*/
