@@ -10,7 +10,8 @@
  */
 import java.util.*;
 public class Globals {
-    public static  TreeSet<Integer> AllSelectedNumbers = new TreeSet<>();
+    public static  ArrayList<Integer> AllSelectedNumbers = new ArrayList<>();
     public static long  amountOfThreads = 1;
     public static long totalThreadsTime = 0;
+    public static long TotalAmountOfThreadsFounded = 0;
 }

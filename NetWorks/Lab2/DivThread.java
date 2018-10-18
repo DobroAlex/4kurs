@@ -12,12 +12,12 @@ import java.util.*;
 public class DivThread extends Thread /*Создаем свой собственный потоковый класс, выполняющий указанную функцию. 
         Для этого имплиментируем наследуем Thread*/
 {
-	public TreeSet<Integer>  denoms;    /*Делители, делимость на которые проверяем */
+	public ArrayList<Integer>  denoms;    /*Делители, делимость на которые проверяем */
 	private int start, end; /*Начало-конец отрезка */
 	public  int  amountOfFinded;
 	private long threadId;
 	private  long startTime;
-	public DivThread(int Start, int End, TreeSet<Integer> Denoms)
+	public DivThread(int Start, int End, ArrayList<Integer> Denoms)
 	{
 		start = Start;
 		end = End;
@@ -45,10 +45,11 @@ public class DivThread extends Thread /*Создаем свой собствен
 		{
 			if (Main.isNumDevidedByAllNumbers(i, denoms))
 			{
-				System.out.print(threadId + ">"+i+'\t');
+				System.out.print(threadId + ">"+i+"\t");
 				amountOfFinded++;
 			}
 		}
+		Globals.TotalAmountOfThreadsFounded += this.amountOfFinded;
 		System.out.println("\nТред " + threadId + " нашел " + amountOfFinded + " чисел за " + (System.nanoTime() - startTime)*1E-6 + "мс");
 		Globals.totalThreadsTime += (System.nanoTime() - startTime)*1E-6;
 	}

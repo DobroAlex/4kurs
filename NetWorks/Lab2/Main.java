@@ -16,7 +16,7 @@ public  class Main
 	{
 		long startTime;
 		int start = 1000000, end = 4000000;   /*Начало и конец отрезка поиска*/
-		TreeSet<Integer> denoms = new TreeSet<>(); /*Древовидная структуру с гарантированным логарифмическим временем доступа  к элементу*/
+		ArrayList<Integer> denoms = new ArrayList<>(); /*Массив интов переменного размера*/
 		
 		System.out.println("Введите делители в одну строку через пробелы");
 		Scanner scan= new Scanner(System.in);
@@ -38,10 +38,13 @@ public  class Main
         if (scan.nextLine().toLowerCase().contains("y"))   /*если строка ответа содержит 'y'*/
         {
         	startTime = System.nanoTime();/*измеряем время в начале*/
-        	for(Integer I : getSomeSpecificNumbers(start,end, denoms))   /*foreach. Для каждого элемента, который вернёт функция*/
+		ArrayList<Integer> ans = getSomeSpecificNumbers(start,end, denoms);
+        	for(Integer I : ans)   /*foreach. Для каждого элемента, который вернёт функция*/
         	{
         		System.out.println(I);
         	}
+		System.out.println("Однопоточка  нашла " + ans.size());
+		
         }
         else
         {
@@ -67,25 +70,27 @@ public  class Main
 				jobs[ii] = new DivThread(smallStart, smallStart + Math.abs(end-start)/steps, denoms);
 				jobs[ii].start();
 				ii++;
-			}
-			for (int i = 0; i < steps; i++)
+		}
+		for (int i = 0; i < steps; i++)
+		{
+			try
 			{
-				try
-				{
-					jobs[i].join();
-				}
-				catch (Exception ex)
-				{
-					System.err.println("Shit happend!");
-					return ;
-				}
+				jobs[i].join();
 			}
+			catch (Exception ex)
+			{
+				System.err.println("Something bad happend!");
+					return ;
+			}
+		}
+		
 			scan.close();
         	/*for (Integer I : Globals.AllSelectedNumbers)
         	{
         		//System.out.println(I);
         	}*/
         	System.out.println("Суммарное время потоков " +  Globals.totalThreadsTime);
+		System.out.println("Всего треды нашли:"+Globals.TotalAmountOfThreadsFounded);
         }
         System.out.println("Прошло времени "+ (System.nanoTime() - startTime)*1E-6 + "мс");
 	}
@@ -96,9 +101,9 @@ public  class Main
          * @param denoms TreeSet делителей, делимость на каждый из которых проверяем 
          * @return Набор всех чисел на [start ; end], каждое из которых делится на все числа из denom
          */
-	public static TreeSet<Integer> getSomeSpecificNumbers(int  start, int end, TreeSet<Integer> denoms)
+	public static ArrayList<Integer> getSomeSpecificNumbers(int  start, int end, ArrayList<Integer> denoms)
 	{
-		TreeSet<Integer> goodNums = new TreeSet<Integer>(); /*Все числа, удовлетворяющие условию*/
+		ArrayList<Integer> goodNums = new ArrayList<Integer>(); /*Все числа, удовлетворяющие условию*/
 		for (int i = start; i <= end;i++)
 		{
 			if (isNumDevidedByAllNumbers(i,  denoms)) /*Если данное число прошло проверку на делимость, добавляем в массив*/
@@ -113,7 +118,7 @@ public  class Main
 	*@param num Делимое, делимость которого проверяем
 	*@param denoms Делители, делимость на которые проверяемо*@return true, если num делится на все числа из denom; иначе false
 	*/
-	public static boolean isNumDevidedByAllNumbers(int num, TreeSet<Integer> denoms)
+	public static boolean isNumDevidedByAllNumbers(int num, ArrayList<Integer> denoms)
 	{
 		for (Integer I : denoms)
 		{
