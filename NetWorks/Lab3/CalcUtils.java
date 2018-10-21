@@ -1,9 +1,9 @@
 import java.util.*;
 public class CalcUtils
 {
-    public static TreeSet<Integer> getSomeSpecificNumbers(int  start, int end, TreeSet<Integer> denoms)
+    public static ArrayList<Integer> getSomeSpecificNumbers(int  start, int end, ArrayList<Integer> denoms)
 	{
-		TreeSet<Integer> goodNums = new TreeSet<Integer>(); /*Все числа, удовлетворяющие условию*/
+		ArrayList<Integer> goodNums = new ArrayList<Integer>(); /*Все числа, удовлетворяющие условию*/
 		for (int i = start; i <= end;i++)
 		{
 			if (isNumDevidedByAllNumbers(i,  denoms)) /*Если данное число прошло проверку на делимость, добавляем в массив*/
@@ -18,7 +18,7 @@ public class CalcUtils
 	*@param num Делимое, делимость которого проверяем
 	*@param denoms Делители, делимость на которые проверяемо*@return true, если num делится на все числа из denom; иначе false
 	*/
-	public static boolean isNumDevidedByAllNumbers(int num, TreeSet<Integer> denoms)
+	public static boolean isNumDevidedByAllNumbers(int num, ArrayList<Integer> denoms)
 	{
 		for (Integer I : denoms)
 		{

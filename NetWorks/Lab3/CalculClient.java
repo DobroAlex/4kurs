@@ -6,19 +6,21 @@ public class CalculClient
 {
     private BufferedReader in;
     public PrintWriter out;
+    public Socket socket;
     private int start, end;
-    private TreeSet<Integer> denoms;
+    private ArrayList<Integer> denoms;
     private String serverAdress;
     private int port;
+    
     public CalculClient (String serverAdress, int port)
     {
         this.serverAdress = serverAdress;
         this.port = port;
-        denoms = new TreeSet<Integer>();
+        denoms = new ArrayList<Integer>();
     } 
         public void ConnectToServer () throws IOException
     {
-        Socket socket = new Socket(this.serverAdress, this.port);
+        this.socket = new Socket(this.serverAdress, this.port);
         this.in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         this.out = new PrintWriter(socket.getOutputStream(), true);
         for (int i = 0; i < 3; i++) //поглощаем строки приветствия и строки start/end с сервера
@@ -65,23 +67,40 @@ public class CalculClient
             {
                 serverAdress = args[0];
                 port = Integer.parseInt(args[1]);
-                System.out.println(String.format("Подключаемся к {0}:{1}", serverAdress, port));
+                System.out.println("Подключаемся к " + serverAdress + " : " + port);
             }
             CalculClient client = new CalculClient(serverAdress, port);
             client.ConnectToServer();
-            client.out.println((CalcUtils.getSomeSpecificNumbers(client.start, client.end, client.denoms)).size() );
+            
+            ArrayList<Integer> ans = CalcUtils.getSomeSpecificNumbers(client.start, client.end, client.denoms);
+            if (ans.size() > 0)
+            {
+                System.out.println("Нашли " + ans.size() + " подходящих чисел и отправляем");
+            
+                for (Integer goodNum : ans) 
+                {
+                    System.out.print(goodNum+"  ");
+                }
+            }
+            else
+            {
+                System.out.println("Не нашли подходящих чиел");
+            }
+            client.out.println(ans.size() );
             client.in.close();
             client.out.close();
+            client.socket.close();;
             return;
         }
         catch (Exception ex)
         {
             System.out.print(ex.getMessage() + "\n" + ex.getStackTrace());
             return;
+            
         }
         finally
         {
-            return;
+            
         }
     }
 }

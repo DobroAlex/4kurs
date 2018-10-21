@@ -48,6 +48,7 @@ public class CalculServer
                                                                            который вернёт accept и присваиваем клиенту номер*/
                 calc.run();
                 start+=step;
+                //calc.join();
             }
         }
         catch (Exception ex)
@@ -69,7 +70,8 @@ public class CalculServer
             
         }
     }
-    private static class Divisor //extends Thread   /*поток слушатель-отправитель*/
+    //private static class Divisor extends Thread   /*поток слушатель-отправитель*/
+    private static class Divisor implements Runnable
     {
         private Socket socket;
         private int clientNumber;
@@ -91,18 +93,19 @@ public class CalculServer
             }
             System.out.println("Новый коннект #"+this.clientNumber+" на порте " + this.socket+"\nПоиск на интервале["+this.start+";"+this.end+"]");
         }
-        //@Override
+        @Override
         public void run()
         {
             try 
-            {    
+            {   
+                
                 BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
                 out.println("Вы клиент #" + clientNumber + ".");
                 out.println("Ctrl+C для выхода");
-                out.println("Ваш интервал поиска:");
-                out.println(start);
-                out.println(end);
+                out.println("Ваш интервал поиска: " + this.start + ";" + this.end);
+                out.println(this.start);
+                out.println(this.end);
                 System.out.println("Отправляем " + this.denoms.size() + "делителей");
                 out.println(this.denoms.size());
                 for (int i = 0; i < this.denoms.size(); i++)
@@ -110,7 +113,7 @@ public class CalculServer
                     System.out.println("Отправляем делитель #"+i+" = " + denoms.get(i));
                     out.println(denoms.get(i));
                 }
-
+                System.out.println("Ждем ответ от #"+this.clientNumber);
                 System.out.println("Клиент #"+clientNumber+"нашел " + in.readLine());
                 in.close();
                 out.close();
