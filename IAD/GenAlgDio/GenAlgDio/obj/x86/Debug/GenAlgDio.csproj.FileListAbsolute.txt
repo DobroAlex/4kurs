@@ -1,0 +1,5 @@
+/home/myfamily/MyStudy/4kurs/IAD/GenAlgDio/GenAlgDio/bin/Debug/GenAlgDio.exe
+/home/myfamily/MyStudy/4kurs/IAD/GenAlgDio/GenAlgDio/bin/Debug/GenAlgDio.pdb
+/home/myfamily/MyStudy/4kurs/IAD/GenAlgDio/GenAlgDio/obj/x86/Debug/GenAlgDio.csproj.CoreCompileInputs.cache
+/home/myfamily/MyStudy/4kurs/IAD/GenAlgDio/GenAlgDio/obj/x86/Debug/GenAlgDio.exe
+/home/myfamily/MyStudy/4kurs/IAD/GenAlgDio/GenAlgDio/obj/x86/Debug/GenAlgDio.pdb
