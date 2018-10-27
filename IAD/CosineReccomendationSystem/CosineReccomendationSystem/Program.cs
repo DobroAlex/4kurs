@@ -123,7 +123,6 @@ namespace CosineReccomendationSystem
                 Console.WriteLine("Answer[{0}]={1}({2})",i, Array.IndexOf(L,SortedTargetL[i]), Array.IndexOf(L, SortedTargetL[i]) +1  );
             }
 
-
         }
 
         public static double CalcCosMeasure(double[] x, double[] y)
