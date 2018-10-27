@@ -1,0 +1,15 @@
+﻿<Properties StartupConfiguration="{7B602DCF-2E4C-47E1-A665-47195D736F70}|Default">
+  <MonoDevelop.Ide.ItemProperties.CosineReccomendationSystem PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Names.cs">
+    <Files>
+      <File FileName="Program.cs" Line="6" Column="6" />
+      <File FileName="Names.cs" Line="6" Column="29" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
+</Properties>

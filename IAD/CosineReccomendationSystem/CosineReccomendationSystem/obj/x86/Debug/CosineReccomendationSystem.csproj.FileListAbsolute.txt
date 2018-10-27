@@ -1,0 +1,5 @@
+/home/myfamily/MyStudy/4kurs/IAD/CosineReccomendationSystem/CosineReccomendationSystem/bin/Debug/CosineReccomendationSystem.exe
+/home/myfamily/MyStudy/4kurs/IAD/CosineReccomendationSystem/CosineReccomendationSystem/bin/Debug/CosineReccomendationSystem.pdb
+/home/myfamily/MyStudy/4kurs/IAD/CosineReccomendationSystem/CosineReccomendationSystem/obj/x86/Debug/CosineReccomendationSystem.csproj.CoreCompileInputs.cache
+/home/myfamily/MyStudy/4kurs/IAD/CosineReccomendationSystem/CosineReccomendationSystem/obj/x86/Debug/CosineReccomendationSystem.exe
+/home/myfamily/MyStudy/4kurs/IAD/CosineReccomendationSystem/CosineReccomendationSystem/obj/x86/Debug/CosineReccomendationSystem.pdb
