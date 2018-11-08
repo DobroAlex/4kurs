@@ -4,7 +4,7 @@ import java.util.*; /*трисеты и прочие структуры данн
 import java.lang.*; /*хэндл консольного ввода вывода*/
 public class CalculServer
 {
-     public static void main(String[] args) 
+     public static void main(String[] args) throws Exception
     {
         int step;
         ServerSocket listener;   /*сокет, который будет слушать конннекты*/
@@ -14,10 +14,10 @@ public class CalculServer
 	{
 		denomList.add(11);
 		denomList.add(13);
-        denomList.add(17);
-        System.out.println("Введите шаг");
-        Scanner scan = new Scanner (System.in);
-        step = Integer.parseInt(scan.nextLine()); 
+		denomList.add(17);
+		System.out.println("Введите шаг");
+		Scanner scan = new Scanner (System.in);
+		step = Integer.parseInt(scan.nextLine()); 
 	}
 	else
 	{
@@ -28,7 +28,7 @@ public class CalculServer
         }
         step = Integer.parseInt(args[args.length-1]);
 	}
-	System.out.println("Вычислительный сервер запущен и ожидает коннекта");
+	
         int clientNumber = 0;
         try
         {
@@ -38,7 +38,9 @@ public class CalculServer
         {
             System.out.println("не удалось запустить слушатель на сокете 9898 " + ex.getMessage());
             return;
-        }        
+        }
+	
+	System.out.println("Вычислительный сервер запущен и ожидает коннекта. Адрес = " +  InetAddress.getLocalHost());        
         int start = 0;
         try
         {

@@ -79,7 +79,7 @@ public class CalculClient
             
                 for (Integer goodNum : ans) 
                 {
-                    System.out.print(goodNum+"  ");
+                    //System.out.print(goodNum+"  ");
                 }
             }
             else
