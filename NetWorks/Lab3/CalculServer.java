@@ -73,13 +73,15 @@ public class CalculServer
         }
     }
     //private static class Divisor extends Thread   /*поток слушатель-отправитель*/
-    private static class Divisor implements Runnable
+    private static class Divisor extends Thread
     {
         private Socket socket;
         private int clientNumber;
         private ArrayList<Integer> denoms;
         private int start;
         private int end;
+	private long calculationTime;
+	private int amountOfFinded;
         public Divisor(Socket socket, int clientNumber, ArrayList<Integer> denoms, int start, int end)
         {
             this.socket = socket;
@@ -103,20 +105,22 @@ public class CalculServer
                 
                 BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-                out.println("Вы клиент #" + clientNumber + ".");
-                out.println("Ctrl+C для выхода");
+                out.println(clientNumber);	/*Отправляем номер клиента клиенту */
                 out.println("Ваш интервал поиска: " + this.start + ";" + this.end);
                 out.println(this.start);
                 out.println(this.end);
-                System.out.println("Отправляем " + this.denoms.size() + "делителей");
+                //System.out.println("Отправляем " + this.denoms.size() + "делителей");
                 out.println(this.denoms.size());
                 for (int i = 0; i < this.denoms.size(); i++)
                 {
-                    System.out.println("Отправляем делитель #"+i+" = " + denoms.get(i));
+                    //System.out.println("Отправляем делитель #"+i+" = " + denoms.get(i));
                     out.println(denoms.get(i));
                 }
                 System.out.println("Ждем ответ от #"+this.clientNumber);
-                System.out.println("Клиент #"+clientNumber+"нашел " + in.readLine());
+		this.amountOfFinded = Integer.parseInt(in.readLine());
+		this.calculationTime = Long.parseLong(in.readLine());
+		System.out.println(amountOfFinded+"\t"+calculationTime);
+                System.out.println("Клиент #"+clientNumber+"нашел " + this.amountOfFinded + " за " + this.calculationTime + "мс");
                 in.close();
                 out.close();
             }
