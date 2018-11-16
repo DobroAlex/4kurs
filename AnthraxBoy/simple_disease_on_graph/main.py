@@ -8,7 +8,7 @@ import place    #class for modeling places which may or may not be infected
 import possible_states_enum as PSE  #all possibles condition of places  
 import graph_utils as GU    #some basic utils for supporting  drawing & iterating over graph
 import random   #for random int and float numbers generation
-def do_visit(G: nx.Graph):
+def do_visit(G: nx.Graph): 
     while not GU.is_all_nodes_visited(G):
         node_to_visit = random.randint(0, G.__len__() - 1)
         while True:
