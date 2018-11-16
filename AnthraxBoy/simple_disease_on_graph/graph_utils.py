@@ -6,6 +6,12 @@ def is_all_nodes_visited(G: nx.Graph):
         if G.nodes[i]['data'].state == PSE.possible_state.not_wisited :
             return False
     return True
+def find_all_connected_nodes(G : nx.Graph, i:int):
+    list_of_connected_nodes = list()
+    for j in range(i, len(G.nodes)):
+        if j in G:
+            list_of_connected_nodes.append(j)
+    return list_of_connected_nodes
 def form_nodes_color_map(G:nx.Graph):
     color_map = list()
     for i in G.nodes:
