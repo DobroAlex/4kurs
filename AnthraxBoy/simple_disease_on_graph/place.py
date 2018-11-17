@@ -4,10 +4,11 @@ import sys
 import possible_states_enum
 class place:
     
-    def __init__(self, name:str, number:int, state:possible_states_enum.possible_state):
+    def __init__(self, name:str, number:int, state:possible_states_enum.possible_state, receptivity:float = 0.5):
         self.name = name
         self.number = number
         self.state = state
+        self.receptivity = receptivity
     #def __hash__():
     #    return hash(repr(self))
     def parse_list_from_txt_file(path_to_file: str):
