@@ -1,6 +1,7 @@
 import networkx as nx
 import place
 import possible_states_enum as PSE
+from matplotlib import pyplot
 def is_all_nodes_visited(G: nx.Graph):
     for i in G.nodes:
         if G.nodes[i]['data'].state == PSE.possible_state.not_wisited :
@@ -25,5 +26,10 @@ def form_nodes_color_map(G:nx.Graph):
 def form_nodes_labels(G:nx.Graph):
     labels = dict()
     for i in G.nodes:
-        labels[i] = G.nodes[i]['data'].name #TODO:fix
+        labels[i] = G.nodes[i]['data'].name
     return labels
+def graph_show_and_save(G: nx.Graph, name_to_save:str = "unnamed_graph", to_block:bool = True):
+    nx.draw_kamada_kawai(G, with_labels = True, node_color = form_nodes_color_map(G), labels = form_nodes_labels(G))
+    pyplot.show(block =  to_block)
+    if to_block == False:
+        pyplot.savefig(name_to_save + ".png", transparent=True)
