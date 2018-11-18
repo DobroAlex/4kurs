@@ -17,7 +17,8 @@ public class CalculServer
 		denomList.add(17);
 		System.out.println("Введите шаг");
 		Scanner scan = new Scanner (System.in);
-		step = Integer.parseInt(scan.nextLine()); 
+        step = Integer.parseInt(scan.nextLine());
+        scan.close(); 
 	}
 	else
 	{
@@ -48,7 +49,7 @@ public class CalculServer
             {
                 Divisor calc = new Divisor(listener.accept(), clientNumber++, denomList, start, start+step);   /*Запускаем параллельный поток, работающий на сокете, 
                                                                            который вернёт accept и присваиваем клиенту номер*/
-                calc.run();
+                calc.start();
                 start+=step;
                 //calc.join();
             }

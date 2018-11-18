@@ -18,22 +18,19 @@ public class CalculClient
         this.port = port;
         denoms = new ArrayList<Integer>();
     }
-    public  String GetSelfNumberAsString()
-    {
-	return ("[" + selfNum + "]");
-    } 
         public void ConnectToServer () throws IOException
     {
         this.socket = new Socket(this.serverAdress, this.port);
         this.in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         this.out = new PrintWriter(socket.getOutputStream(), true);
         this.selfNum = Integer.parseInt(in.readLine());	/*Поглощаем номер клиента с сервера*/
-	System.out.print(GetSelfNumberAsString());
-	System.out.println(in.readLine());
+	    
+	    System.out.println(this.selfNum+":" + in.readLine());
         this.start = Integer.parseInt(in.readLine().trim());
-        System.out.println(GetSelfNumberAsString() + "С сервера пришло: start = " + this.start);
+        
+        System.out.println(this.selfNum+":" + "С сервера пришло: start = " + this.start);
         this.end = Integer.parseInt(in.readLine());
-        System.out.println(GetSelfNumberAsString() + "С сервера пришло: end = " + this.end);
+        System.out.println(this.selfNum+":" +  "С сервера пришло: end = " + this.end);
         
         int amountOfDenoms = Integer.parseInt(in.readLine());
         //System.out.println("Ожидаем " + amountOfDenoms + " делителей с сервера");
@@ -72,33 +69,33 @@ public class CalculClient
                 port = Integer.parseInt(args[1]);
                 System.out.println("Подключаемся к " + serverAdress + " : " + port);
             }
-	    long startTime = java.lang.System.currentTimeMillis();
+	        long startTime = java.lang.System.currentTimeMillis();
             CalculClient client = new CalculClient(serverAdress, port);
             client.ConnectToServer();
             
             ArrayList<Integer> ans = CalcUtils.getSomeSpecificNumbers(client.start, client.end, client.denoms);
             if (ans.size() > 0)
             {
-                System.out.println(client.GetSelfNumberAsString() + "Нашли " + ans.size() + " подходящих чисел и отправляем");
+                System.out.println(client.selfNum + ":" + "Нашли " + ans.size() + " подходящих чисел и отправляем");
             
-                for (Integer goodNum : ans) 
+                /*for (Integer goodNum : ans) 
                 {
                     //System.out.print(goodNum+"  ");
-                }
+                }*/
             }
             else
             {
-                System.out.println(client.GetSelfNumberAsString() + "Не нашли подходящих чиел и отправляем");
+                System.out.println(client.selfNum + ":" + "Не нашли подходящих чиел и отправляем 0 ");
             }
-	    client.out.println(ans.size());
-	    long elapsedTime = java.lang.System.currentTimeMillis() - startTime;
-	    System.out.println("Вычисление заняло " + elapsedTime + " мс");
-	    client.out.print(elapsedTime);
-	    System.out.println(client.GetSelfNumberAsString() + "Клиент отключается");
+	        client.out.println(ans.size());
+            long elapsedTime = java.lang.System.currentTimeMillis() - startTime;
+            System.out.println(client.selfNum+":" + "Вычисление заняло " + elapsedTime + " мс");
+            client.out.print(elapsedTime);
+            System.out.println(client.selfNum+":" +  "Клиент отключается");
             client.in.close();
             client.out.close();
             client.socket.close();;
-            return;
+        return;
         }
         catch (Exception ex)
         {
