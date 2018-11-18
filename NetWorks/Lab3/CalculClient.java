@@ -78,10 +78,10 @@ public class CalculClient
             {
                 System.out.println(client.selfNum + ":" + "Нашли " + ans.size() + " подходящих чисел и отправляем");
             
-                /*for (Integer goodNum : ans) 
+                for (Integer goodNum : ans) 
                 {
-                    //System.out.print(goodNum+"  ");
-                }*/
+                    System.out.print(client.selfNum+ ": " + goodNum + "\t");
+                }
             }
             else
             {
@@ -90,7 +90,7 @@ public class CalculClient
 	        client.out.println(ans.size());
             long elapsedTime = java.lang.System.currentTimeMillis() - startTime;
             System.out.println(client.selfNum+":" + "Вычисление заняло " + elapsedTime + " мс");
-            client.out.print(elapsedTime);
+            client.out.println(elapsedTime);
             System.out.println(client.selfNum+":" +  "Клиент отключается");
             client.in.close();
             client.out.close();

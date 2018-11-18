@@ -118,9 +118,9 @@ public class CalculServer
                     out.println(denoms.get(i));
                 }
                 System.out.println("Ждем ответ от #"+this.clientNumber);
-		this.amountOfFinded = Integer.parseInt(in.readLine());
-		this.calculationTime = Long.parseLong(in.readLine());
-		System.out.println(amountOfFinded+"\t"+calculationTime);
+                this.amountOfFinded = Integer.parseInt(in.readLine());
+                this.calculationTime = Long.parseLong(in.readLine());
+		        //System.out.println(amountOfFinded+"\t"+calculationTime);
                 System.out.println("Клиент #"+clientNumber+"нашел " + this.amountOfFinded + " за " + this.calculationTime + "мс");
                 in.close();
                 out.close();
