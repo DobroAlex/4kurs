@@ -1,0 +1,10 @@
+/home/myfamily/MyStudy/4kurs/NetWorks/Lab4PySharp/client/ConsoleClient/ConsoleClient/obj/x86/Debug/ConsoleClient.csproj.CoreCompileInputs.cache
+/home/myfamily/MyStudy/4kurs/NetWorks/Lab4PySharp/client/ConsoleClient/ConsoleClient/bin/Debug/ConsoleClient.exe
+/home/myfamily/MyStudy/4kurs/NetWorks/Lab4PySharp/client/ConsoleClient/ConsoleClient/bin/Debug/ConsoleClient.pdb
+/home/myfamily/MyStudy/4kurs/NetWorks/Lab4PySharp/client/ConsoleClient/ConsoleClient/obj/x86/Debug/ConsoleClient.exe
+/home/myfamily/MyStudy/4kurs/NetWorks/Lab4PySharp/client/ConsoleClient/ConsoleClient/obj/x86/Debug/ConsoleClient.pdb
+/home/myfamily/MyStudy/4kurs/NetWorks/Lab5PySharp/client/ConsoleClient/ConsoleClient/bin/Debug/ConsoleClient.exe
+/home/myfamily/MyStudy/4kurs/NetWorks/Lab5PySharp/client/ConsoleClient/ConsoleClient/bin/Debug/ConsoleClient.pdb
+/home/myfamily/MyStudy/4kurs/NetWorks/Lab5PySharp/client/ConsoleClient/ConsoleClient/obj/x86/Debug/ConsoleClient.csproj.CoreCompileInputs.cache
+/home/myfamily/MyStudy/4kurs/NetWorks/Lab5PySharp/client/ConsoleClient/ConsoleClient/obj/x86/Debug/ConsoleClient.exe
+/home/myfamily/MyStudy/4kurs/NetWorks/Lab5PySharp/client/ConsoleClient/ConsoleClient/obj/x86/Debug/ConsoleClient.pdb
