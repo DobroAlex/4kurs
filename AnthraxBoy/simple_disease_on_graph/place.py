@@ -13,7 +13,10 @@ class place:
         self.receptivity = receptivity
         self.population = population
         self.infections = infections
-
+        self.population_with_state = dict()
+        for infection in infections:
+            population[infection.name] = int(population/len(infections))     #Assuming equal distrubtion of infections among population
+         
     def parse_list_from_txt_file(path_to_file: str):
         result = list()
         parsed = open("resources/places.txt", "r").read().split('\n')   #TODO: fix empty last element
