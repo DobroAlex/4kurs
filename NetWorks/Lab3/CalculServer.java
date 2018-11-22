@@ -6,7 +6,7 @@ public class CalculServer
 {
      public static void main(String[] args) throws Exception
     {
-        int step;
+        int step = 1000000;
         ServerSocket listener;   /*сокет, который будет слушать конннекты*/
 
         ArrayList<Integer> denomList = new ArrayList<>();
@@ -15,19 +15,16 @@ public class CalculServer
 		denomList.add(11);
 		denomList.add(13);
 		denomList.add(17);
-		System.out.println("Введите шаг");
-		Scanner scan = new Scanner (System.in);
-        step = Integer.parseInt(scan.nextLine());
-        scan.close(); 
+		//System.out.println("Введите шаг");
+		//Scanner scan = new Scanner (System.in);
+        //step = Integer.parseInt(scan.nextLine());
+        //scan.close(); 
 	}
 	else
 	{
-        System.out.println(args.length);
-		for (int i = 0; i < args.length-1; i++)
-		{
-			denomList.add(Integer.parseInt(args[i]));
-        }
-        step = Integer.parseInt(args[args.length-1]);
+        //System.out.println(args.length);
+		
+        step = Integer.parseInt(args[0]);
 	}
 	
         int clientNumber = 0;
@@ -41,7 +38,7 @@ public class CalculServer
             return;
         }
 	
-	System.out.println("Вычислительный сервер запущен и ожидает коннекта. Адрес = " +  InetAddress.getLocalHost());        
+	System.out.println("Сервер запущен и ожидает коннекта. Адрес = " +  InetAddress.getLocalHost() + " : " + listener.getLocalPort());        
         int start = 0;
         try
         {
@@ -83,6 +80,7 @@ public class CalculServer
         private int end;
 	private long calculationTime;
 	private int amountOfFinded;
+	
         public Divisor(Socket socket, int clientNumber, ArrayList<Integer> denoms, int start, int end)
         {
             this.socket = socket;
@@ -96,14 +94,14 @@ public class CalculServer
                     start = end;
                     end = tmp;
             }
-            System.out.println("Новый коннект #"+this.clientNumber+" на порте " + this.socket+"\nПоиск на интервале["+this.start+";"+this.end+"]");
+            System.out.println(this.clientNumber+"#:" + "Новый коннект # "+this.clientNumber+", порт " + this.socket+"\n" + this.clientNumber+"#:" + "Поиск на интервале["+this.start+";"+this.end+"]");
         }
+	
         @Override
         public void run()
         {
             try 
-            {   
-                
+            {                   
                 BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
                 out.println(clientNumber);	/*Отправляем номер клиента клиенту */
@@ -117,11 +115,11 @@ public class CalculServer
                     //System.out.println("Отправляем делитель #"+i+" = " + denoms.get(i));
                     out.println(denoms.get(i));
                 }
-                System.out.println("Ждем ответ от #"+this.clientNumber);
+                //System.out.println("Ждем ответ от #"+this.clientNumber);
                 this.amountOfFinded = Integer.parseInt(in.readLine());
                 this.calculationTime = Long.parseLong(in.readLine());
 		        //System.out.println(amountOfFinded+"\t"+calculationTime);
-                System.out.println("Клиент #"+clientNumber+"нашел " + this.amountOfFinded + " за " + this.calculationTime + "мс");
+                System.out.println(this.clientNumber+"#:" + "Клиент # "+clientNumber+" нашел " + this.amountOfFinded + " чисел на интрвале [" + this.start + " ; " + this.end + "] за " + this.calculationTime + "мс");
                 in.close();
                 out.close();
             }
@@ -137,9 +135,9 @@ public class CalculServer
                 }
                 catch (IOException ex)
                 {
-                    System.out.println("Ошибка при закрытии клиента #"+this.clientNumber);
+                    System.out.println(this.clientNumber+"#:" + "Ошибка при закрытии клиента #"+this.clientNumber);
                 }
-                System.out.println("Закрыто соединение с #" + this.clientNumber);
+                System.out.println(this.clientNumber+"#:" + "Закрыто соединение с #" + this.clientNumber);
                 
             }
         }
