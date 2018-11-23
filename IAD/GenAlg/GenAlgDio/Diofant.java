@@ -72,7 +72,7 @@ public class Diofant {
 	/*
 	 * Function of the equalization we're solving 
 	 * */
-	public static int function( int a, int b, int c, int d ){
+	public static int function( int a, int b, int c, int d ){	//!!! Target function !!!
 		return  a + 2*b + 3*c +4*d ;
 	}
 	

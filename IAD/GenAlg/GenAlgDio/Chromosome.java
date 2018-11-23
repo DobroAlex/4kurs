@@ -46,7 +46,7 @@ public class Chromosome {
 		int closeness = Math.abs(  Diofant.TARGET_VALUE -  Diofant.function( a,b,c,d  )   ) ;
 	    	Diofant.log("Closeness: "+closeness);
 		
-		return  0!=closeness  ? 1/(float)closeness : Diofant.TARGET_IS_REACHED_FLAG ;
+		return  0!=closeness  ? 1.0/scloseness : Diofant.TARGET_IS_REACHED_FLAG ;
 	}
 
 
@@ -175,7 +175,7 @@ public Chromosome singleCrossover(  Chromosome chromosome  ){
 	 * Position after "20" is 1 etc. 
 	 * */		
 	private static int getRandomCrossoverLine(){
-		int line = Diofant.getRandomInt(0, Diofant.GENES_COUNT - 2);  //-2 because we dn't need the position after the last gene
+		int line = Diofant.getRandomInt(0, Diofant.GENES_COUNT - 2);  //-2 because we don't need the position after the last gene
 		Diofant.log("Generated random CrossoverLine at position "+line);
 		return line;
 	}
