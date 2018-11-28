@@ -8,6 +8,7 @@ import place    #class for modeling places which may or may not be infected
 import possible_states_enum as PSE  #all possibles condition of places  
 import graph_utils as GU    #some basic utils for supporting  drawing & iterating over graph
 import random   #for random int and float numbers generation
+import json
 def do_visit(G: nx.Graph, is_node_visited_only_once: bool = False, start_node: int = -1): 
     if start_node == -1:
         current_node  = random.randint(0, G.__len__() - 1)
@@ -37,7 +38,10 @@ def main():
     G = nx.Graph()  #creates new empty graph
 
     #TODO: change to JSON
-    parsed_places = place.place.parse_list_from_txt_file("resources/places.txt")    #parsing names from file    
+    #parsed_places = place.place.parse_list_from_txt_file("resources/places.txt")    #parsing names from file    
+    #with open("resources/places.json") as data_file:
+    #    parsed_places = json.load(data_file)
+    parsed_places = place.place.parse_list_of_places_from_json(path_to_file="resources/places.json")
     for item in parsed_places:
         G.add_node(parsed_places.index(item), data=item)    #adding places as nodes to graph
     for i  in G.nodes:
