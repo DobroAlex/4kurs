@@ -43,13 +43,13 @@ def main():
     #    parsed_places = json.load(data_file)
     parsed_places = place.place.parse_list_of_places_from_json(path_to_file="resources/places.json")
     for item in parsed_places:
-        G.add_node(parsed_places.index(item), data=item)    #adding places as nodes to graph
+        G.add_node(parsed_places.index(item), data=item, pos = (item.latitude, item.longitude ))    #adding places as nodes to graph
     for i  in G.nodes:
         print("node {0}{1} = {2}".format(G.nodes[i]['data'].name, G.nodes[i]['data'].number, G.nodes[i]['data'].state)) #https://stackoverflow.com/questions/18169965/how-to-delete-last-item-in-list
     while not (nx.is_connected(G)): #while each node doesn't have at least one edge
         G.add_edge(random.randint(0, G.__len__()-1), random.randint(0, G.__len__()-1))  #adding random edge
-    GU.graph_show_and_save(G, "graph", False)
+    GU.graph_show_and_save(G, "graph", to_save=True)
     do_visit(G, start_node = 0) #see do_visit()
-    GU.graph_show_and_save(G, "infected_graph", False)
+    GU.graph_show_and_save(G, "infected_graph", to_save = True)
 if __name__ == "__main__":
     main()
