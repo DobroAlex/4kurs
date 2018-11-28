@@ -28,8 +28,9 @@ def form_nodes_labels(G:nx.Graph):
     for i in G.nodes:
         labels[i] = G.nodes[i]['data'].name
     return labels
-def graph_show_and_save(G: nx.Graph, name_to_save:str = "unnamed_graph", to_block:bool = True):
-    nx.draw_kamada_kawai(G, with_labels = True, node_color = form_nodes_color_map(G), labels = form_nodes_labels(G))
-    pyplot.show(block =  to_block)
-    if to_block == False:
+def graph_show_and_save(G: nx.Graph, name_to_save:str = "unnamed_graph", to_save:bool = True):
+    pos = nx.get_node_attributes(G, "pos")
+    nx.draw(G, pos,  with_labels = True, node_color = form_nodes_color_map(G), labels = form_nodes_labels(G))
+    pyplot.show(block =  not to_save)
+    if to_save == True:
         pyplot.savefig(name_to_save + ".png", transparent=True)
