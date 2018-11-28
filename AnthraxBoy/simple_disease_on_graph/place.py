@@ -1,21 +1,17 @@
 from enum import Enum
 import os 
 import sys
+import json
 import possible_states_enum
-import infection as infec
 class place:
     
-    def __init__(self, name:str, number:int, state:possible_states_enum.possible_state, direction:float = 1,  receptivity:float = 0.5, population:int = 500, infections:list = infec.list_of_infections, ):
+    def __init__(self, name:str, number:int,  direction:float = 1,  receptivity:float = 0.5, population:int = 500, latitude:float = 100, longitude:float = 100):
         self.name = name
         self.number = number
-        self.state = state
+        self.state = possible_states_enum.possible_state.not_wisited
         self.direction = direction
         self.receptivity = receptivity
         self.population = population
-        self.infections = infections
-        self.population_with_state = dict()
-        for infection in infections:
-            population[infection.name] = int(population/len(infections))     #Assuming equal distrubtion of infections among population
          
     def parse_list_from_txt_file(path_to_file: str):
         result = list()
@@ -25,3 +21,17 @@ class place:
             result.append(place(cur_place, parsed.index(cur_place) , possible_states_enum.possible_state.not_wisited))
                 
         return result
+    def parse_place_from_json(json_object: dict)  : 
+        return place(name = json_object["name"], 
+                    number=json_object["number"], 
+                    direction=json_object["direction"],
+                    receptivity=json_object["receptivity"],
+                    population=json_object["population"],
+                    latitude=json_object["latitude"],
+                    longitude=json_object["longitude"])
+    def parse_list_of_places_from_json(path_to_file:str = "recources/places.json") -> list:
+        list_of_places = list()
+        with open(path_to_file) as data_file:
+            for json_str in  json.load(data_file):
+                list_of_places.append(place.parse_place_from_json(json_object=json_str))
+        return list_of_places
