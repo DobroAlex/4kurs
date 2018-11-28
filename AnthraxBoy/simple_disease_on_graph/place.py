@@ -12,6 +12,8 @@ class place:
         self.direction = direction
         self.receptivity = receptivity
         self.population = population
+        self.latitude = latitude
+        self.longitude = longitude
          
     def parse_list_from_txt_file(path_to_file: str):
         result = list()
