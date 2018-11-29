@@ -2,6 +2,7 @@ import java.io.*;   /*input output*/
 import java.net.*;  /*управление сетевыми коннектами*/
 import java.util.*; /*трисеты и прочие структуры данных*/
 import java.lang.*; /*хэндл консольного ввода вывода*/
+import java.time.*;
 public class CalculServer
 {
      public static void main(String[] args) throws Exception
@@ -9,24 +10,16 @@ public class CalculServer
         int step = 1000000;
         ServerSocket listener;   /*сокет, который будет слушать конннекты*/
 
-        ArrayList<Integer> denomList = new ArrayList<>();
-        if ( args == null || args.length == 0 )
+        ArrayList<Integer> denomList = new ArrayList<>(Arrays.asList(11,13,17));
+        if (args.length == 0)
 	{
-		denomList.add(11);
-		denomList.add(13);
-		denomList.add(17);
-		//System.out.println("Введите шаг");
-		//Scanner scan = new Scanner (System.in);
-        //step = Integer.parseInt(scan.nextLine());
-        //scan.close(); 
+		System.out.println("Введите шаг:");
+		step = Integer.parseInt(System.console().readLine());
 	}
 	else
 	{
-        //System.out.println(args.length);
-		
-        step = Integer.parseInt(args[0]);
+		step = Integer.parseInt(args[0]);
 	}
-	
         int clientNumber = 0;
         try
         {
@@ -37,8 +30,8 @@ public class CalculServer
             System.out.println("не удалось запустить слушатель на сокете 9898 " + ex.getMessage());
             return;
         }
-	
-	System.out.println("Сервер запущен и ожидает коннекта. Адрес = " +  InetAddress.getLocalHost() + " : " + listener.getLocalPort());        
+	LocalDateTime localDateTime = LocalDateTime.now();
+	System.out.println("Сервер запущен " + localDateTime + ". По Адресу = " +  InetAddress.getLocalHost() + " : " + listener.getLocalPort() + "\nЖдет коннекта");        
         int start = 0;
         try
         {
@@ -105,7 +98,7 @@ public class CalculServer
                 BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
                 out.println(clientNumber);	/*Отправляем номер клиента клиенту */
-                out.println("Ваш интервал поиска: " + this.start + ";" + this.end);
+                //out.println("Ваш интервал поиска: " + this.start + ";" + this.end);
                 out.println(this.start);
                 out.println(this.end);
                 //System.out.println("Отправляем " + this.denoms.size() + "делителей");

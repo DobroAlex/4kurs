@@ -25,13 +25,11 @@ public class CalculClient
         this.out = new PrintWriter(socket.getOutputStream(), true);
         this.selfNum = Integer.parseInt(in.readLine());	/*Поглощаем номер клиента с сервера*/
 	    
-	    System.out.println(this.selfNum+":" + in.readLine());
+	//System.out.println(this.selfNum+":" + in.readLine());	//"Ваш интревал поиска
         this.start = Integer.parseInt(in.readLine().trim());
-        
         System.out.println(this.selfNum+":" + "С сервера пришло: start = " + this.start);
         this.end = Integer.parseInt(in.readLine());
         System.out.println(this.selfNum+":" +  "С сервера пришло: end = " + this.end);
-        
         int amountOfDenoms = Integer.parseInt(in.readLine());
         //System.out.println("Ожидаем " + amountOfDenoms + " делителей с сервера");
         for (int i = 0; i < amountOfDenoms; i++)
@@ -69,14 +67,15 @@ public class CalculClient
                 port = Integer.parseInt(args[1]);
                 System.out.println("Подключаемся к " + serverAdress + " : " + port);
             }
-	        long startTime = java.lang.System.currentTimeMillis();
+	    long startTime = java.lang.System.currentTimeMillis();
             CalculClient client = new CalculClient(serverAdress, port);
             client.ConnectToServer();
             
             ArrayList<Integer> ans = CalcUtils.getSomeSpecificNumbers(client.start, client.end, client.denoms);
+	    long elapsedTime = java.lang.System.currentTimeMillis() - startTime;
             if (ans.size() > 0)
             {
-                System.out.println(client.selfNum + ":" + "Нашли " + ans.size() + " подходящих чисел и отправляем");
+                System.out.println(client.selfNum + ":" + "Нашли " + ans.size() + " подходящих чисел на интервале [" + client.start + " ; " + client.end + "]" + "За " + elapsedTime + "мс" );
             
                 /*for (Integer goodNum : ans) 
                 {
@@ -87,8 +86,8 @@ public class CalculClient
             {
                 System.out.println(client.selfNum + ":" + "Не нашли подходящих чиел и отправляем 0 ");
             }
-	        client.out.println(ans.size());
-            long elapsedTime = java.lang.System.currentTimeMillis() - startTime;
+	    client.out.println(ans.size());
+            
             System.out.println(client.selfNum+":" + "Вычисление заняло " + elapsedTime + " мс");
             client.out.println(elapsedTime);
             System.out.println(client.selfNum+":" +  "Клиент отключается");
