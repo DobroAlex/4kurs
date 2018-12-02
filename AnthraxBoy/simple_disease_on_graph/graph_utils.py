@@ -4,6 +4,13 @@ import possible_states_enum as PSE
 from matplotlib import pyplot
 import infection as Infection
 
+def find_amount_of_person_infected_with(target_infection:Infection.infection, persons:list()) -> int:
+    retVal = 0
+    for target_person in persons:
+        if target_infection in target_person.infected_with:
+            retVal += 1
+    return retVal
+
 def is_all_nodes_visited(G: nx.Graph):
     for i in G.nodes:
         if G.nodes[i]['data'].state == PSE.possible_state.not_wisited :

@@ -34,7 +34,7 @@ def do_visit(G: nx.Graph, agent:Person.person, is_node_visited_only_once: bool =
             node_to_visit = random.randint(0, G.__len__() - 1)
         for target_person in  G.nodes[node_to_visit]['data'].persons:   
             for disease_of_agent in agent.infected_with:    #calculating probability that agent will infect persons 
-                probability = 1.0 - math.exp(G.nodes[node_to_visit]['data'].direction * math.log(1-target_person.receptivity*agent.infected_with[disease_of_agent]))          
+                probability = 1.0 - math.exp(G.nodes[node_to_visit]['data'].direction * GU.find_amount_of_person_infected_with(disease_of_agent, G.nodes[node_to_visit]['data'].persons ) *  math.log(1-target_person.receptivity*agent.infected_with[disease_of_agent]))          
                 if probability >= 0.5:
                     target_person.infected_with[disease_of_agent] = agent.infected_with[disease_of_agent]
                     G.nodes[node_to_visit]['data'].state == PSE.possible_state.infected
