@@ -2,6 +2,8 @@ import networkx as nx
 import place
 import possible_states_enum as PSE
 from matplotlib import pyplot
+import infection as Infection
+
 def is_all_nodes_visited(G: nx.Graph):
     for i in G.nodes:
         if G.nodes[i]['data'].state == PSE.possible_state.not_wisited :
@@ -23,10 +25,10 @@ def form_nodes_color_map(G:nx.Graph):
         else:
             color_map.append('red')
     return color_map
-def form_nodes_labels(G:nx.Graph):
+def form_nodes_labels(G:nx.Graph) -> None:
     labels = dict()
     for i in G.nodes:
-        labels[i] = G.nodes[i]['data'].name + "\nPopulation= " +  str(G.nodes[i]['data'].population)
+        labels[i] = G.nodes[i]['data'].name + "\nPopulation= " +  str(G.nodes[i]['data'].population) 
     return labels
 def graph_show_and_save(G: nx.Graph, name_to_save:str = "unnamed_graph", to_save:bool = True):
     pos = nx.get_node_attributes(G, "pos")

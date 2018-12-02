@@ -30,7 +30,9 @@ def do_visit(G: nx.Graph, agent:Person.person, is_node_visited_only_once: bool =
                     break
                 else:
                     node_to_visit = random.randint(0, G.__len__() - 1)
-        for target_person in  G.nodes[node_to_visit]['data'].persons:
+        else:
+            node_to_visit = random.randint(0, G.__len__() - 1)
+        for target_person in  G.nodes[node_to_visit]['data'].persons:   #calculating probability that agent will infect persons 
             for disease_of_agent in agent.infected_with:
                 probability = 1.0 - math.exp(G.nodes[node_to_visit]['data'].direction * math.log(1-target_person.receptivity*agent.infected_with[disease_of_agent]))          
                 if probability >= 0.5:
@@ -53,7 +55,7 @@ def main():
     while not (nx.is_connected(G)): #while each node doesn't have at least one edge
         G.add_edge(random.randint(0, G.__len__()-1), random.randint(0, G.__len__()-1))  #adding random edge
     GU.graph_show_and_save(G, "graph", to_save=False)
-    do_visit(G, agent = agent,  start_node = 0) #see do_visit()
+    do_visit(G, agent = agent,  start_node = 0, is_node_visited_only_once=False) #see do_visit()
     GU.graph_show_and_save(G, "infected_graph", to_save = False)
 
 
