@@ -3,7 +3,7 @@
         "name" : "КФУ",
         "number" : 0,
         "direction" : 1.0,
-        "population": 500,
+        "population": 300,
         "latitude": 44.936301,
         "longitude": 34.134204
     },
@@ -12,7 +12,7 @@
         "name" : "КИПУ",
         "number" : 1,
         "direction" : 1.0,
-        "population" : 500,
+        "population" : 200,
         "latitude" : 44.939658,
         "longitude" : 34.091580
     },
