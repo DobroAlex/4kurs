@@ -3,15 +3,20 @@ import os
 import sys
 import json
 import possible_states_enum
+import infection as Infection
+import person as Person
+import random
 class place:
     
-    def __init__(self, name:str, number:int,  direction:float = 1,  receptivity:float = 0.5, population:int = 500, latitude:float = 100, longitude:float = 100):
+    def __init__(self, name:str, number:int,  direction:float = 1,  population:int = 500, latitude:float = 100, longitude:float = 100):
         self.name = name
         self.number = number
         self.state = possible_states_enum.possible_state.not_wisited
         self.direction = direction
-        self.receptivity = receptivity
         self.population = population
+        self.persons = list()
+        for person in range(0, population):
+            self.persons.append(Person.person(random.randint(16,65), 'm', 0.5))
         self.latitude = latitude
         self.longitude = longitude
          
@@ -27,7 +32,6 @@ class place:
         return place(name = json_object["name"], 
                     number=json_object["number"], 
                     direction=json_object["direction"],
-                    receptivity=json_object["receptivity"],
                     population=json_object["population"],
                     latitude=json_object["latitude"],
                     longitude=json_object["longitude"])

@@ -3,7 +3,6 @@
         "name" : "КФУ",
         "number" : 0,
         "direction" : 1.0,
-        "receptivity": 0.5,
         "population": 500,
         "latitude": 44.936301,
         "longitude": 34.134204
@@ -13,9 +12,17 @@
         "name" : "КИПУ",
         "number" : 1,
         "direction" : 1.0,
-        "receptivity": 0.5,
         "population" : 500,
         "latitude" : 44.939658,
         "longitude" : 34.091580
+    },
+
+    {
+        "name" : "СовМин",
+        "number" : 2,
+        "direction" : 1.0,
+        "population" : 100,
+        "latitude" : 44.947846,
+        "longitude" : 34.099710 
     }
 ]

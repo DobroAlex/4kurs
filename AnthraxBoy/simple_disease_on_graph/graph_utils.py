@@ -26,7 +26,7 @@ def form_nodes_color_map(G:nx.Graph):
 def form_nodes_labels(G:nx.Graph):
     labels = dict()
     for i in G.nodes:
-        labels[i] = G.nodes[i]['data'].name
+        labels[i] = G.nodes[i]['data'].name + "\nPopulation= " +  str(G.nodes[i]['data'].population)
     return labels
 def graph_show_and_save(G: nx.Graph, name_to_save:str = "unnamed_graph", to_save:bool = True):
     pos = nx.get_node_attributes(G, "pos")

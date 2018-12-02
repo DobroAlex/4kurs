@@ -48,8 +48,8 @@ def main():
         print("node {0}{1} = {2}".format(G.nodes[i]['data'].name, G.nodes[i]['data'].number, G.nodes[i]['data'].state)) #https://stackoverflow.com/questions/18169965/how-to-delete-last-item-in-list
     while not (nx.is_connected(G)): #while each node doesn't have at least one edge
         G.add_edge(random.randint(0, G.__len__()-1), random.randint(0, G.__len__()-1))  #adding random edge
-    GU.graph_show_and_save(G, "graph", to_save=True)
+    GU.graph_show_and_save(G, "graph", to_save=False)
     do_visit(G, start_node = 0) #see do_visit()
-    GU.graph_show_and_save(G, "infected_graph", to_save = True)
+    GU.graph_show_and_save(G, "infected_graph", to_save = False)
 if __name__ == "__main__":
     main()
