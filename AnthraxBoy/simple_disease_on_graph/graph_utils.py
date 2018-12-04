@@ -1,10 +1,10 @@
 import networkx as nx
+import infection as Infection
 import place
 import possible_states_enum as PSE
 from matplotlib import pyplot
-import infection as Infection
 
-def find_amount_of_person_infected_with(target_infection:Infection.infection, persons:list()) -> int:
+def find_amount_of_person_infected_with(target_infection:Infection.infection , persons:list()) -> int:
     retVal = 0
     for target_person in persons:
         if target_infection in target_person.infected_with:

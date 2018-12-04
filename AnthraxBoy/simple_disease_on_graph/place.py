@@ -3,8 +3,8 @@ import os
 import sys
 import json
 import possible_states_enum
-import infection as Infection
 import person as Person
+import graph_utils as GU
 import random
 class place:
     
@@ -41,3 +41,4 @@ class place:
             for json_str in  json.load(data_file):
                 list_of_places.append(place.parse_place_from_json(json_object=json_str))
         return list_of_places
+    
