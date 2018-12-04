@@ -51,10 +51,22 @@ def do_visit(G: nx.Graph, agent:Person.person, is_node_visited_only_once: bool =
                 probability = Person.person.calc_infection_probability(Infection.infection(disease_of_person, disease_of_person_permissibility), agent, G.nodes[node_to_visit]['data'].persons   )
                 if probability >= 0.5:
                     agent.infected_with[disease_of_person] =  disease_of_person_permissibility   
+                infection_tick(G)
         current_node = node_to_visit
 
+def infection_tick(G: nx.Graph) -> None:
+    for i in G.nodes:
+        for agent_person in  G.nodes[i]['data'].persons:
+            for target_person in G.nodes[i]['data'].persons:
+                for agent_person_infection, agent_person_infection_permissibility in agent_person.infected_with.items():
+                    if agent_person_infection in target_person.infected_with:
+                        break
+                    probability = Person.person.calc_infection_probability(Infection.infection(agent_person_infection,agent_person_infection_permissibility), target_person, G.nodes[i]['data'].persons )
+                    if probability >= 0.5:
+                        target_person.infected_with[agent_person_infection] = agent_person_infection_permissibility
+                
 def main():
-    agent = Person.person(age=35, sex = 'm', receptivity=0.5, infected_with = {'Ветрянка': 0.1, 'ОРВИ': 0.5, 'СПИДОРАК': 0.8}  )
+    agent = Person.person(age=35, sex = 'm', receptivity=0.5, infected_with = {'Ветрянка': 0.1, 'ОРВИ': 0.5, 'СПИДОРАК': 0.8, 'Невероятный СПИДОРАКОТУБИК' : 1.1}  )
     G = nx.Graph()  #creates new empty graph
     parsed_places = place.place.parse_list_of_places_from_json(path_to_file="resources/places.json")
     for item in parsed_places:
