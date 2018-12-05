@@ -5,7 +5,23 @@
         "direction" : 1.0,
         "population": 300,
         "latitude": 44.936301,
-        "longitude": 34.134204
+        "longitude": 34.134204,
+        "persons":
+                    [
+                        {
+                            "age": 18,
+                            "sex": "m",
+                            "receptivity": 0.5
+                        },
+                        {
+                            "age": 19,
+                            "sex": "f",
+                            "receptivity": 0.3
+                        },
+                        {
+                            "sex":"f"
+                        }
+                    ]        
     },
     
     {
