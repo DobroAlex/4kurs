@@ -65,6 +65,7 @@ def infection_tick(G: nx.Graph) -> None:
                     if probability >= 0.5:
                         target_person.infected_with[agent_person_infection] = agent_person_infection_permissibility
                 
+ 
 def main():
     agent = Person.person(age=35, sex = 'm', receptivity=0.5, infected_with = {'Ветрянка': 0.1, 'ОРВИ': 0.5, 'СПИДОРАК': 0.8, 'Невероятный СПИДОРАКОТУБИК' : 1.1}  )
     G = nx.Graph()  #creates new empty graph
