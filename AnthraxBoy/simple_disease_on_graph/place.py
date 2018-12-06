@@ -40,7 +40,7 @@ class place:
                     persons = Person.person.parse_persons_from_place_json(json_object["persons"]) if json_object.get("persons") else None)
     def parse_list_of_places_from_json(path_to_file:str = "recources/places.json") -> list:
         list_of_places = list()
-        with open(path_to_file) as data_file:
+        with open(path_to_file, encoding="utf8") as data_file:
             for json_str in  json.load(data_file):
                 list_of_places.append(place.parse_place_from_json(json_object=json_str))
         return list_of_places
