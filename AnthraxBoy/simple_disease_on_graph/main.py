@@ -40,6 +40,7 @@ def do_visit(G: nx.Graph, agent:Person.person, is_node_visited_only_once: bool =
                 #    *  math.log(1-target_person.receptivity*agent.infected_with[disease_of_agent]))       
                 probability =  Person.person.calc_infection_probability(Infection.infection(disease_of_agent,disease_of_agent_permissibility), target_person, G.nodes[node_to_visit]['data'].persons) #TODO : TEST THIS LINE   
                 if probability >= 0.5:
+                    print("{0}={1}".format(disease_of_agent, probability))
                     target_person.infected_with[disease_of_agent] = agent.infected_with[disease_of_agent]
                     G.nodes[node_to_visit]['data'].state == PSE.possible_state.infected
                 else:
