@@ -1,0 +1,10 @@
+{
+    "map_type" : "map",
+    "longitude" : "44.948237", 
+    "latitude" : "34.100318",
+    "spn_lon" : "0.1",
+    "spn_lat" : "0.1",
+    "map_scale" : "5",
+    "map_size_x"  : "650",
+    "map_size_y" : "450"
+}
