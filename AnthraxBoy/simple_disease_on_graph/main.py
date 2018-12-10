@@ -42,7 +42,7 @@ def do_visit(G: nx.Graph, agent:Person.person, is_node_visited_only_once: bool =
                 if probability >= 0.5:
                     print("{0}={1}".format(disease_of_agent, probability))
                     target_person.infected_with[disease_of_agent] = agent.infected_with[disease_of_agent]
-                    G.nodes[node_to_visit]['data'].state == PSE.possible_state.infected
+                    G.nodes[node_to_visit]['data'].state = PSE.possible_state.infected
                 else:
                     if G.nodes[node_to_visit]['data'].state !=  PSE.possible_state.infected :
                         G.nodes[node_to_visit]['data'].state = PSE.possible_state.not_infected
@@ -53,7 +53,7 @@ def do_visit(G: nx.Graph, agent:Person.person, is_node_visited_only_once: bool =
                 if probability >= 0.5:
                     agent.infected_with[disease_of_person] =  disease_of_person_permissibility   
                 infection_tick(G)
-        current_node = node_to_visit
+        prev_node = node_to_visit
 
 def infection_tick(G: nx.Graph) -> None:
     for i in G.nodes:
@@ -77,6 +77,7 @@ def main():
         print("node {0}{1} = {2}".format(G.nodes[i]['data'].name, G.nodes[i]['data'].number, G.nodes[i]['data'].state)) #https://stackoverflow.com/questions/18169965/how-to-delete-last-item-in-list
     while not (nx.is_connected(G)): #while each node doesn't have at least one edge
         G.add_edge(random.randint(0, G.__len__()-1), random.randint(0, G.__len__()-1))  #adding random edge
+    GU.get_map(G)
     GU.graph_show_and_save(G, "graph", to_save=False)
     do_visit(G, agent = agent,  start_node = 0, is_node_visited_only_once=False) #see do_visit()
     GU.graph_show_and_save(G, "infected_graph", to_save = False)

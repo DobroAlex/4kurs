@@ -3,6 +3,8 @@ import infection as Infection
 import place
 import possible_states_enum as PSE
 from matplotlib import pyplot
+import urllib
+import parsing_utils as PU
 
 def find_amount_of_person_infected_with(target_infection:Infection.infection , persons:list()) -> int:
     retVal = 0
@@ -43,3 +45,5 @@ def graph_show_and_save(G: nx.Graph, name_to_save:str = "unnamed_graph", to_save
     pyplot.show(block =  not to_save)
     if to_save == True:
         pyplot.savefig(name_to_save + ".png", transparent=True)
+def get_map(G: nx.Graph, path_to_static_map_params:str = "resources/static_map_params.json", name_to_save:str = "static_map.png" ) -> None:
+    urllib.request.urlretrieve("https://static-maps.yandex.ru/1.x/?" + PU.parse_map_params(path_to_static_map_params), name_to_save)
