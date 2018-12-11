@@ -17,9 +17,9 @@ class person:
         return random.randint(start,end)
 
     def parse_person_from_json(json_object:dict) :
-        retPerson =  person(age = PU.parse_json_filed_if_present(json_object, "age"),
-                        sex = PU.parse_json_filed_if_present(json_object, "sex"),
-                        receptivity = PU.parse_json_filed_if_present(json_object,"receptivity"),
+        retPerson =  person(age = json_object.get("age", None),
+                        sex = json_object.get("sex", "None"),
+                        receptivity = json_object.get("receptivity", 0.1)
                         )                   
         if retPerson.receptivity == None:
             retPerson.receptivity == random.uniform(0.1,1)

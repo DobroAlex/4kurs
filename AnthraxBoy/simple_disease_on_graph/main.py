@@ -34,10 +34,7 @@ def do_visit(G: nx.Graph, agent:Person.person, is_node_visited_only_once: bool =
             node_to_visit = random.randint(0, G.__len__() - 1)
         for target_person in  G.nodes[node_to_visit]['data'].persons:  
             #calculating probability that agent will infect persons 
-            for disease_of_agent , disease_of_agent_permissibility in agent.infected_with.items():  #iterating over dict's items https://stackoverflow.com/questions/5466618/too-many-values-to-unpack-iterating-over-a-dict-key-string-value-list    
-                #probability = 1.0 - math.exp(G.nodes[node_to_visit]['data'].direction 
-                #    * GU.find_amount_of_person_infected_with(disease_of_agent, G.nodes[node_to_visit]['data'].persons ) 
-                #    *  math.log(1-target_person.receptivity*agent.infected_with[disease_of_agent]))       
+            for disease_of_agent , disease_of_agent_permissibility in agent.infected_with.items():  #iterating over dict's items https://stackoverflow.com/questions/5466618/too-many-values-to-unpack-iterating-over-a-dict-key-string-value-list         
                 probability =  Person.person.calc_infection_probability(Infection.infection(disease_of_agent,disease_of_agent_permissibility), target_person, G.nodes[node_to_visit]['data'].persons) #TODO : TEST THIS LINE   
                 if probability >= 0.5:
                     print("{0}={1}".format(disease_of_agent, probability))

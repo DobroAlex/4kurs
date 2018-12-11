@@ -31,13 +31,13 @@ class place:
                 
         return result
     def parse_place_from_json(json_object: dict)  : 
-        return place(name = json_object["name"] if json_object["name"] else "person#{0}".format(random.randint(0,100000)), 
-                    number=json_object["number"], 
-                    direction=json_object["direction"],
-                    population=json_object["population"],
-                    latitude=json_object["latitude"],
-                    longitude=json_object["longitude"],
-                    persons = Person.person.parse_persons_from_place_json(json_object["persons"]) if json_object.get("persons") else None)
+        return place(name= json_object.get("name", "Anonim"), 
+                    number=json_object.get("number", random.randint(1000,100000)), 
+                    direction=json_object.get("direction", 1.0),
+                    population=json_object.get("population", 500),
+                    latitude=json_object.get("latitude", 34.100318),
+                    longitude=json_object.get("longitude", 44.948237),
+                    persons = Person.person.parse_persons_from_place_json(json_object.get("persons", dict())))
     def parse_list_of_places_from_json(path_to_file:str = "recources/places.json") -> list:
         list_of_places = list()
         with open(path_to_file, encoding="utf8") as data_file:
