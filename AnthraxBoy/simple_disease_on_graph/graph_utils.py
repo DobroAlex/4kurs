@@ -4,6 +4,8 @@ import place
 import possible_states_enum as PSE
 from matplotlib import pyplot
 import urllib
+import os
+import imageio
 import parsing_utils as PU
 
 def find_amount_of_person_infected_with(target_infection:Infection.infection , persons:list()) -> int:
@@ -45,5 +47,32 @@ def graph_show_and_save(G: nx.Graph, name_to_save:str = "unnamed_graph", to_save
     pyplot.show(block =  not to_save)
     if to_save == True:
         pyplot.savefig(name_to_save + ".png", transparent=True)
-def get_map(G: nx.Graph, path_to_static_map_params:str = "resources/static_map_params.json", name_to_save:str = "static_map.png" ) -> None:
-    urllib.request.urlretrieve("https://static-maps.yandex.ru/1.x/?" + PU.parse_map_params(path_to_static_map_params), name_to_save)
+def get_map(G: nx.Graph, path_to_static_map_params:str = "resources/static_map_params.json",with_labels:bool = True, name_to_save:str = "static_map.png", path_to_save:str = None ) -> None:
+    URL = "https://static-maps.yandex.ru/1.x/?"
+    URL += PU.parse_map_params(path_to_static_map_params)
+    if with_labels:
+        URL += "&pt="
+        for i in G.nodes:
+            URL += str(G.nodes[i]['data'].longitude) + "," + str(G.nodes[i]['data'].latitude) + ","
+            URL += "pm"
+            URL += "gr" if G.nodes[i]['data'].state == PSE.possible_state.not_wisited else "gn" if  G.nodes[i]['data'].state == PSE.possible_state.not_infected else "rd"
+            URL += "s"  #mark will be little
+            URL += "~"
+
+        URL = URL[:-1]  #deleting last element which will be "~"
+    if path_to_save != None :
+        name_to_save = os.path.join(path_to_save, name_to_save)
+    urllib.request.urlretrieve(URL, name_to_save ) 
+def create_animation_from_dir(path_to_files:str="output/animated_map/frames/", name_to_save:str="animated_map.gif", path_to_save:str=None) -> None:
+    images = []
+    for filename in [f for f in os.listdir(path_to_files) if os.path.isfile(os.path.join(path_to_files, f))]:
+        filename = os.path.join(path_to_files, filename)
+        images.append(imageio.imread(filename))
+        full_path_and_name_to_save = os.path.join(path_to_save, name_to_save) if path_to_save != None else name_to_save
+        if os.path.exists(full_path_and_name_to_save):
+            os.remove(full_path_and_name_to_save)
+        else:
+            print("Old {0} at {1} is already deleted, nothing to del".format(name_to_save, full_path_and_name_to_save))
+        
+        imageio.mimsave(full_path_and_name_to_save, images, duration = 1)
+        
