@@ -44,9 +44,12 @@ def form_nodes_labels(G:nx.Graph) -> None:
 def graph_show_and_save(G: nx.Graph, name_to_save:str = "unnamed_graph", to_save:bool = True):
     pos = nx.get_node_attributes(G, "pos")
     nx.draw(G, pos,  with_labels = True, node_color = form_nodes_color_map(G), labels = form_nodes_labels(G))
-    pyplot.show(block =  not to_save)
+    #pyplot.show(block =  not to_save)
+    #pyplot.close()
+    #pyplot.pause(0.01)
     if to_save == True:
         pyplot.savefig(name_to_save + ".png", transparent=True)
+    #pyplot.pause(0.01)
 def get_map(G: nx.Graph, path_to_static_map_params:str = "resources/static_map_params.json",with_labels:bool = True, name_to_save:str = "static_map.png", path_to_save:str = None ) -> None:
     URL = "https://static-maps.yandex.ru/1.x/?"
     URL += PU.parse_map_params(path_to_static_map_params)

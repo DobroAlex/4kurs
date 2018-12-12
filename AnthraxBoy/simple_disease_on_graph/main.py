@@ -61,9 +61,10 @@ def do_visit(G: nx.Graph, agent:Person.person, is_node_visited_only_once: bool =
                 probability = Person.person.calc_infection_probability(Infection.infection(disease_of_person, disease_of_person_permissibility), agent, G.nodes[node_to_visit]['data'].persons   )
                 if probability >= 0.5:
                     agent.infected_with[disease_of_person] =  disease_of_person_permissibility   
-                
+        GU.graph_show_and_save(G,"frame" + str(len(next(os.walk("output/matplotlib_animated_map/frames/"))[2])), to_save=True )        
         GU.get_map(G, name_to_save="frame" + str(len(next(os.walk(path_to_save_animation))[2])) + ".png", path_to_save=path_to_save_animation)
         infection_tick(G)
+        GU.graph_show_and_save(G,"frame" + str(len(next(os.walk("output/matplotlib_animated_map/frames/"))[2])), to_save=True ) 
         GU.get_map(G, name_to_save="frame" + str(len(next(os.walk(path_to_save_animation))[2])) + ".png", path_to_save=path_to_save_animation)    
         prev_node = node_to_visit
 
@@ -89,12 +90,11 @@ def main():
         print("node {0}{1} = {2}".format(G.nodes[i]['data'].name, G.nodes[i]['data'].number, G.nodes[i]['data'].state)) #https://stackoverflow.com/questions/18169965/how-to-delete-last-item-in-list
     while not (nx.is_connected(G)): #while each node doesn't have at least one edge
         G.add_edge(random.randint(0, G.__len__()-1), random.randint(0, G.__len__()-1))  #adding random edge
-    #GU.get_map(G)
-    GU.graph_show_and_save(G, "graph", to_save=False)
+    #GU.graph_show_and_save(G, "output/matplotlib_animated_map/graph", to_save=True)
     GU.get_map(G, name_to_save="frame" + str(len(next(os.walk("output/animated_map/frames/"))[2])) + ".png", path_to_save="output/animated_map/frames/")
     do_visit(G, agent = agent,  start_node = 0, is_node_visited_only_once=False) #see do_visit()
-    GU.graph_show_and_save(G, "infected_graph", to_save = False)
+    #GU.graph_show_and_save(G, "output/matplotlib_animated_map/infected_graph", to_save = True)
     GU.create_animation_from_dir(path_to_files="output/animated_map/frames/", path_to_save="output/animated_map/", name_to_save="animated_yandex_map.gif")
-
+    GU.create_animation_from_dir(path_to_files="output/matplotlib_animated_map/frames", path_to_save="output/matplotlib_animated_map/", name_to_save="matplotib_animated_map.gif")
 if __name__ == "__main__":
     main()
