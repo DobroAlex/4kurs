@@ -13,18 +13,19 @@ import random   #for random int and float numbers generation
 import json     #for JSON parse/dump
 import infection as Infection
 import person as Person
-def do_visit(G: nx.Graph, agent:Person.person, is_node_visited_only_once: bool = False, start_node: int = None, is_animated:bool = True, path_to_save_animation:str = "output/animated_map/frames/") -> None: 
+def do_visit(G: nx.Graph, agent:Person.person, is_node_visited_only_once: bool = False, start_node: int = None, is_animated:bool = True, path_to_save_yandex_animation:str = "output/animated_map/frames/", path_to_save_matplotlib_animation:str = "output/matplotlib_animated_map/frames/") -> None: 
     if is_animated :    #cleansing directory with frames from previous content
                         #https://stackoverflow.com/questions/185936/how-to-delete-the-contents-of-a-folder-in-python
-        for the_file in os.listdir(path_to_save_animation):
-            file_path = os.path.join(path_to_save_animation, the_file)
-            try:
-                if os.path.isfile(file_path):
-                    os.unlink(file_path)
-                elif os.path.isdir(file_path): shutil.rmtree(file_path)
-            except Exception  as e:
-                print("Dir {0} is already  clean".format(path_to_save_animation))
-                pass
+        for target_dir in [path_to_save_matplotlib_animation, path_to_save_yandex_animation]:
+            for the_file in os.listdir(target_dir):
+                file_path = os.path.join(target_dir, the_file)
+                try:
+                    if os.path.isfile(file_path):
+                        os.unlink(file_path)
+                    elif os.path.isdir(file_path): shutil.rmtree(file_path)
+                except Exception  as e:
+                    print("Dir {0} is already  clean".format(target_dir))
+                    pass
     if start_node == None:
         current_node  = random.randint(0, G.__len__() - 1)
     else :
@@ -61,11 +62,11 @@ def do_visit(G: nx.Graph, agent:Person.person, is_node_visited_only_once: bool =
                 probability = Person.person.calc_infection_probability(Infection.infection(disease_of_person, disease_of_person_permissibility), agent, G.nodes[node_to_visit]['data'].persons   )
                 if probability >= 0.5:
                     agent.infected_with[disease_of_person] =  disease_of_person_permissibility   
-        GU.graph_show_and_save(G,"frame" + str(len(next(os.walk("output/matplotlib_animated_map/frames/"))[2])), to_save=True )        
-        GU.get_map(G, name_to_save="frame" + str(len(next(os.walk(path_to_save_animation))[2])) + ".png", path_to_save=path_to_save_animation)
+        GU.graph_show_and_save(G,name_to_save="frame" + str(len(next(os.walk(path_to_save_matplotlib_animation))[2])), path_to_save=path_to_save_matplotlib_animation, to_save=True )        
+        GU.get_map(G, name_to_save="frame" + str(len(next(os.walk(path_to_save_yandex_animation))[2])) + ".png", path_to_save=path_to_save_yandex_animation)
         infection_tick(G)
-        GU.graph_show_and_save(G,"frame" + str(len(next(os.walk("output/matplotlib_animated_map/frames/"))[2])), to_save=True ) 
-        GU.get_map(G, name_to_save="frame" + str(len(next(os.walk(path_to_save_animation))[2])) + ".png", path_to_save=path_to_save_animation)    
+        GU.graph_show_and_save(G, name_to_save="frame" + str(len(next(os.walk(path_to_save_matplotlib_animation))[2])), path_to_save=path_to_save_matplotlib_animation, to_save=True ) 
+        GU.get_map(G, name_to_save="frame" + str(len(next(os.walk(path_to_save_yandex_animation))[2])) + ".png", path_to_save=path_to_save_yandex_animation)    
         prev_node = node_to_visit
 
 def infection_tick(G: nx.Graph) -> None:
@@ -90,11 +91,11 @@ def main():
         print("node {0}{1} = {2}".format(G.nodes[i]['data'].name, G.nodes[i]['data'].number, G.nodes[i]['data'].state)) #https://stackoverflow.com/questions/18169965/how-to-delete-last-item-in-list
     while not (nx.is_connected(G)): #while each node doesn't have at least one edge
         G.add_edge(random.randint(0, G.__len__()-1), random.randint(0, G.__len__()-1))  #adding random edge
-    #GU.graph_show_and_save(G, "output/matplotlib_animated_map/graph", to_save=True)
+    GU.graph_show_and_save(G, name_to_save="graph", path_to_save="output/matplotlib_animated_map/", to_save=True)
     GU.get_map(G, name_to_save="frame" + str(len(next(os.walk("output/animated_map/frames/"))[2])) + ".png", path_to_save="output/animated_map/frames/")
     do_visit(G, agent = agent,  start_node = 0, is_node_visited_only_once=False) #see do_visit()
-    #GU.graph_show_and_save(G, "output/matplotlib_animated_map/infected_graph", to_save = True)
+    GU.graph_show_and_save(G, name_to_save="infected_graph", path_to_save= "output/matplotlib_animated_map/", to_save = True)
     GU.create_animation_from_dir(path_to_files="output/animated_map/frames/", path_to_save="output/animated_map/", name_to_save="animated_yandex_map.gif")
-    GU.create_animation_from_dir(path_to_files="output/matplotlib_animated_map/frames", path_to_save="output/matplotlib_animated_map/", name_to_save="matplotib_animated_map.gif")
+    GU.create_animation_from_dir(path_to_files="output/matplotlib_animated_map/frames/", path_to_save="output/matplotlib_animated_map/", name_to_save="matplotib_animated_map.gif")
 if __name__ == "__main__":
     main()
