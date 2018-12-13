@@ -1,0 +1,6 @@
+*.png
+*.gif
+.vscode/
+__pycache__/
+.idea/
+./nbproject
