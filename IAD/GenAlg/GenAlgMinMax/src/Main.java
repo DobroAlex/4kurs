@@ -52,7 +52,8 @@ public class Main {
     /*
      * Function  we're finding maximum for
      * */
-    public static double function( double x ){
+    public static double function( double x )
+    {
         return x + Math.abs(  Math.sin( 32 * x )  ) ;
     }
 
