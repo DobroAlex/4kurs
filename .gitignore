@@ -4,4 +4,6 @@
 .vscode/
 __pycache__/
 .idea/
+idea/
+.idea
 ./nbproject
