@@ -83,7 +83,7 @@ public class ChatServer {
                    for (PrintWriter writer : writers){
                        input = input.split(":::")[1]; //received message looks like MESSAGE::: + content, so we
                        // want to broadcast only message
-                       writer.println("MESSAGE:::"+"name"+input);
+                       writer.println("MESSAGE:::"+"name:"+input);
                    }
                 }
             }
