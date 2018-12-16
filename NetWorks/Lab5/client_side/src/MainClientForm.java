@@ -50,6 +50,28 @@ public class MainClientForm {
                 MessageTextField.setText("");
             }
         });
+        DisconnectButton.addActionListener(new ActionListener() {
+            /**
+             * Invoked when an action occurs.
+             *
+             * @param e the event to be processed
+             */
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (chatClient.out != null){
+                    try {
+                        chatClient.out.println("CLIENT_IS_DISCONNECTING:::");
+                        chatClient.out.close();
+                        chatClient.in.close();
+                    }
+                    catch (Exception ex)
+                    {
+                        chatClient = null;
+                        return;
+                    }
+                }
+            }
+        });
     }
 
     public static void main(String[] args) {

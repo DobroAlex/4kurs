@@ -1,4 +1,5 @@
 import  java.io.*;
+import java.time.LocalDateTime;
 import  java.util.*;
 import java.net.*;
 import java.util.logging.Handler;
@@ -88,7 +89,12 @@ public class ChatServer {
                    if (input.startsWith("CLIENT_IS_DISCONNECTING:::")){
                        names.remove(name);
                        writers.remove(out);
-                       throw new RuntimeException(socket + " : " + name + " disconnected");
+                       logger.info("Client " + name + "\t" + socket +" is leaving us");
+                       for (PrintWriter writer : writers)
+                       {
+                           writer.println("MESSAGE:::" + name + " is leaving us");
+                       }
+                       //throw new RuntimeException(socket + " : " + name + " disconnected");
                    }
                    if (input.contains("MESSAGE:::")) {
                        logger.info("Received message from " + name + " === " + input);
@@ -97,8 +103,8 @@ public class ChatServer {
                            // want to broadcast only message
                            input = input.replaceFirst("MESSAGE:::", "");
                            logger.info("Broadcasting " + input +" from " + name);
-                           writer.println("MESSAGE:::" + name + ": " + input);
-                           writer.flush();
+                           writer.println("MESSAGE:::" + name + "["+ LocalDateTime.now() +"]: " + input);
+                           //writer.flush();
                        }
                    }
                 }

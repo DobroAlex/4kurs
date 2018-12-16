@@ -44,7 +44,7 @@ public class ChatClient extends  Thread {
                 }
                 if (line.startsWith("MESSAGE:::"))
                 {
-                    //receivedMessage = line.split(":::")[1];
+                    line = line.replaceFirst("MESSAGE:::", "");
                     logger.info("MESSAGE::: = " + line);
                     System.out.println(line);
                     outputStream.write(line);
