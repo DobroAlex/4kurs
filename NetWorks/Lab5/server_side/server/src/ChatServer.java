@@ -66,6 +66,10 @@ public class ChatServer {
                         names.add(name);
                         break;
                     }
+                    else {
+                        logger.info(socket+": Name " + name + " is not unique, sending NAME_IS_NOT_UNIQUE::: signal");
+                        out.println("NAME_IS_NOT_UNIQUE:::");
+                    }
                 }
             }
             writers.add(out);
@@ -80,15 +84,26 @@ public class ChatServer {
                        logger.info(name + ": Received null-message, client is probably dead, disconnecting");
                        throw new Exception("Client " + name + " send null-response / is dead.");
                    }
+                   if (input.startsWith("CLIENT_IS_DISCONNECTING:::")){
+                       names.remove(name);
+                       writers.remove(out);
+                       throw new RuntimeException(socket + " : " + name + " disconnected");
+                   }
+                   if(input.compareTo("MESSAGE:::") == 0)
+                   {
+                       continue;
+                   }
                    for (PrintWriter writer : writers){
                        input = input.split(":::")[1]; //received message looks like MESSAGE::: + content, so we
                        // want to broadcast only message
-                       writer.println("MESSAGE:::"+"name:"+input);
+                       writer.println("MESSAGE:::"+name+ ": s"+input);
                    }
                 }
             }
             catch (Exception ex) {
                 System.out.println("name:"+ex);
+                names.remove(name);
+                writers.remove(out);
             }
             finally {
                 if (name != null){
