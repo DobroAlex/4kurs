@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Logger;
 
 public class MainClientForm {
     private JPanel panel1;
@@ -17,6 +18,7 @@ public class MainClientForm {
     private JLabel NickNameLabel;
     private JLabel ChatLabel;
     public ChatClient chatClient;
+    public Logger logger = Logger.getLogger(MainClientForm.class.getName());
     public MainClientForm() {
         ConnectToServerButton.addActionListener(new ActionListener() {
             /**
@@ -32,6 +34,7 @@ public class MainClientForm {
                         Integer.parseInt(ServerPortTextField.getText()),
                         ChatTextArea);
                 chatClient.start();
+                logger.info("Created new chatClient :" + chatClient);
             }
         });
         SendMessageButton.addActionListener(new ActionListener() {
@@ -42,10 +45,8 @@ public class MainClientForm {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (MessageTextField.getText().isBlank()){
-                    return;
-                }
-                chatClient.out.println("MESSAGE:::"+ MessageTextField.getText());
+                logger.info("Sending MESSAGE:::" + MessageTextField.getText());
+                chatClient.out.println("MESSAGE:::" + MessageTextField.getText());
                 MessageTextField.setText("");
             }
         });

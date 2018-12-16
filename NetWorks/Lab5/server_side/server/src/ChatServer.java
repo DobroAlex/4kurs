@@ -69,6 +69,7 @@ public class ChatServer {
                     else {
                         logger.info(socket+": Name " + name + " is not unique, sending NAME_IS_NOT_UNIQUE::: signal");
                         out.println("NAME_IS_NOT_UNIQUE:::");
+                        return;
                     }
                 }
             }
@@ -89,21 +90,28 @@ public class ChatServer {
                        writers.remove(out);
                        throw new RuntimeException(socket + " : " + name + " disconnected");
                    }
-                   if(input.compareTo("MESSAGE:::") == 0)
-                   {
-                       continue;
-                   }
-                   for (PrintWriter writer : writers){
-                       input = input.split(":::")[1]; //received message looks like MESSAGE::: + content, so we
-                       // want to broadcast only message
-                       writer.println("MESSAGE:::"+name+ ": s"+input);
+                   if (input.contains("MESSAGE:::")) {
+                       logger.info("Received message from " + name + " === " + input);
+                       for (PrintWriter writer : writers) {
+                           //input = input.split(":::")[1]; //received message looks like MESSAGE::: + content, so we
+                           // want to broadcast only message
+                           input = input.replaceFirst("MESSAGE:::", "");
+                           logger.info("Broadcasting " + input +" from " + name);
+                           writer.println("MESSAGE:::" + name + ": " + input);
+                           writer.flush();
+                       }
                    }
                 }
             }
             catch (Exception ex) {
-                System.out.println("name:"+ex);
-                names.remove(name);
-                writers.remove(out);
+                System.out.println("name:"+ex + ex.getStackTrace());
+                if (names != null) {
+                    names.remove(name);
+                }
+                if (writers != null) {
+                    writers.remove(out);
+                }
+                return;
             }
             finally {
                 if (name != null){
@@ -114,10 +122,12 @@ public class ChatServer {
                 }
                 try {
                     socket.close();
+                    return;
                 }
                 catch (Exception ex)
                 {
                     System.out.println("Wow, can't close socket " + socket);
+                    return;
                 }
             }
         }
