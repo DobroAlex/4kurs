@@ -95,8 +95,7 @@ public class ChatServer {
                 this.name = in.readLine();
                 if (name == null) {
                     logger.info( socket + "received null-answer, aborting connection, terminating thread");
-                    closeConnectionWithoutDeletingNameAndWriter();
-                    return;
+                    throw  new RuntimeException(socket + ": Null-response  received, client is probably dead");
                 }
 
                 logger.info(socket + ": Received name: " + name);
@@ -111,8 +110,7 @@ public class ChatServer {
                     else {
                         logger.info(socket+": Name " + name + " is not unique, sending NAME_IS_NOT_UNIQUE::: signal and closing");
                         out.println("NAME_IS_NOT_UNIQUE:::");
-                        closeConnectionWithoutDeletingNameAndWriter();
-                        return;
+                        throw new RuntimeException(name + " : " + socket + " : " + "Name is not unique, message was sent");
                     }
                 }
             }
@@ -123,27 +121,25 @@ public class ChatServer {
             while (true) {
                 if(isTreadShouldBeStopped == true){
                     logger.info(name + ": " + socket + " :  shouldBeStoppedFlagOccurred, trying to close and delete name and writer" );
-                    closeConnectionAndDeleteNameAndWriter();
-                    return;
+                    throw new RuntimeException(name + " : " + socket + " : " + "isThreadShouldBeStopped occurred");
+
                 }
                 logger.info(name + ": awaiting message  from" + name);
                 String input = in.readLine();
                 if (input == null)
                    {
                        logger.info(name +": " + socket + ": Received null-message, client is probably dead, calling closeConnectionAndDeleteName()");
-                       closeConnectionAndDeleteNameAndWriter();
-                       return;
+                       throw  new RuntimeException(name + " : " + socket + " : Null-response  received, client is probably dead");
                    }
                 else if (input.startsWith("CLIENT_IS_DISCONNECTING:::")){
-                       closeConnectionAndDeleteNameAndWriter();
                        logger.info(name + " : " + " : " + socket + " : sent CLIENT_IS_DISCONNECTING::: message, disconnecting this client");
                        for (PrintWriter writer : writers)
                        {
                            writer.println("MESSAGE:::" + name + " is leaving us");
                        }
-                       return;
+                    throw  new RuntimeException(name + " : " + socket + " : Client has disconnected");
                    }
-                else if (input.contains("MESSAGE:::")) {
+                else if (input.startsWith("MESSAGE:::")) {
                        logger.info(name + " : " + socket + " : received message :  " + input);
                        for (PrintWriter writer : writers) {
                            input = input.replaceFirst("MESSAGE:::", "");
@@ -161,7 +157,7 @@ public class ChatServer {
             }
             catch (Exception ex){
                 logger.info(name + " : " + socket +" : " + ex + "\t" + ex.getStackTrace());
-                logger.info(name + " : " + socket + " : Something went wrong, aborting tread execution: ");
+                logger.info(name + " : " + socket + " : Something went wrong(see up above, aborting tread execution: ");
 
             }
             finally {
