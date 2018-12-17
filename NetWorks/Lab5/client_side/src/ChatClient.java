@@ -11,13 +11,42 @@ public class ChatClient extends  Thread {
     int PORT;
     public  ChatClient.CustomOutputStream outputStream;
     public Logger logger =  Logger.getLogger(ChatClient.class.getName());
-
+    public boolean isNameAccepted = false;
     public ChatClient(String name, String serverAddress, int PORT,JTextArea jTextArea){
         this.name = name;
         this.serverAddress = serverAddress;
         this.PORT = PORT;
         logger.info(String.format("name = %s, serverAddress = %s, PORT = %d", name, serverAddress, PORT));
         outputStream = new CustomOutputStream(jTextArea);
+    }
+
+    public  void sendMessage(String str){
+        if (this.isNameAccepted && this.out != null){
+            this.out.println("MESSAGE:::" + str);
+        }
+        return;
+    }
+    public void sendDisconnectMessage(String str){
+        if (this.isNameAccepted && this.out != null){
+            this.out.println("CLIENT_IS_DISCONNECTING:::");
+        }
+        return;
+    }
+    private void closeIOSockets()  {
+        try {
+            if (out != null) {
+                out.close();
+            }
+
+            if (in != null) {
+                in.close();
+            }
+            return;
+        }
+        catch (Exception ex){
+            logger.info("Cant close IO stream");
+            return;
+        }
     }
 
     @Override
@@ -33,16 +62,18 @@ public class ChatClient extends  Thread {
                     logger.info("Received GET_NAME:::, responding with" + this.name);
                 }
                 //out.println("MESSAGE:::");
-                if (line.startsWith("NAME_IS_NOT_UNIQUE:::"))
+                else if (line.startsWith("NAME_IS_NOT_UNIQUE:::"))
                 {
                     logger.info("Received NAME_IS_NOT_UNIQUE");
                     throw  new RuntimeException("Name " + name +" is not unique");
                 }
-                if (line.startsWith("NAME_ACCEPTED:::"))
+                else if (line.startsWith("NAME_ACCEPTED:::"))
                 {
                     logger.info("Received NAME_ACCEPTED");
+                    this.isNameAccepted = true;
+
                 }
-                if (line.startsWith("MESSAGE:::"))
+                else if (line.startsWith("MESSAGE:::"))
                 {
                     line = line.replaceFirst("MESSAGE:::", "");
                     logger.info("MESSAGE::: = " + line);
@@ -51,27 +82,13 @@ public class ChatClient extends  Thread {
                 }
             }
         }
-        catch (Exception e){
-            try {
-                out.close();
-                in.close();
-                return;
-            }
-            catch (IOException e1) {
-                return;
-            }
-
-
+        catch (Exception ex){
+            logger.info(ex + "\t" + ex.getStackTrace());
         }
         finally {
-            try {
-                out.close();
-                in.close();
-                return;
-            }
-            catch (Exception e){
-                return;
-            }
+            closeIOSockets();
+            logger.info("Closing and leaving");
+            return;
         }
     }
     private    class  CustomOutputStream extends  OutputStream{

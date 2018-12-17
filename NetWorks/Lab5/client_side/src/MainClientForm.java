@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.logging.Logger;
@@ -17,6 +18,8 @@ public class MainClientForm {
     private JLabel ServerPortLabel;
     private JLabel NickNameLabel;
     private JLabel ChatLabel;
+    private JLabel mayISendMessageLabel;
+    private JLabel LEDMayISendMessageLabel;
     public ChatClient chatClient;
     public Logger logger = Logger.getLogger(MainClientForm.class.getName());
     public MainClientForm() {
@@ -34,7 +37,10 @@ public class MainClientForm {
                         Integer.parseInt(ServerPortTextField.getText()),
                         ChatTextArea);
                 chatClient.start();
-                logger.info("Created new chatClient :" + chatClient);
+
+
+                    logger.info("Created new chatClient :" + chatClient);
+
             }
         });
         SendMessageButton.addActionListener(new ActionListener() {
@@ -45,9 +51,17 @@ public class MainClientForm {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                logger.info("Sending MESSAGE:::" + MessageTextField.getText());
-                chatClient.out.println("MESSAGE:::" + MessageTextField.getText());
-                MessageTextField.setText("");
+                if (chatClient.isNameAccepted) {
+                    LEDMayISendMessageLabel.setForeground(Color.GREEN);
+
+                    logger.info("Sending MESSAGE:::" + MessageTextField.getText());
+                    chatClient.sendMessage(MessageTextField.getText());
+                    MessageTextField.setText("");
+                }
+                else {
+                    LEDMayISendMessageLabel.setForeground(Color.RED);
+                    return;
+                }
             }
         });
         DisconnectButton.addActionListener(new ActionListener() {
