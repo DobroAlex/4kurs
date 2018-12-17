@@ -26,7 +26,7 @@ public class ChatClient extends  Thread {
         }
         return;
     }
-    public void sendDisconnectMessage(String str){
+    public void sendDisconnectMessage(){
         if (this.isNameAccepted && this.out != null){
             this.out.println("CLIENT_IS_DISCONNECTING:::");
         }

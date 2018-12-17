@@ -31,6 +31,10 @@ public class MainClientForm {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (chatClient.name == NickNameTextField.getText() && chatClient.isNameAccepted){
+                    logger.info("Stopped attempt to reconnect with existing and accepted name");
+                    return;
+                }
                 chatClient = new ChatClient(
                         NickNameTextField.getText(),
                         ServerIPAddressTextField.getText(),
@@ -72,18 +76,7 @@ public class MainClientForm {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (chatClient.out != null){
-                    try {
-                        chatClient.out.println("CLIENT_IS_DISCONNECTING:::");
-                        chatClient.out.close();
-                        chatClient.in.close();
-                    }
-                    catch (Exception ex)
-                    {
-                        chatClient = null;
-                        return;
-                    }
-                }
+                chatClient.sendDisconnectMessage();
             }
         });
     }
