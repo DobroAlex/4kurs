@@ -5,7 +5,7 @@ import javax.swing.*;
 public class ChatClient extends  Thread {
     BufferedReader in;
     PrintWriter out;
-    String name;
+    String name = null;
     String serverAddress;
     public String receivedMessage = null;
     int PORT;
@@ -32,6 +32,9 @@ public class ChatClient extends  Thread {
         }
         return;
     }
+    private void sendHeartbeat(){
+        out.println("HEARTBEAT:::");
+    }
     private void closeIOSockets()  {
         try {
             if (out != null) {
@@ -47,6 +50,7 @@ public class ChatClient extends  Thread {
             logger.info("Cant close IO stream");
             return;
         }
+
     }
 
     @Override
@@ -79,6 +83,11 @@ public class ChatClient extends  Thread {
                     logger.info("MESSAGE::: = " + line);
                     System.out.println(line);
                     outputStream.write(line);
+                }
+                else if (line.startsWith("HEARTBEAT:::")){
+                    logger.info("Received HEARTBEAT request form server, responding with same ");
+                    this.sendHeartbeat();
+                    this.isNameAccepted = true;
                 }
             }
         }

@@ -20,7 +20,8 @@ public class MainClientForm {
     private JLabel ChatLabel;
     private JLabel mayISendMessageLabel;
     private JLabel LEDMayISendMessageLabel;
-    public ChatClient chatClient;
+    private JScrollPane ChatTextScrollPane;
+    public ChatClient chatClient = null;
     public Logger logger = Logger.getLogger(MainClientForm.class.getName());
     public MainClientForm() {
         ConnectToServerButton.addActionListener(new ActionListener() {
@@ -31,9 +32,12 @@ public class MainClientForm {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (chatClient.name == NickNameTextField.getText() && chatClient.isNameAccepted){
-                    logger.info("Stopped attempt to reconnect with existing and accepted name");
-                    return;
+
+                if (chatClient !=  null){
+                    if (chatClient.name ==  NickNameTextField.getText() && chatClient.isNameAccepted ){
+                        logger.info(chatClient.name + " is already connected to server, aborting attempt to reconnect");
+                        return;
+                    }
                 }
                 chatClient = new ChatClient(
                         NickNameTextField.getText(),
