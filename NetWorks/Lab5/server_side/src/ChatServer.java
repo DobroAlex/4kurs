@@ -3,8 +3,6 @@ import java.time.*;
 import java.time.format.*;
 import  java.util.*;
 import java.net.*;
-import java.util.logging.Handler;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ChatServer {
@@ -18,8 +16,7 @@ public class ChatServer {
         ServerSocket listener;
         try {
             listener = new ServerSocket(PORT);
-            System.out.println("Chat is running at: " + listener.getInetAddress() + " : " + listener.getLocalPort());
-            logger.info("Chat has been activated and running at " + listener);
+            System.out.println("Chat is running at " + InetAddress.getLocalHost() + " : " + PORT);
              while (true){
 
                  new Handler(listener.accept()).start();
@@ -35,6 +32,7 @@ public class ChatServer {
     private static  class  Handler extends  Thread{
         private  String name;
         private Socket socket;
+        long lastTimeHeartBeatReceived;
         boolean isHeartBeatRecived = false;
         boolean isNameAccepted = false;
         private  BufferedReader in;
@@ -105,6 +103,7 @@ public class ChatServer {
                         logger.info(socket + ": Name : " + name + " is unique, adding to list of names\nNow will be addressing " + socket + " as " + name);
                         names.add(name);
                         this.isNameAccepted = true;
+                        lastTimeHeartBeatReceived = System.currentTimeMillis();
                         break;
                     }
                     else {
@@ -123,6 +122,12 @@ public class ChatServer {
                     logger.info(name + ": " + socket + " :  shouldBeStoppedFlagOccurred, trying to close and delete name and writer" );
                     throw new RuntimeException(name + " : " + socket + " : " + "isThreadShouldBeStopped occurred");
 
+                }
+                logger.info(name + " : " + socket + " : Sending heartbeat to client");
+                out.println("HEARTBEAT:::");    //sending HEARTBEAT::: to client to check if haven't lost connection
+                if (Math.abs(System.currentTimeMillis() - lastTimeHeartBeatReceived) >= 1E3){
+                    logger.info(name + " : " + socket + " : Client didn't respond with HEARTBEAT::: for more than 1 second, probably dead and will be disconnected");
+                    throw new RuntimeException(name + " : " + socket + " : Client didn't respond with HEARTBEAT::: for more than 1 second, probably dead");
                 }
                 logger.info(name + ": awaiting message  from" + name);
                 String input = in.readLine();
@@ -149,6 +154,9 @@ public class ChatServer {
                            writer.println("MESSAGE:::" + name + "["+ messageDateTime +"]: " + input);
                        }
                    }
+                else if (input.startsWith("HEARTBEAT:::")){
+                    lastTimeHeartBeatReceived = System.currentTimeMillis();
+                }
                 else {
                     logger.info(name + " : " + socket + " : received unusual signal " + input + " closing connection and thread");
                     throw new RuntimeException(name + " : " + socket + " : received unusual signal " + input + " closing connection and thread");
