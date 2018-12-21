@@ -1,20 +1,22 @@
+#Single-directed Hopfield network
+
 import numpy as np
 from numpy import linalg
-def sign(n:float) -> int:
+def sign(n:float) -> int:   #sign for single number
     return 1 if n > 0 else   -1 if n < 0 else 0 
 def main():
-    X = [np.array([-1., 1., -1., 1.]),
+    X = [np.array([-1., 1., -1., 1.]),      #Samples
         np.array([1., -1., 1., 1.]),
         np.array([-1., 1., -1., -1.])
         ]
 
-    Y = np.array([-1, 1, -1, -1])
-    stability_flag = False
-    is_founded_flag = False
-    prev_vector = np.ndarray
+    Y = np.array([-1, 1, -1, -1])       #Object to be identified 
+    stability_flag = False              #Occurrs if y* == Y, Y is probably new sample
+    is_founded_flag = False             #Occurrs if exact match found d
+    prev_vector = np.ndarray            #y/y* on previous iteration
     while(is_founded_flag == False and stability_flag == False):
         
-        Weights = np.ndarray((4,4),dtype = np.float )
+        Weights = np.ndarray((4,4),dtype = np.float)    #Cacluclating weights matrix
         for sample in X:
             xT = sample.reshape((sample.size,1))    #Transposing sample vector to be column-vector insted of row-vector https://jakevdp.github.io/PythonDataScienceHandbook/02.02-the-basics-of-numpy-arrays.html
             Weights += (xT.dot(sample.reshape(1, sample.size)))  #multipluying column and row vectors with reshaping row vector to single-dimensional matrix https://stackoverflow.com/questions/29163126/multiplying-column-and-row-vectors-in-numpy
@@ -40,7 +42,7 @@ def main():
         if (not is_founded_flag):
             print("Match not found, y = y*")
             if (np.array_equal(y_star,Y)):
-                print("Stability occurred, breaking") 
+                print("Stability occurred, breaking.\n This sample is probably unique") 
                 stability_flag = True
                 break
             Y = y_star
