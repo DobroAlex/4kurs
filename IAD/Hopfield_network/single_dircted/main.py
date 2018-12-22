@@ -23,9 +23,11 @@ def main():
         print("Weights = {0}".format(Weights))
         W = np.matrix(Weights)
         print ("W = {0}".format(W))
+        print("\n\n\n")
         for i in range(0, W[0].size):
             W[i,i] = 0
         print(W)
+        print("\n\n\n")
         y_star = np.matmul(W, Y.reshape((Y.size,1)) )
         y_star = y_star.A1  #https://stackoverflow.com/questions/3337301/numpy-matrix-to-array
         print("y* = {0}".format(y_star))
