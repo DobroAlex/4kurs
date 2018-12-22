@@ -43,10 +43,10 @@ public class Chromosome {
 		int c = genes[2];
 		int d = genes[3];
 		
-		int closeness = Math.abs(  Diofant.TARGET_VALUE -  Diofant.function( a,b,c,d  )   ) ;
+		float closeness = Math.abs(  Diofant.TARGET_VALUE -  Diofant.function( a,b,c,d  )   ) ;
 	    	Diofant.log("Closeness: "+closeness);
 		
-		return  0!=closeness  ? 1.0/scloseness : Diofant.TARGET_IS_REACHED_FLAG ;
+		return  0!=closeness  ? (float) (1.0/closeness) : (float) Diofant.TARGET_IS_REACHED_FLAG ;
 	}
 
 

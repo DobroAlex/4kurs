@@ -127,7 +127,7 @@ public class Diofant {
 	 * Writes a string to the log 
 	 * */	
 	public static void log(String message){
-		System.out.println("log:"+ message ); 	
+		//System.out.println("log:"+ message );
 	}
 	
 	/*
