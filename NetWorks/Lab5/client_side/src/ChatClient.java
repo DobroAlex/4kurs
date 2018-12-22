@@ -3,7 +3,24 @@ import  java.net.*;
 import java.util.logging.Logger;
 import javax.swing.*;
 public class ChatClient extends  Thread {
+    public BufferedReader getIn() {
+        return in;
+    }
+
+    public void setIn(BufferedReader in) {
+        this.in = in;
+    }
+
     BufferedReader in;
+
+    public PrintWriter getOut() {
+        return out;
+    }
+
+    public void setOut(PrintWriter out) {
+        this.out = out;
+    }
+
     PrintWriter out;
     String name = null;
     String serverAddress;
@@ -29,6 +46,7 @@ public class ChatClient extends  Thread {
     public void sendDisconnectMessage(){
         if (this.isNameAccepted && this.out != null){
             this.out.println("CLIENT_IS_DISCONNECTING:::");
+            this.isNameAccepted = false;
         }
         return;
     }
@@ -37,6 +55,7 @@ public class ChatClient extends  Thread {
     }
     private void closeIOSockets()  {
         try {
+            this.isNameAccepted = false;
             if (out != null) {
                 out.close();
             }

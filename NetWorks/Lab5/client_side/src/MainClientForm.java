@@ -1,3 +1,5 @@
+import com.sun.tools.javac.Main;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -24,6 +26,22 @@ public class MainClientForm {
     public ChatClient chatClient = null;
     public Logger logger = Logger.getLogger(MainClientForm.class.getName());
     public MainClientForm() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true){
+                    logger.info("Permission checker is alive");
+                    if (chatClient != null){
+                        if (chatClient.isNameAccepted && chatClient.isAlive() && chatClient.getOut() != null){
+                            LEDMayISendMessageLabel.setForeground(Color.GREEN);
+                        }
+                        else{
+                            LEDMayISendMessageLabel.setForeground(Color.RED);
+                        }
+                    }
+                }
+            }
+        }).start();
         ConnectToServerButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
@@ -45,9 +63,8 @@ public class MainClientForm {
                         Integer.parseInt(ServerPortTextField.getText()),
                         ChatTextArea);
                 chatClient.start();
+                logger.info("Created new chatClient :" + chatClient);
 
-
-                    logger.info("Created new chatClient :" + chatClient);
 
             }
         });
@@ -60,14 +77,14 @@ public class MainClientForm {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (chatClient.isNameAccepted) {
-                    LEDMayISendMessageLabel.setForeground(Color.GREEN);
+                    //LEDMayISendMessageLabel.setForeground(Color.GREEN);
 
                     logger.info("Sending MESSAGE:::" + MessageTextField.getText());
                     chatClient.sendMessage(MessageTextField.getText());
                     MessageTextField.setText("");
                 }
                 else {
-                    LEDMayISendMessageLabel.setForeground(Color.RED);
+                    //LEDMayISendMessageLabel.setForeground(Color.RED);
                     return;
                 }
             }
@@ -80,7 +97,9 @@ public class MainClientForm {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                chatClient.sendDisconnectMessage();
+                if (chatClient != null) {
+                    chatClient.sendDisconnectMessage();
+                }
             }
         });
     }
