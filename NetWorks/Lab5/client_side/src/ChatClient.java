@@ -29,6 +29,7 @@ public class ChatClient extends  Thread {
     public  ChatClient.CustomOutputStream outputStream;
     public Logger logger =  Logger.getLogger(ChatClient.class.getName());
     public boolean isNameAccepted = false;
+    private  boolean isClientToBeStopped = false;
     public ChatClient(String name, String serverAddress, int PORT,JTextArea jTextArea){
         this.name = name;
         this.serverAddress = serverAddress;
@@ -46,7 +47,7 @@ public class ChatClient extends  Thread {
     public void sendDisconnectMessage(){
         if (this.isNameAccepted && this.out != null){
             this.out.println("CLIENT_IS_DISCONNECTING:::");
-            this.isNameAccepted = false;
+            this.isClientToBeStopped = true;
         }
         return;
     }
@@ -79,6 +80,9 @@ public class ChatClient extends  Thread {
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             out = new PrintWriter(socket.getOutputStream(), true);
             while (true){
+                if (this.isClientToBeStopped){
+                    throw new RuntimeException("isClientToBeStopped occurred, probably pushed \"Disconnect\"");
+                }
                 String line = in.readLine();
                 if (line.startsWith("GET_NAME:::")) {
                     out.println(this.name);
