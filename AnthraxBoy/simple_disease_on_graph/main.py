@@ -62,10 +62,10 @@ def do_visit(G: nx.Graph, agent:Person.person, is_node_visited_only_once: bool =
                 probability = Person.person.calc_infection_probability(Infection.infection(disease_of_person, disease_of_person_permissibility), agent, G.nodes[node_to_visit]['data'].persons   )
                 if probability >= 0.5:
                     agent.infected_with[disease_of_person] =  disease_of_person_permissibility   
-        GU.graph_show_and_save(G,name_to_save="frame" + str(len(next(os.walk(path_to_save_matplotlib_animation))[2])), path_to_save=path_to_save_matplotlib_animation, to_save=True )        
+        GU.graph_show_and_save(G,name_to_save="frame" + str(len(next(os.walk(path_to_save_matplotlib_animation))[2])), path_to_save=path_to_save_matplotlib_animation, to_save=True, text="Graph after agent interfierence" )        
         GU.get_map(G, name_to_save="frame" + str(len(next(os.walk(path_to_save_yandex_animation))[2])) + ".png", path_to_save=path_to_save_yandex_animation)
         infection_tick(G)
-        GU.graph_show_and_save(G, name_to_save="frame" + str(len(next(os.walk(path_to_save_matplotlib_animation))[2])), path_to_save=path_to_save_matplotlib_animation, to_save=True ) 
+        GU.graph_show_and_save(G, name_to_save="frame" + str(len(next(os.walk(path_to_save_matplotlib_animation))[2])), path_to_save=path_to_save_matplotlib_animation, to_save=True, text="Graph after in-node interfiernce" ) 
         GU.get_map(G, name_to_save="frame" + str(len(next(os.walk(path_to_save_yandex_animation))[2])) + ".png", path_to_save=path_to_save_yandex_animation)    
         prev_node = node_to_visit
 

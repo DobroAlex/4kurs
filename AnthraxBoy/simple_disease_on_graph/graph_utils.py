@@ -1,4 +1,6 @@
 import networkx as nx
+import PIL
+from PIL import ImageDraw, Image
 import infection as Infection
 import place
 import possible_states_enum as PSE
@@ -41,7 +43,7 @@ def form_nodes_labels(G:nx.Graph) -> None:
     for i in G.nodes:
         labels[i] = G.nodes[i]['data'].name + "\nPopulation= " +  str(G.nodes[i]['data'].population) 
     return labels
-def graph_show_and_save(G: nx.Graph, name_to_save:str = "unnamed_graph", path_to_save:str="/output/matplotlib_animated_map/frames/", to_save:bool = True):
+def graph_show_and_save(G: nx.Graph, name_to_save:str = "unnamed_graph",  path_to_save:str="/output/matplotlib_animated_map/frames/", to_save:bool = True, text:str = ""):
     pos = nx.get_node_attributes(G, "pos")
     nx.draw(G, pos,  with_labels = True, node_color = form_nodes_color_map(G), labels = form_nodes_labels(G))
     fullpath = name_to_save
@@ -49,6 +51,10 @@ def graph_show_and_save(G: nx.Graph, name_to_save:str = "unnamed_graph", path_to
         fullpath = os.path.join(path_to_save, name_to_save)
     if to_save == True:
         pyplot.savefig(fullpath + ".png", format = "PNG", transparent=True)
+        image = PIL.Image.open(fullpath + ".png")
+        ImageDraw.Draw(image).text((0,0), text, (0,0,0))
+        image.save(fullpath + ".png")
+
     else :
         pyplot.show(block = not to_save)
     
@@ -61,7 +67,7 @@ def get_map(G: nx.Graph, path_to_static_map_params:str = "resources/static_map_p
             URL += str(G.nodes[i]['data'].longitude) + "," + str(G.nodes[i]['data'].latitude) + ","
             URL += "pm"
             URL += "gr" if G.nodes[i]['data'].state == PSE.possible_state.not_wisited else "gn" if  G.nodes[i]['data'].state == PSE.possible_state.not_infected else "rd"
-            URL += "s"  #mark will be little
+            URL += "s"  #mark will be small
             URL += "~"
 
         URL = URL[:-1]  #deleting last element which will be "~"
