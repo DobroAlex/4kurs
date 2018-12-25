@@ -57,6 +57,11 @@ public class MainClientForm {
                         return;
                     }
                 }
+                if (chatClient != null){
+                    if (chatClient.name != NickNameTextField.getText() &&chatClient.isNameAccepted){
+                        chatClient.sendDisconnectMessage();
+                    }
+                }
                 chatClient = new ChatClient(
                         NickNameTextField.getText(),
                         ServerIPAddressTextField.getText(),
