@@ -73,6 +73,8 @@ def infection_tick(G: nx.Graph) -> None:
     for i in G.nodes:
         for agent_person in  G.nodes[i]['data'].persons:
             for target_person in G.nodes[i]['data'].persons:
+                if agent_person == target_person:
+                    break
                 for agent_person_infection, agent_person_infection_permissibility in agent_person.infected_with.items():
                     if agent_person_infection in target_person.infected_with:
                         break
@@ -82,6 +84,7 @@ def infection_tick(G: nx.Graph) -> None:
                 
  
 def main():
+    GU.initialize_fonts(size=35, path_and_name_to_save="resources/fonts/Exo2/Exo2-Italic.otf")
     agent = Person.person(age=35, sex = 'm', receptivity=0.5, infected_with = {'Ветрянка': 0.1, 'ОРВИ': 0.5, 'СПИДОРАК': 0.8}  )
     G = nx.Graph()  #creates new empty graph
     parsed_places = place.place.parse_list_of_places_from_json(path_to_file="resources/places.json")
