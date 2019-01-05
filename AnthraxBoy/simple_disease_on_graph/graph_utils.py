@@ -1,6 +1,6 @@
 import networkx as nx
 import PIL
-from PIL import ImageDraw, Image
+from PIL import ImageDraw, Image, ImageFont 
 import infection as Infection
 import place
 import possible_states_enum as PSE
@@ -9,6 +9,17 @@ import urllib
 import os
 import imageio
 import parsing_utils as PU
+
+global_font = ImageFont.load_default()
+def initialize_fonts(size:int = 20, path_and_name_to_save:str=""):
+    try:
+        global_font = ImageFont.truetype(font = path_and_name_to_save, size = size)
+        print ("Font changed to " + path_and_name_to_save)
+    except:
+        print("No suitable font found in " + path_and_name_to_save)
+        print("Using default font")
+        
+
 
 def find_amount_of_person_infected_with(target_infection:Infection.infection , persons:list()) -> int:
     retVal = 0
@@ -43,7 +54,7 @@ def form_nodes_labels(G:nx.Graph) -> None:
     for i in G.nodes:
         labels[i] = G.nodes[i]['data'].name + "\nPopulation= " +  str(G.nodes[i]['data'].population) 
     return labels
-def graph_show_and_save(G: nx.Graph, name_to_save:str = "unnamed_graph",  path_to_save:str="/output/matplotlib_animated_map/frames/", to_save:bool = True, text:str = ""):
+def graph_show_and_save(G: nx.Graph, name_to_save:str = "unnamed_graph",  path_to_save:str="/output/matplotlib_animated_map/frames/", to_save:bool = True, text:str = "", path_and_name_to_font:str = ""):
     pos = nx.get_node_attributes(G, "pos")
     nx.draw(G, pos,  with_labels = True, node_color = form_nodes_color_map(G), labels = form_nodes_labels(G))
     fullpath = name_to_save
@@ -52,7 +63,7 @@ def graph_show_and_save(G: nx.Graph, name_to_save:str = "unnamed_graph",  path_t
     if to_save == True:
         pyplot.savefig(fullpath + ".png", format = "PNG", transparent=True)
         image = PIL.Image.open(fullpath + ".png")
-        ImageDraw.Draw(image).text((0,0), text, (0,0,0))
+        ImageDraw.Draw(image).text((0,0), text, (0,0,0), font=global_font)
         image.save(fullpath + ".png")
 
     else :
