@@ -1,14 +1,14 @@
-def F (W,X):
+def F (W:list,X:list) -> float:
     retVal = 0.
     for i in range(len(X)):
         retVal += W[i] * X[i]
     return retVal
-def signum (val:float)->float:
+def signum (val:float)->int:
     return +1 if val > 0 else -1 if val < 0 else 0
-def recalcWeight(Wold, Xvec, Y, C):
+def recalcWeight(Wold, Xvec, Y, C, error):
     newW = []
     for i in range(len(Wold)):
-        newW.append(Wold[i]+C*(1-Y) * Xvec[i])
+        newW.append(Wold[i]+C*(error-Y) * Xvec[i])
     return newW
 def main():
     X = [[5.7, 6.3, 1],
@@ -18,13 +18,13 @@ def main():
     Y = []
     for i in range(len(X)):
         if i % 2 == 0:
-            Y.append(+1.)
+            Y.append(+1)
         else:
-            Y.append(-1.)    
+            Y.append(-1)    
         print ("Y[{0}]={1}".format(i,Y[i]))
     
     W = [0.1, 0.4, 0.3]
-    C =  float(0.2)     #learning tempo
+    C =  0.2     #learning tempo
     recalcFlag = True 
     while (recalcFlag):
         input()
@@ -34,8 +34,8 @@ def main():
             print("F=sign({0}\t;{1}={2}".format(W,X[i],ans))
             if ans != Y[i]:
                 print("Vector {0}, sign() = {1} doesn't match Y = {2} ".format(X[i], ans, Y[i]))
-                W = recalcWeight(W, X[i], Y[i], C)
-                W = [round(element, 1) for element in W ]
+                W = recalcWeight(W, X[i], Y[i], C, ans)
+                W = [round(element, 4) for element in W ]
                 print("Recalculating weight ...\nW = {0}".format(W))
                 #recalcFlag = True
             #else:
