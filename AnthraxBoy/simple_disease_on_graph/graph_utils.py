@@ -10,8 +10,25 @@ import os
 import imageio
 import parsing_utils as PU
 
-global_font = ImageFont.load_default()
-def initialize_fonts(size:int = 20, path_and_name_to_save:str=""):
+global_font = ImageFont.load_default()    #setting up global variable for font storing. Probably not best preactice in terms of OOP but simple solution   
+
+def initialize_fonts(size:int = 20, path_and_name_to_save:str="") -> None:  
+    """
+    setting non-default font if needed. If you don't need to use non-default font you  may skip this part
+    If you need to set non-default font this function must be called before calling graph_show_and_save
+
+    Parameters
+    ----------
+    size : int
+        Size of font in pixels. Default is 20
+    path_and_name_to_save : int
+        Full path to file with name of one and extension. May be full (ex  "C:\stuff\fonts\my_font.ttf") or relative (ex "source/font/test.ttf")
+
+    Returns
+    -------
+    None
+        Setting up global_font if correct path is given, else loading default font  
+    """
     try:
         global_font = ImageFont.truetype(font = path_and_name_to_save, size = size)
         print ("Font changed to " + path_and_name_to_save)
@@ -21,7 +38,21 @@ def initialize_fonts(size:int = 20, path_and_name_to_save:str=""):
         
 
 
-def find_amount_of_person_infected_with(target_infection:Infection.infection , persons:list()) -> int:
+def find_amount_of_person_infected_with(target_infection:Infection.infection , persons:list) -> int:
+    """
+    Searches for all person infected with targer_infection in persons list
+
+    Parameters
+    ----------
+    target_infection : Infection.infection
+        Target infection which will be searched in list of persons
+    persons : list
+        List of person to work with
+
+    Returns
+    -------
+        int : amount of persons infected with target_infection in list of persons
+    """
     retVal = 0
     for target_person in persons:
         if target_infection in target_person.infected_with:
