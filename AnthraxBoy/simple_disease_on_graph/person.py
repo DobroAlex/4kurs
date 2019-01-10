@@ -10,6 +10,8 @@ class person:
         self.sex = sex
         self.receptivity = receptivity
         self.infected_with = infected_with
+    def __str__(self):
+        return "Age : " + str(self.age) + " sex : " + self.sex + " receptivity : " + str(self.receptivity) + " infected with : " + str(self.infected_with)
     def calc_infection_probability(target_infection:Infection.infection, target_person,  persons:list()) -> float:
         amount_of_infected_with_similar_infection = GU.find_amount_of_person_infected_with(target_infection, persons) if GU.find_amount_of_person_infected_with(target_infection, persons) != 0 else 1    
         return 1.0 - math.exp(1.0 * amount_of_infected_with_similar_infection * math.log(1 - target_person.receptivity * target_infection.permissibility))
