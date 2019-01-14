@@ -85,6 +85,23 @@ def form_nodes_labels(G:nx.Graph) -> None:
     for i in G.nodes:
         labels[i] = G.nodes[i]['data'].name + "\nPopulation= " +  str(G.nodes[i]['data'].population) 
     return labels
+def find_next_node_in_ascending_order(G:nx.Graph, current_node_index:int) -> nx.Graph.node:
+    try:
+        is_current_node_exists = False
+        for i in G.nodes:
+            if G.nodes[i]['data'].number == current_node_index:
+                is_current_node_exists = True
+                break
+        if not is_current_node_exists:
+            raise ValueError("No node with given number ({0}) exists in graph".format(current_node_index))
+        for i in G.nodes:
+            if G.nodes[i]['data'].number > current_node_index:
+                return i
+        return None 
+    except ValueError as ValErr:
+        print(ValErr)
+    
+    
 def graph_show_and_save(G: nx.Graph, name_to_save:str = "unnamed_graph",  path_to_save:str="/output/matplotlib_animated_map/frames/", to_save:bool = True, text:str = "", path_and_name_to_font:str = ""):
     pos = nx.get_node_attributes(G, "pos")
     nx.draw(G, pos,  with_labels = True, node_color = form_nodes_color_map(G), labels = form_nodes_labels(G))
