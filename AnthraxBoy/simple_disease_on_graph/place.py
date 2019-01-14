@@ -21,7 +21,10 @@ class place:
         
         self.latitude = latitude
         self.longitude = longitude
-         
+
+    def __str__(self):
+        return "Name : " + self.name + " number : " + str(self.number) + " state : " + self.state.__str__() + " direction : " + str(self.direction) + " population : " + str(self.population)
+
     def parse_list_from_txt_file(path_to_file: str):
         result = list()
         parsed = open("resources/places.txt", "r").read().split('\n')   #TODO: fix empty last element
