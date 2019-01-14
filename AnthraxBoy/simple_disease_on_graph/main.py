@@ -13,7 +13,7 @@ import random   #for random int and float numbers generation
 import json     #for JSON parse/dump
 import infection as Infection
 import person as Person
-def do_visit(G: nx.Graph, agent:Person.person, is_node_visited_only_once: bool = False, start_node: int = None, is_animated:bool = True, path_to_save_yandex_animation:str = "output/animated_map/frames/", path_to_save_matplotlib_animation:str = "output/matplotlib_animated_map/frames/") -> None: 
+def do_visit(G: nx.Graph, agent:Person.person, is_node_visited_only_once: bool = False, start_node: int = None, is_animated:bool = True, path_to_save_yandex_animation:str = "output/animated_map/frames/", path_to_save_matplotlib_animation:str = "output/matplotlib_animated_map/frames/", is_using_strict_order:bool = False) -> None: 
     if is_animated :    #cleansing directory with frames from previous content
                         #https://stackoverflow.com/questions/185936/how-to-delete-the-contents-of-a-folder-in-python
         for target_dir in [path_to_save_matplotlib_animation, path_to_save_yandex_animation]:
@@ -26,30 +26,36 @@ def do_visit(G: nx.Graph, agent:Person.person, is_node_visited_only_once: bool =
                 except Exception  as e:
                     print("Dir {0} is already  clean".format(target_dir))
                     pass
+    is_first_visit = True
     if start_node == None:
-        current_node  = random.randint(0, G.__len__() - 1)
+        node_to_visit  = random.randint(0, G.__len__() - 1)
+        if is_using_strict_order :
+            node_to_visit = GU.find_next_node_in_ascending_order(G=G, current_node_index = -1) #we need to find place with number 0   
     else :
-        current_node = start_node
-    is_firts_visit = True
+        node_to_visit = start_node
     while not GU.is_all_nodes_visited(G):
-        if is_firts_visit == True:
-            node_to_visit = current_node
-            is_firts_visit = False
-        else:
-            node_to_visit = random.randint(0, random.choice(GU.find_all_connected_nodes(G, current_node)))
         if is_node_visited_only_once == True:
             while True:
+                if is_using_strict_order:
+                    break
                 if G.nodes[node_to_visit]['data'].state == PSE.possible_state.not_wisited:
                     break
                 else:
                     node_to_visit = random.randint(0, G.__len__() - 1)
-        else:
+        elif is_node_visited_only_once == False:
             node_to_visit = random.randint(0, G.__len__() - 1)
+        if is_using_strict_order:   #Causes an agnet to visit places clearly in ascending order of node numbers.
+            if  not is_first_visit:
+                node_to_visit = GU.find_next_node_in_ascending_order(G, node_to_visit)
+                if node_to_visit == None:
+                    break   #node with max index already visited
+
+        print("Now in node #{0} : {1}".format(node_to_visit, G.nodes[node_to_visit]))
         for target_person in  G.nodes[node_to_visit]['data'].persons:  
             #calculating probability that agent will infect persons 
             for disease_of_agent , disease_of_agent_permissibility in agent.infected_with.items():  #iterating over dict's items https://stackoverflow.com/questions/5466618/too-many-values-to-unpack-iterating-over-a-dict-key-string-value-list         
                 probability =  Person.person.calc_infection_probability(Infection.infection(disease_of_agent,disease_of_agent_permissibility), target_person, G.nodes[node_to_visit]['data'].persons) #TODO : TEST THIS LINE   
-                print("For agent{0} and target{1} in place {2}, probability of {3} = {4}".format(agent,target_person, G.nodes[node_to_visit]['data'].name,  disease_of_agent, probability))
+                print("For agent {0} and target {1} in place {2}, probability of {3} = {4}".format(agent,target_person, G.nodes[node_to_visit]['data'].name,  disease_of_agent, probability))
                 if probability >= 0.5:
                     target_person.infected_with[disease_of_agent] = agent.infected_with[disease_of_agent]
                     G.nodes[node_to_visit]['data'].state = PSE.possible_state.infected
@@ -68,6 +74,8 @@ def do_visit(G: nx.Graph, agent:Person.person, is_node_visited_only_once: bool =
         GU.graph_show_and_save(G, name_to_save="frame" + str(len(next(os.walk(path_to_save_matplotlib_animation))[2])), path_to_save=path_to_save_matplotlib_animation, to_save=True, text="Graph after in-node interfiernce" ) 
         GU.get_map(G, name_to_save="frame" + str(len(next(os.walk(path_to_save_yandex_animation))[2])) + ".png", path_to_save=path_to_save_yandex_animation)    
         prev_node = node_to_visit
+        if is_first_visit:
+            is_first_visit = False
 
 def infection_tick(G: nx.Graph) -> None:
     for i in G.nodes:
@@ -96,7 +104,7 @@ def main():
         G.add_edge(random.randint(0, G.__len__()-1), random.randint(0, G.__len__()-1))  #adding random edge
     GU.graph_show_and_save(G, name_to_save="graph", path_to_save="output/matplotlib_animated_map/", to_save=True)
     GU.get_map(G, name_to_save="frame" + str(len(next(os.walk("output/animated_map/frames/"))[2])) + ".png", path_to_save="output/animated_map/frames/")
-    do_visit(G, agent = agent,  start_node = 0, is_node_visited_only_once=False) #see do_visit()
+    do_visit(G, agent = agent,  start_node = 0, is_node_visited_only_once=False, is_using_strict_order=True) #see do_visit()
     GU.graph_show_and_save(G, name_to_save="infected_graph", path_to_save= "output/matplotlib_animated_map/", to_save = True)
     GU.create_animation_from_dir(path_to_files="output/animated_map/frames/", path_to_save="output/animated_map/", name_to_save="animated_yandex_map.gif")
     GU.create_animation_from_dir(path_to_files="output/matplotlib_animated_map/frames/", path_to_save="output/matplotlib_animated_map/", name_to_save="matplotib_animated_map.gif")
