@@ -85,7 +85,7 @@ def form_nodes_labels(G:nx.Graph) -> None:
     for i in G.nodes:
         labels[i] = G.nodes[i]['data'].name + "\nPopulation= " +  str(G.nodes[i]['data'].population) 
     return labels
-def find_next_node_in_ascending_order(G:nx.Graph, current_node_index:int) -> nx.Graph.node:
+def find_next_node_in_ascending_order(G:nx.Graph, current_node_index:int) -> int:
     try:
         is_current_node_exists = False
         for i in G.nodes:
