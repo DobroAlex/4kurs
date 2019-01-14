@@ -1,5 +1,3 @@
-import com.sun.tools.javac.Main;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -50,7 +48,6 @@ public class MainClientForm {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-
                 if (chatClient !=  null){
                     if (chatClient.name ==  NickNameTextField.getText() && chatClient.isNameAccepted ){
                         logger.info(chatClient.name + " is already connected to server, aborting attempt to reconnect");
