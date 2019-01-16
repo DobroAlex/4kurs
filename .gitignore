@@ -1,6 +1,10 @@
 *.png
 *.gif
 *.class
+*.log
+*.aux
+*.synctex.gz
+*.toc
 .vscode/
 __pycache__/
 .idea/
