@@ -1,0 +1,77 @@
+\documentclass[a4paper,14pt,russian]{extreport}	%A4 бумага, 14 кегль, русский язык 
+\usepackage{extsizes}
+\usepackage[onehalfspacing]{setspace} % поулторный интервал %https://proft.me/2013/06/9/latex-ukazanie-mezhstrochnogo-intervala
+
+\usepackage{cmap} % для кодировки шрифтов в pdf
+\usepackage[T2A]{fontenc}
+%\usepackage{pscyr}
+%\usepackage{graphicx} % для вставки картинок
+\usepackage{mathptmx} %поддержка textbf
+\usepackage{makecell}
+\usepackage{textcomp}
+\usepackage{multirow} % улучшенное форматирование таблиц
+\usepackage{ulem} % подчеркивания
+
+%полужирный шрифт http://tostudents.ru/2009/12/08/smena-shriftov-v-latex-tekst-i-formuly/
+\renewcommand{\rmdefault}{ftm} % Times New Roman
+\usepackage[utf8]{inputenc}%включаем свою кодировку: koi8-r или utf8 в UNIX, cp1251 в Windows
+%\usepackage[]{babel}	%больше поддержки русского языка 
+\usepackage[english,russian, russianb]{babel}%используем русский и английский языки с переносами
+\usepackage{amssymb,amsfonts,amsmath,mathtext,cite,enumerate,float} %подключаем нужные пакеты расширений
+
+\usepackage[pdftex]{graphicx} %хотим вставлять в диплом рисунки?
+\usepackage{cmap} % Улучшенный поиск русских слов в полученном pdf-файле
+%\graphicspath{{images/}}%путь к рисункам
+\usepackage{fancyhdr}%оформление нумерации 
+\usepackage{tableof} %поддержка табличек
+\usepackage{mathptmx}%
+\usepackage{anyfontsize}% http://texblog.org/2012/08/29/changing-the-font-size-in-latex/
+\usepackage{t1enc}%
+\usepackage{cite}
+\usepackage{graphicx}
+\graphicspath{{Images/}} %http://dkhramov.dp.ua/Comp.TexIncludeGraphics#.WwLdJa3sTMU
+\DeclareGraphicsExtensions{.pdf,.png,.jpg} %http://dkhramov.dp.ua/Comp.TexIncludeGraphics#.WwLdJa3sTMU
+ %https://tex.stackexchange.com/questions/17734/cannot-determine-size-of-graphic
+\makeatletter
+\renewcommand{\@biblabel}[1]{#1.} % Заменяем библиографию с квадратных скобок на точку:
+\makeatother
+
+\usepackage{geometry} % Меняем поля страницы
+%QUEST: 3cm или 2 ? Ес\usepackage{cmap} % Улучшенный поиск русских слов в полученном pdf-файлели 3, придется менять форматирование заголовка 
+\geometry{left=3cm}% левое поле
+\geometry{right=2cm}% правое поле
+\geometry{top=2cm}% верхнее поле
+\geometry{bottom=2cm}% нижнее поле
+
+
+\renewcommand{\theenumi}{\arabic{enumi}}% Меняем везде перечисления на цифра.цифра
+\renewcommand{\labelenumi}{\arabic{enumi}}% Меняем везде перечисления на цифра.цифра
+\renewcommand{\theenumii}{.\arabic{enumii}}% Меняем везде перечисления на цифра.цифра
+\renewcommand{\labelenumii}{\arabic{enumi}.\arabic{enumii}.}% Меняем везде перечисления на цифра.цифра
+\renewcommand{\theenumiii}{.\arabic{enumiii}}% Меняем везде перечисления на цифра.цифра
+\renewcommand{\labelenumiii}{\arabic{enumi}.\arabic{enumii}.\arabic{enumiii}.}% Меняем везде перечисления на цифра.цифра
+\addto\captionsrussian{\def\refname{Список используемой литературы}}
+\renewcommand{\rmdefault}{ftm}
+%NB: три команды ниже переопределяют некотрые шрифты  и дают поддержку жирного и прочиах текстов https://www.linux.org.ru/forum/general/4219163
+\renewcommand{\rmdefault}{cmr} % Шрифт с засечками
+\renewcommand{\sfdefault}{cmss} % Шрифт без засечек
+\renewcommand{\ttdefault}{cmtt} % Моноширинный шрифт
+\renewcommand*\thesection{\arabic{section}}
+    
+\begin{document}
+	\renewcommand{\bibname}{Список использованной литературы}
+	%\pagestyle{empty} % нумерация выкл.
+	\input{Diploma-Title}% это титульный лист
+
+	\tableofcontents % это оглавление, которое генерируется автоматически
+	\thispagestyle{empty}%отключает нумерование страниц до введения включительно 
+	%\addcontentsline{toc}{section}{Введение}% будет костыльно выглядеть
+	%\input{0-Intoduction} %введение
+	%\input{1-SecrecyOfCorrespondence}
+	%\input{2-DigitalThreat}
+	%\input{3-DataProtection}
+	%\input{Concluding}
+	%\input{UsedLiterature} %список литературы
+	\newpage
+	
+\end{document}
