@@ -28,9 +28,11 @@ def do_visit(G: nx.Graph, agent:Person.person, is_node_visited_only_once: bool =
                     pass
     is_first_visit = True
     if start_node == None:
-        node_to_visit  = random.randint(0, G.__len__() - 1)
+        #node_to_visit  = random.randint(0, G.__len__() - 1)
+#TODO: find out a way to pick random node from neighbors. Current method fails duen to G.nodes return NodeView which is dict
+        node_to_visit = random.randint(0, G.__len__() - 1)
         if is_using_strict_order :
-            node_to_visit = GU.find_next_node_in_ascending_order(G=G, current_node_index = -1) #we need to find place with number 0   
+            node_to_visit = 0 #Using first node. Node 0 must always be present and connected with at least one other   
     else :
         node_to_visit = start_node
     while not GU.is_all_nodes_visited(G):
@@ -104,7 +106,11 @@ def main():
         G.add_edge(random.randint(0, G.__len__()-1), random.randint(0, G.__len__()-1))  #adding random edge
     GU.graph_show_and_save(G, name_to_save="graph", path_to_save="output/matplotlib_animated_map/", to_save=True)
     GU.get_map(G, name_to_save="frame" + str(len(next(os.walk("output/animated_map/frames/"))[2])) + ".png", path_to_save="output/animated_map/frames/")
-    do_visit(G, agent = agent,  start_node = 0, is_node_visited_only_once=False, is_using_strict_order=True) #see do_visit()
+    #Proper way to get random neighbor node
+    #test_node = list(G.neighbors(0))[0]
+    #print(G.nodes[test_node])
+    #print(random.choice(list(G.neighbors(0))))
+    do_visit(G, agent = agent,  start_node=0,  is_node_visited_only_once=False, is_using_strict_order=False) #see do_visit()
     GU.graph_show_and_save(G, name_to_save="infected_graph", path_to_save= "output/matplotlib_animated_map/", to_save = True)
     GU.create_animation_from_dir(path_to_files="output/animated_map/frames/", path_to_save="output/animated_map/", name_to_save="animated_yandex_map.gif")
     GU.create_animation_from_dir(path_to_files="output/matplotlib_animated_map/frames/", path_to_save="output/matplotlib_animated_map/", name_to_save="matplotib_animated_map.gif")
