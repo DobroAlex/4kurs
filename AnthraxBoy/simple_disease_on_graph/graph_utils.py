@@ -59,17 +59,25 @@ def find_amount_of_person_infected_with(target_infection:Infection.infection , p
             retVal += 1
     return retVal
 
-def is_all_nodes_visited(G: nx.Graph):
+def is_all_nodes_visited(G : nx.Graph) -> bool:
+    """
+    Detect  if all nodes in graph satisfies  condition [some_node]['data'].state != possible_states_enum.possible_state.not_wisited
+    
+    Parameters
+    ----------
+    G : nx.Graph
+        Target graph  for inspection
+
+     Returns
+    -------
+        bool : True if all nodes satisfies  conidition, False else
+
+    """
     for i in G.nodes:
         if G.nodes[i]['data'].state == PSE.possible_state.not_wisited :
             return False
     return True
-def find_all_connected_nodes(G : nx.Graph, i:int):
-    list_of_connected_nodes = list()
-    for j in range(i, len(G.nodes)):
-        if j in G:
-            list_of_connected_nodes.append(j)
-    return list_of_connected_nodes
+
 def form_nodes_color_map(G:nx.Graph):
     color_map = list()
     for i in G.nodes:
@@ -80,6 +88,7 @@ def form_nodes_color_map(G:nx.Graph):
         else:
             color_map.append('red')
     return color_map
+
 def form_nodes_labels(G:nx.Graph) -> None:
     labels = dict()
     for i in G.nodes:
@@ -132,7 +141,10 @@ def get_map(G: nx.Graph, path_to_static_map_params:str = "resources/static_map_p
         URL = URL[:-1]  #deleting last element which will be "~"
     if path_to_save != None :
         name_to_save = os.path.join(path_to_save, name_to_save)
-    urllib.request.urlretrieve(URL, name_to_save ) 
+    try:
+        urllib.request.urlretrieve(URL, name_to_save)
+    except urllib.error.HTTPError as  BadRequest:
+        raise RuntimeError("Yandex static API can't proceed your request. That means your either reached your daily limit which may happen if you used API too often today OR address {0} is incorrect.Contact author at github.com/dobroalex if you met this problem and provide address printed before".format(URL))
 def create_animation_from_dir(path_to_files:str="output/animated_map/frames/", name_to_save:str="animated_map.gif", path_to_save:str=None) -> None:
     images = []
     for filename in [f for f in os.listdir(path_to_files) if os.path.isfile(os.path.join(path_to_files, f))]:
