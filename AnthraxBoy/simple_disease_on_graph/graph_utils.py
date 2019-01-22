@@ -1,7 +1,8 @@
 import networkx as nx
 import PIL
-from PIL import ImageDraw, Image, ImageFont 
+from PIL import ImageDraw, Image, ImageFont
 import infection as Infection
+import math
 import place
 import possible_states_enum as PSE
 from matplotlib import pyplot
@@ -9,10 +10,12 @@ import urllib
 import os
 import imageio
 import parsing_utils as PU
+import agent
 
-global_font = ImageFont.load_default()    #setting up global variable for font storing. Probably not best preactice in terms of OOP but simple solution   
+global_font = ImageFont.load_default()  # setting up global variable for font storing. Probably not best preactice in terms of OOP but simple solution
 
-def initialize_fonts(size:int = 20, path_and_name_to_save:str="") -> None:  
+
+def initialize_fonts(size: int = 20, path_and_name_to_save: str = "") -> None:
     """
     setting non-default font if needed. If you don't need to use non-default font you  may skip this part
     If you need to set non-default font this function must be called before calling graph_show_and_save
@@ -30,17 +33,16 @@ def initialize_fonts(size:int = 20, path_and_name_to_save:str="") -> None:
         Setting up global_font if correct path is given, else loading default font  
     """
     try:
-        global_font = ImageFont.truetype(font = path_and_name_to_save, size = size)
-        print ("Font changed to " + path_and_name_to_save)
+        global_font = ImageFont.truetype(font=path_and_name_to_save, size=size)
+        print("Font changed to " + path_and_name_to_save)
     except:
         print("No suitable font found in " + path_and_name_to_save)
         print("Using default font")
-        
 
 
-def find_amount_of_person_infected_with(target_infection:Infection.infection , persons:list) -> int:
+def find_amount_of_person_infected_with(target_infection: Infection.infection, persons: list) -> int:
     """
-    Searches for all person infected with targer_infection in persons list
+    Searches for all person infected with target infection in persons list
 
     Parameters
     ----------
@@ -59,7 +61,8 @@ def find_amount_of_person_infected_with(target_infection:Infection.infection , p
             retVal += 1
     return retVal
 
-def is_all_nodes_visited(G : nx.Graph) -> bool:
+
+def is_all_nodes_visited(G: nx.Graph) -> bool:
     """
     Detect  if all nodes in graph satisfies  condition [some_node]['data'].state != possible_states_enum.possible_state.not_wisited
     
@@ -74,11 +77,12 @@ def is_all_nodes_visited(G : nx.Graph) -> bool:
 
     """
     for i in G.nodes:
-        if G.nodes[i]['data'].state == PSE.possible_state.not_wisited :
+        if G.nodes[i]['data'].state == PSE.possible_state.not_wisited:
             return False
     return True
 
-def form_nodes_color_map(G:nx.Graph):
+
+def form_nodes_color_map(G: nx.Graph):
     color_map = list()
     for i in G.nodes:
         if G.nodes[i]['data'].state == PSE.possible_state.not_wisited:
@@ -89,12 +93,15 @@ def form_nodes_color_map(G:nx.Graph):
             color_map.append('red')
     return color_map
 
-def form_nodes_labels(G:nx.Graph) -> None:
+
+def form_nodes_labels(G: nx.Graph) -> None:
     labels = dict()
     for i in G.nodes:
-        labels[i] = G.nodes[i]['data'].name + "\nPopulation= " +  str(G.nodes[i]['data'].population) 
+        labels[i] = G.nodes[i]['data'].name + "\nPopulation= " + str(G.nodes[i]['data'].population)
     return labels
-def find_next_node_in_ascending_order(G:nx.Graph, current_node_index:int) -> int:
+
+
+def find_next_node_in_ascending_order(G: nx.Graph, current_node_index: int) -> int:
     try:
         is_current_node_exists = False
         for i in G.nodes:
@@ -106,27 +113,31 @@ def find_next_node_in_ascending_order(G:nx.Graph, current_node_index:int) -> int
         for i in G.nodes:
             if G.nodes[i]['data'].number > current_node_index:
                 return i
-        return None 
+        return None
     except ValueError as ValErr:
         print(ValErr)
-    
-    
-def graph_show_and_save(G: nx.Graph, name_to_save:str = "unnamed_graph",  path_to_save:str="/output/matplotlib_animated_map/frames/", to_save:bool = True, text:str = "", path_and_name_to_font:str = ""):
+
+
+def graph_show_and_save(G: nx.Graph, name_to_save: str = "unnamed_graph",
+                        path_to_save: str = "/output/matplotlib_animated_map/frames/", to_save: bool = True,
+                        text: str = "", path_and_name_to_font: str = ""):
     pos = nx.get_node_attributes(G, "pos")
-    nx.draw(G, pos,  with_labels = True, node_color = form_nodes_color_map(G), labels = form_nodes_labels(G))
+    nx.draw(G, pos, with_labels=True, node_color=form_nodes_color_map(G), labels=form_nodes_labels(G))
     fullpath = name_to_save
     if path_to_save:
         fullpath = os.path.join(path_to_save, name_to_save)
     if to_save == True:
-        pyplot.savefig(fullpath + ".png", format = "PNG", transparent=True)
+        pyplot.savefig(fullpath + ".png", format="PNG", transparent=True)
         image = PIL.Image.open(fullpath + ".png")
-        ImageDraw.Draw(image).text((0,0), text, (0,0,0), font=global_font)
+        ImageDraw.Draw(image).text((0, 0), text, (0, 0, 0), font=global_font)
         image.save(fullpath + ".png")
 
-    else :
-        pyplot.show(block = not to_save)
-    
-def get_map(G: nx.Graph, path_to_static_map_params:str = "resources/static_map_params.json",with_labels:bool = True, name_to_save:str = "static_map.png", path_to_save:str = None ) -> None:
+    else:
+        pyplot.show(block=not to_save)
+
+
+def get_map(G: nx.Graph, agent: agent, path_to_static_map_params: str = "resources/static_map_params.json", with_labels: bool = True,
+            name_to_save: str = "static_map.png", path_to_save: str = None) -> None:
     URL = "https://static-maps.yandex.ru/1.x/?"
     URL += PU.parse_map_params(path_to_static_map_params)
     if with_labels:
@@ -134,18 +145,36 @@ def get_map(G: nx.Graph, path_to_static_map_params:str = "resources/static_map_p
         for i in G.nodes:
             URL += str(G.nodes[i]['data'].longitude) + "," + str(G.nodes[i]['data'].latitude) + ","
             URL += "pm"
-            URL += "gr" if G.nodes[i]['data'].state == PSE.possible_state.not_wisited else "gn" if  G.nodes[i]['data'].state == PSE.possible_state.not_infected else "rd"
-            URL += "s"  #mark will be small
+            URL += "gr" if G.nodes[i]['data'].state == PSE.possible_state.not_wisited else "gn" if G.nodes[i][
+                                                                                                       'data'].state == PSE.possible_state.not_infected else "rd"
+            URL += "s"  # mark will be small
+            URL += str(G.nodes[i]['data'].number+1)  # adding node number + 1 to map
             URL += "~"
-
-        URL = URL[:-1]  #deleting last element which will be "~"
-    if path_to_save != None :
+        URL = URL[:-1]  # deleting last element which will be "~"
+        if len(agent.visited_nodes) > 1:
+            URL += "&pl="
+            URL += "c:A800A8FF,"
+            URL += "w:5,"
+            for node in agent.visited_nodes:
+                URL += str(G.nodes[node]['data'].longitude) + "," + str(G.nodes[node]['data'].latitude) + ","
+            URL = URL[:-1]
+    if path_to_save is not None:
         name_to_save = os.path.join(path_to_save, name_to_save)
+    else:
+        name_to_save = os.path.join(os.getcwd(), "/yandex_frames")
     try:
         urllib.request.urlretrieve(URL, name_to_save)
-    except urllib.error.HTTPError as  BadRequest:
-        raise RuntimeError("Yandex static API can't proceed your request. That means your either reached your daily limit which may happen if you used API too often today OR address {0} is incorrect.Contact author at github.com/dobroalex if you met this problem and provide address printed before".format(URL))
-def create_animation_from_dir(path_to_files:str="output/animated_map/frames/", name_to_save:str="animated_map.gif", path_to_save:str=None) -> None:
+    except urllib.error.HTTPError as BadRequest:
+        raise RuntimeError(
+            "Yandex static API can't proceed your request. That means your either reached your daily limit which may "
+            "happen if you used API too often today OR address {0} is incorrect.Contact author at "
+            "github.com/dobroalex if you met this problem and provide address printed before".format(
+                URL))
+    except urllib.error.URLError as URLError:
+        raise RuntimeError("Something went horribly wrong while trying to access {0}".format(URL))
+
+def create_animation_from_dir(path_to_files: str = "output/animated_map/frames/",
+                              name_to_save: str = "animated_map.gif", path_to_save: str = None) -> None:
     images = []
     for filename in [f for f in os.listdir(path_to_files) if os.path.isfile(os.path.join(path_to_files, f))]:
         filename = os.path.join(path_to_files, filename)
@@ -155,6 +184,11 @@ def create_animation_from_dir(path_to_files:str="output/animated_map/frames/", n
             os.remove(full_path_and_name_to_save)
         else:
             print("Old {0} at {1} is already deleted, nothing to del".format(name_to_save, full_path_and_name_to_save))
-        
-        imageio.mimsave(full_path_and_name_to_save, images, duration = 1)
-        
+
+        imageio.mimsave(full_path_and_name_to_save, images, duration=1)
+
+
+def calc_infection_probability(target_infection: Infection.infection, target_person, persons: list) -> float:
+        amount_of_infected_with_similar_infection = find_amount_of_person_infected_with(target_infection, persons) if find_amount_of_person_infected_with(target_infection=target_infection, persons=persons) != 0 else 1
+        return 1.0 - math.exp(1.0 * amount_of_infected_with_similar_infection * math.log(
+            1 - target_person.receptivity * target_infection.permissibility))
