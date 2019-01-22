@@ -10,12 +10,11 @@ import place  # class for modeling places which may or may not be infected
 import possible_states_enum as PSE  # all possibles condition of places
 import graph_utils as GU  # some basic utils for supporting  drawing & iterating over graph
 import random  # for random int and float numbers generation
-import json  # for JSON parse/dump
 import infection as Infection
 import person as Person
+import agent as Agent
 
-
-def do_visit(G: nx.Graph, agent: Person.person, is_node_visited_only_once: bool = False, start_node: int = None,
+def do_visit(G: nx.Graph, agent: Agent.Agent, is_node_visited_only_once: bool = False, start_node: int = None,
              is_animated: bool = True, path_to_save_yandex_animation: str = "output/animated_map/frames/",
              path_to_save_matplotlib_animation: str = "output/matplotlib_animated_map/frames/",
              is_using_strict_order: bool = False) -> None:
@@ -50,21 +49,22 @@ def do_visit(G: nx.Graph, agent: Person.person, is_node_visited_only_once: bool 
                 if G.nodes[node_to_visit]['data'].state == PSE.possible_state.not_wisited:
                     break
                 else:
-                    node_to_visit = random.randint(0, G.__len__() - 1)
+                    node_to_visit = random.randint(0, G.order()-1)
         elif is_node_visited_only_once == False:
-            node_to_visit = random.randint(0, G.__len__() - 1)
+            node_to_visit = random.randint(0, G.order()-1)
         if is_using_strict_order:  # Causes an agent to visit places clearly in ascending order of node numbers.
             if not is_first_visit:
                 node_to_visit = GU.find_next_node_in_ascending_order(G, node_to_visit)
                 if node_to_visit is None:
                     break  # node with max index already visited
         print("Now in node #{0} : {1}".format(node_to_visit, G.nodes[node_to_visit]))
+        agent.visited_nodes.append(node_to_visit)
         for target_person in G.nodes[node_to_visit]['data'].persons:
             # calculating probability that agent will infect persons
             for disease_of_agent, disease_of_agent_permissibility in agent.infected_with.items():  # iterating over
                 # dict's items
                 # https://stackoverflow.com/questions/5466618/too-many-values-to-unpack-iterating-over-a-dict-key-string-value-list
-                probability = Person.person.calc_infection_probability(
+                probability = GU.calc_infection_probability(
                     Infection.infection(name=disease_of_agent, permissibility=disease_of_agent_permissibility), target_person,
                     G.nodes[node_to_visit]['data'].persons)  # TODO : TEST THIS LINE
                 print("For agent {0} and target {1} in place {2}, probability of {3} = {4}".format(agent, target_person,
@@ -82,7 +82,7 @@ def do_visit(G: nx.Graph, agent: Person.person, is_node_visited_only_once: bool 
             for disease_of_person, disease_of_person_permissibility in target_person.infected_with.items():  # calculating probability that person will infect agent with something new
                 if disease_of_person in agent.infected_with:
                     break
-                probability = Person.person.calc_infection_probability(
+                probability = GU.calc_infection_probability(
                     Infection.infection(disease_of_person, disease_of_person_permissibility), agent,
                     G.nodes[node_to_visit]['data'].persons)
                 if probability >= 0.5:
@@ -90,13 +90,13 @@ def do_visit(G: nx.Graph, agent: Person.person, is_node_visited_only_once: bool 
         GU.graph_show_and_save(G, name_to_save="frame" + str(len(next(os.walk(path_to_save_matplotlib_animation))[2])),
                                path_to_save=path_to_save_matplotlib_animation, to_save=True,
                                text="Graph after agent interfierence")
-        GU.get_map(G, name_to_save="frame" + str(len(next(os.walk(path_to_save_yandex_animation))[2])) + ".png",
+        GU.get_map(G, agent, name_to_save="frame" + str(len(next(os.walk(path_to_save_yandex_animation))[2])) + ".png",
                    path_to_save=path_to_save_yandex_animation)
         infection_tick(G)
         GU.graph_show_and_save(G, name_to_save="frame" + str(len(next(os.walk(path_to_save_matplotlib_animation))[2])),
                                path_to_save=path_to_save_matplotlib_animation, to_save=True,
                                text="Graph after in-node interfiernce")
-        GU.get_map(G, name_to_save="frame" + str(len(next(os.walk(path_to_save_yandex_animation))[2])) + ".png",
+        GU.get_map(G, agent, name_to_save="frame" + str(len(next(os.walk(path_to_save_yandex_animation))[2])) + ".png",
                    path_to_save=path_to_save_yandex_animation)
         prev_node = node_to_visit
         if is_first_visit:
@@ -112,7 +112,7 @@ def infection_tick(G: nx.Graph) -> None:
                 for agent_person_infection, agent_person_infection_permissibility in agent_person.infected_with.items():
                     if agent_person_infection in target_person.infected_with:
                         break
-                    probability = Person.person.calc_infection_probability(
+                    probability = GU.calc_infection_probability(
                         Infection.infection(agent_person_infection, agent_person_infection_permissibility),
                         target_person, G.nodes[i]['data'].persons)
                     if probability >= 0.5:
@@ -121,8 +121,8 @@ def infection_tick(G: nx.Graph) -> None:
 
 def main():
     GU.initialize_fonts(size=35, path_and_name_to_save="resources/fonts/Exo2/Exo2-Italic.otf")
-    agent = Person.person(age=35, sex='m', receptivity=0.5,
-                          infected_with={'Ветрянка': 0.1, 'ОРВИ': 0.5, 'СПИДОРАК': 0.8})
+    agent = Agent.Agent(age=35, sex='m', receptivity=0.5,
+                          infected_with={'Ветрянка': 0.1, 'ОРВИ': 0.5, 'СПИДОРАК': 0.8}, visited_nodes=list())
     G = nx.Graph()  # creates new empty graph
     parsed_places = place.place.parse_list_of_places_from_json(path_to_file="resources/places.json")
     for item in parsed_places:
@@ -133,8 +133,9 @@ def main():
             'data'].state))  # https://stackoverflow.com/questions/18169965/how-to-delete-last-item-in-list
     while not (nx.is_connected(G)):  # while each node doesn't have at least one edge
         G.add_edge(random.randint(0, G.__len__() - 1), random.randint(0, G.__len__() - 1))  # adding random edge
+    print("G.len = {0}, order = {1} ".format(G.__len__(), G.order()))
     GU.graph_show_and_save(G, name_to_save="graph", path_to_save="output/matplotlib_animated_map/", to_save=True)
-    GU.get_map(G, name_to_save="frame" + str(len(next(os.walk("output/animated_map/frames/"))[2])) + ".png",
+    GU.get_map(G, agent, name_to_save="frame" + str(len(next(os.walk("output/animated_map/frames/"))[2])) + ".png",
                path_to_save="output/animated_map/frames/")
     # Proper way to get random neighbor node
     # test_node = list(G.neighbors(0))[0]
