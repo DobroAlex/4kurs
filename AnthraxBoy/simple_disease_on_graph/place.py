@@ -4,7 +4,6 @@ import sys
 import json
 import possible_states_enum
 import person as Person
-import graph_utils as GU
 import random
 
 
