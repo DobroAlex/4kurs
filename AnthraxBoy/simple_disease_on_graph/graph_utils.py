@@ -10,6 +10,7 @@ import urllib
 import os
 import imageio
 import parsing_utils as PU
+import string
 import agent
 
 global_font: ImageFont = PIL.ImageFont.load_default()  # setting up global variable for font storing. Probably not best practice in
@@ -37,7 +38,7 @@ def initialize_fonts(size: int = 20, path_and_name_to_font: str = "") -> None:
     try:
         global global_font
         global_font = ImageFont.truetype(font=path_and_name_to_font, size=size)
-        global  global_path
+        global global_path
         global_path = path_and_name_to_font
         print("Font changed to " + path_and_name_to_font)
     except:
@@ -123,6 +124,25 @@ def find_next_node_in_ascending_order(G: nx.Graph, current_node_index: int) -> i
         print(ValErr)
 
 
+def unify_images_size(path_to_images: str, file_name_start: str, file_name_extension: str = ".png") -> None:
+    images = []
+    for filename in os.listdir(path_to_images):
+        if filename.startswith(file_name_start) and filename.endswith(file_name_extension):
+            images.append(filename)
+    max_width = -1
+    max_height = -1
+    for image in images:
+        full_path = os.path.join(path_to_images + image)
+        tmp = Image.open(full_path)
+        max_width = tmp.size[0] if tmp.size[0] > max_width else max_width
+        max_height = tmp.size[1] if tmp.size[1] > max_height else max_height
+    for image in images:
+        full_path = os.path.join(path_to_images + image)
+        tmp = Image.open(full_path)
+        tmp = ImageOps.fit(tmp, (max_width, max_height), method=Image.BICUBIC)
+        tmp.save(full_path)
+
+
 def graph_show_and_save(G: nx.Graph, name_to_save: str = "unnamed_graph",
                         path_to_save: str = "/output/matplotlib_animated_map/frames/", to_save: bool = True,
                         text: str = None):
@@ -141,13 +161,17 @@ def graph_show_and_save(G: nx.Graph, name_to_save: str = "unnamed_graph",
             if font.getsize(text)[0] > image.size[0]:
                 print("Text is too width, resizing. Current width {0}, height {1}".format(image.size[0], image.size[1]))
                 resize_factor = font.getsize(text)[0] / image.size[0]
-                image = PIL.ImageOps.fit(image, (int(image.size[0] * resize_factor), int(image.size[1] * resize_factor)),
+                image = PIL.ImageOps.fit(image,
+                                         (int(image.size[0] * resize_factor), int(image.size[1] * resize_factor)),
                                          method=Image.BICUBIC)
                 print("Resided image width {0}, height {1}".format(image.size[0], image.size[1]))
             ImageDraw.Draw(image).text((0, 0), text, (0, 0, 0), font=font)
-            image.save(fullpath + ".png", "PNG")    # Saving as actual .png,
+            image.save(fullpath + ".png", "PNG")  # Saving as actual .png,
             # not just "name.png" with original extensions
             # https://stackoverflow.com/questions/19651055/saving-image-with-pil
+            unify_images_size(path_to_save, name_to_save.rstrip(string.digits), file_name_extension=".png")
+            #TODO : remove in main and call it only after saving all images
+            #TODO : In current position it's extremly slow and expensive in terms of memory 
         else:
             print("Nothing to print on image  {0}, text is {1}".format(fullpath, text))
 
