@@ -89,7 +89,7 @@ def do_visit(G: nx.Graph, agent: Agent.Agent, is_node_visited_only_once: bool = 
                     agent.infected_with[disease_of_person] = disease_of_person_permissibility
         GU.graph_show_and_save(G, name_to_save="frame" + str(len(next(os.walk(path_to_save_matplotlib_animation))[2])),
                                path_to_save=path_to_save_matplotlib_animation, to_save=True,
-                               text="Graph after agent interference in node {0},\nagent : {1}".format(G.nodes[node_to_visit]['data'].name + str(G.nodes[node_to_visit]['data'].number + 1), agent))
+                               text="Graph after agent interference in node {0}, agent : {1}".format(G.nodes[node_to_visit]['data'].name + str(G.nodes[node_to_visit]['data'].number + 1), agent))
         GU.get_map(G, agent, name_to_save="frame" + str(len(next(os.walk(path_to_save_yandex_animation))[2])) + ".png",
                    path_to_save=path_to_save_yandex_animation)
         infection_tick(G)
@@ -120,7 +120,7 @@ def infection_tick(G: nx.Graph) -> None:
 
 
 def main():
-    GU.initialize_fonts(size=15, path_and_name_to_font="resources/fonts/DejaVu/DejaVuSans.ttf")
+    GU.initialize_fonts(size=35, path_and_name_to_font="resources/fonts/DejaVu/DejaVuSans.ttf")
     agent = Agent.Agent(age=35, sex='m', receptivity=0.5,
                           infected_with={'Ветрянка': 0.1, 'ОРВИ': 0.5, 'СПИДОРАК': 0.8}, visited_nodes=list())
     G = nx.Graph()  # creates new empty graph
