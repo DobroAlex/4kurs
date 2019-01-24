@@ -14,6 +14,7 @@ import infection as Infection
 import person as Person
 import agent as Agent
 
+
 def do_visit(G: nx.Graph, agent: Agent.Agent, is_node_visited_only_once: bool = False, start_node: int = None,
              is_animated: bool = True, path_to_save_yandex_animation: str = "output/animated_map/frames/",
              path_to_save_matplotlib_animation: str = "output/matplotlib_animated_map/frames/",
@@ -31,6 +32,10 @@ def do_visit(G: nx.Graph, agent: Agent.Agent, is_node_visited_only_once: bool = 
                 except Exception:
                     print("Dir {0} is already  clean".format(target_dir))
                     pass
+        os.mkdir(os.path.join(path_to_save_yandex_animation, "frames/"))
+        os.mkdir(os.path.join(path_to_save_matplotlib_animation, "frames/"))
+
+    path_to_yandex_frames = os.path.join(path_to_save_yandex_animation, "frames/")
     is_first_visit = True
     if start_node is None:
         # node_to_visit  = random.randint(0, G.__len__() - 1)
@@ -49,9 +54,9 @@ def do_visit(G: nx.Graph, agent: Agent.Agent, is_node_visited_only_once: bool = 
                 if G.nodes[node_to_visit]['data'].state == PSE.possible_state.not_wisited:
                     break
                 else:
-                    node_to_visit = random.randint(0, G.order()-1)
+                    node_to_visit = random.randint(0, G.order() - 1)
         elif not is_node_visited_only_once:
-            node_to_visit = random.randint(0, G.order()-1)
+            node_to_visit = random.randint(0, G.order() - 1)
         if is_using_strict_order:  # Causes an agent to visit places clearly in ascending order of node numbers.
             if not is_first_visit:
                 node_to_visit += 1
@@ -65,13 +70,14 @@ def do_visit(G: nx.Graph, agent: Agent.Agent, is_node_visited_only_once: bool = 
                 # dict's items
                 # https://stackoverflow.com/questions/5466618/too-many-values-to-unpack-iterating-over-a-dict-key-string-value-list
                 probability = GU.calc_infection_probability(
-                    Infection.infection(name=disease_of_agent, permissibility=disease_of_agent_permissibility), target_person,
+                    Infection.infection(name=disease_of_agent, permissibility=disease_of_agent_permissibility),
+                    target_person,
                     G.nodes[node_to_visit]['data'].persons)  # TODO : TEST THIS LINE
                 # print("For agent {0} and target {1} in place {2}, probability of {3} = {4}".format(agent, target_person,
                 #                                                                                   G.nodes[
                 ##                                                                                       node_to_visit][
-                 #                                                                                      'data'].name,
-                 #                                                                                  disease_of_agent,
+                #                                                                                      'data'].name,
+                #                                                                                  disease_of_agent,
                 #                                                                                   probability))
                 if probability >= 0.5:
                     target_person.infected_with[disease_of_agent] = agent.infected_with[disease_of_agent]
@@ -89,14 +95,16 @@ def do_visit(G: nx.Graph, agent: Agent.Agent, is_node_visited_only_once: bool = 
                     agent.infected_with[disease_of_person] = disease_of_person_permissibility
         GU.graph_show_and_save(G, name_to_save="frame" + str(len(next(os.walk(path_to_save_matplotlib_animation))[2])),
                                path_to_save=path_to_save_matplotlib_animation, to_save=True,
-                               text="Graph after agent interference in node {0}, agent : {1}".format(G.nodes[node_to_visit]['data'].name + str(G.nodes[node_to_visit]['data'].number + 1), agent))
-        GU.get_map(G, agent, name_to_save="frame" + str(len(next(os.walk(path_to_save_yandex_animation))[2])) + ".png",
+                               text="Graph after agent interference in node {0}, agent : {1}".format(
+                                   G.nodes[node_to_visit]['data'].name + str(G.nodes[node_to_visit]['data'].number + 1),
+                                   agent))
+        GU.get_map(G, agent, name_to_save="frame" + str(len(next(os.walk(path_to_yandex_frames))[2])) + ".png",
                    path_to_save=path_to_save_yandex_animation)
         infection_tick(G)
         GU.graph_show_and_save(G, name_to_save="frame" + str(len(next(os.walk(path_to_save_matplotlib_animation))[2])),
                                path_to_save=path_to_save_matplotlib_animation, to_save=True,
                                text="Graph after in-node interference")
-        GU.get_map(G, agent, name_to_save="frame" + str(len(next(os.walk(path_to_save_yandex_animation))[2])) + ".png",
+        GU.get_map(G, agent, name_to_save="frame" + str(len(next(os.walk(path_to_yandex_frames))[2])) + ".png",
                    path_to_save=path_to_save_yandex_animation)
         prev_node = node_to_visit
         if is_first_visit:
@@ -120,9 +128,13 @@ def infection_tick(G: nx.Graph) -> None:
 
 
 def main():
+    path_to_save_matplotlib_animation: str = "output/matplotlib_animated_map/"
+    path_to_save_yandex_animation: str = "output/animated_map/"
+    path_to_yandex_frames = os.path.join(path_to_save_yandex_animation, "frames/")
+
     GU.initialize_fonts(size=35, path_and_name_to_font="resources/fonts/DejaVu/DejaVuSans.ttf")
     agent = Agent.Agent(age=35, sex='m', receptivity=0.5,
-                          infected_with={'Ветрянка': 0.1, 'ОРВИ': 0.5, 'СПИДОРАК': 0.8}, visited_nodes=list())
+                        infected_with={'Ветрянка': 0.1, 'ОРВИ': 0.5, 'СПИДОРАК': 0.8}, visited_nodes=list())
     G = nx.Graph()  # creates new empty graph
     parsed_places = place.place.parse_list_of_places_from_json(path_to_file="resources/places.json")
     for item in parsed_places:
@@ -133,21 +145,21 @@ def main():
             'data'].state))  # https://stackoverflow.com/questions/18169965/how-to-delete-last-item-in-list
     while not (nx.is_connected(G)):  # while each node doesn't have at least one edge
         G.add_edge(random.randint(0, G.order() - 1), random.randint(0, G.order() - 1))  # adding random edge
-    GU.graph_show_and_save(G, name_to_save="graph", path_to_save="output/matplotlib_animated_map/", to_save=True)
-    GU.get_map(G, agent, name_to_save="frame" + str(len(next(os.walk("output/animated_map/frames/"))[2])) + ".png",
-               path_to_save="output/animated_map/frames/")
+    GU.graph_show_and_save(G, name_to_save="graph", path_to_save=path_to_save_matplotlib_animation, to_save=True)
+    GU.get_map(G, agent, name_to_save="frame" + str(len(next(os.walk(path_to_yandex_frames))[2])) + ".png",
+               path_to_save=path_to_save_yandex_animation)
     # Proper way to get random neighbor node
     # test_node = list(G.neighbors(0))[0]
     # print(G.nodes[test_node])
     # print(random.choice(list(G.neighbors(0))))
     do_visit(G, agent=agent, start_node=0, is_node_visited_only_once=True,
-             is_using_strict_order=True)  # see do_visit()
-    GU.graph_show_and_save(G, name_to_save="infected_graph", path_to_save="output/matplotlib_animated_map/",
+             is_using_strict_order=True, path_to_save_matplotlib_animation=path_to_save_matplotlib_animation, path_to_save_yandex_animation = path_to_save_yandex_animation)  # see do_visit()
+    GU.graph_show_and_save(G, name_to_save="infected_graph", path_to_save=path_to_save_matplotlib_animation,
                            to_save=True)
-    GU.create_animation_from_dir(path_to_files="output/animated_map/frames/", path_to_save="output/animated_map/",
+    GU.create_animation_from_dir(path_to_files=path_to_save_yandex_animation + "frames/", path_to_save=path_to_save_yandex_animation,
                                  name_to_save="animated_yandex_map.gif")
-    GU.create_animation_from_dir(path_to_files="output/matplotlib_animated_map/frames/",
-                                 path_to_save="output/matplotlib_animated_map/",
+    GU.create_animation_from_dir(path_to_files=os.path.join(path_to_save_matplotlib_animation, "frames/"),
+                                 path_to_save=path_to_save_matplotlib_animation,
                                  name_to_save="matplotib_animated_map.gif")
 
 

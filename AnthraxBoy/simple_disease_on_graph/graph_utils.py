@@ -159,7 +159,7 @@ def graph_show_and_save(G: nx.Graph, name_to_save: str = "unnamed_graph",
             image = PIL.Image.open(fullpath + ".png")
             font = global_font
             if font.getsize(text)[0] > image.size[0]:
-                print("Text is too width, resizing. Current width {0}, height {1}".format(image.size[0], image.size[1]))
+                #print("Text is too width, resizing. Current width {0}, height {1}".format(image.size[0], image.size[1]))
                 resize_factor = font.getsize(text)[0] / image.size[0]
                 image = PIL.ImageOps.fit(image,
                                          (int(image.size[0] * resize_factor), int(image.size[1] * resize_factor)),
@@ -171,7 +171,7 @@ def graph_show_and_save(G: nx.Graph, name_to_save: str = "unnamed_graph",
             # https://stackoverflow.com/questions/19651055/saving-image-with-pil
             unify_images_size(path_to_save, name_to_save.rstrip(string.digits), file_name_extension=".png")
             #TODO : remove in main and call it only after saving all images
-            #TODO : In current position it's extremly slow and expensive in terms of memory 
+            #TODO : In current position it's extremly slow and expensive in terms of memory
         else:
             print("Nothing to print on image  {0}, text is {1}".format(fullpath, text))
 
@@ -182,6 +182,7 @@ def graph_show_and_save(G: nx.Graph, name_to_save: str = "unnamed_graph",
 def get_map(G: nx.Graph, agent: agent, path_to_static_map_params: str = "resources/static_map_params.json",
             with_labels: bool = True,
             name_to_save: str = "static_map.png", path_to_save: str = None) -> None:
+    path_to_save = os.path.join(path_to_save, "frames/")
     URL = "https://static-maps.yandex.ru/1.x/?"
     URL += PU.parse_map_params(path_to_static_map_params)
     if with_labels:
@@ -224,7 +225,7 @@ def create_animation_from_dir(path_to_files: str = "output/animated_map/frames/"
     for filename in [f for f in os.listdir(path_to_files) if os.path.isfile(os.path.join(path_to_files, f))]:
         filename = os.path.join(path_to_files, filename)
         images.append(imageio.imread(filename))
-        full_path_and_name_to_save = os.path.join(path_to_save, name_to_save) if path_to_save != None else name_to_save
+        full_path_and_name_to_save = os.path.join(path_to_save, name_to_save) if path_to_save is not None else name_to_save
         if os.path.exists(full_path_and_name_to_save):
             os.remove(full_path_and_name_to_save)
         else:
