@@ -28,7 +28,7 @@ def do_visit(G: nx.Graph, agent: Agent.Agent, is_node_visited_only_once: bool = 
                         os.unlink(file_path)
                     elif os.path.isdir(file_path):
                         shutil.rmtree(file_path)
-                except Exception  as e:
+                except Exception:
                     print("Dir {0} is already  clean".format(target_dir))
                     pass
     is_first_visit = True
@@ -36,7 +36,7 @@ def do_visit(G: nx.Graph, agent: Agent.Agent, is_node_visited_only_once: bool = 
         # node_to_visit  = random.randint(0, G.__len__() - 1)
         # TODO: find out a way to pick random node from
         #  neighbors. Current method fails due to G.nodes return NodeView which is dict
-        node_to_visit = random.randint(0, G.__len__() - 1)
+        node_to_visit = random.randint(0, G.order() - 1)
         if is_using_strict_order:
             node_to_visit = 0  # Using first node. Node 0 must always be present and connected with at least one other
     else:
@@ -50,12 +50,12 @@ def do_visit(G: nx.Graph, agent: Agent.Agent, is_node_visited_only_once: bool = 
                     break
                 else:
                     node_to_visit = random.randint(0, G.order()-1)
-        elif is_node_visited_only_once == False:
+        elif not is_node_visited_only_once:
             node_to_visit = random.randint(0, G.order()-1)
         if is_using_strict_order:  # Causes an agent to visit places clearly in ascending order of node numbers.
             if not is_first_visit:
-                node_to_visit = GU.find_next_node_in_ascending_order(G, node_to_visit)
-                if node_to_visit is None:
+                node_to_visit += 1
+                if node_to_visit not in G.nodes:
                     break  # node with max index already visited
         print("Now in node #{0} : {1}".format(node_to_visit, G.nodes[node_to_visit]))
         agent.visited_nodes.append(node_to_visit)
@@ -67,12 +67,12 @@ def do_visit(G: nx.Graph, agent: Agent.Agent, is_node_visited_only_once: bool = 
                 probability = GU.calc_infection_probability(
                     Infection.infection(name=disease_of_agent, permissibility=disease_of_agent_permissibility), target_person,
                     G.nodes[node_to_visit]['data'].persons)  # TODO : TEST THIS LINE
-                print("For agent {0} and target {1} in place {2}, probability of {3} = {4}".format(agent, target_person,
-                                                                                                   G.nodes[
-                                                                                                       node_to_visit][
-                                                                                                       'data'].name,
-                                                                                                   disease_of_agent,
-                                                                                                   probability))
+                # print("For agent {0} and target {1} in place {2}, probability of {3} = {4}".format(agent, target_person,
+                #                                                                                   G.nodes[
+                ##                                                                                       node_to_visit][
+                 #                                                                                      'data'].name,
+                 #                                                                                  disease_of_agent,
+                #                                                                                   probability))
                 if probability >= 0.5:
                     target_person.infected_with[disease_of_agent] = agent.infected_with[disease_of_agent]
                     G.nodes[node_to_visit]['data'].state = PSE.possible_state.infected
@@ -89,13 +89,13 @@ def do_visit(G: nx.Graph, agent: Agent.Agent, is_node_visited_only_once: bool = 
                     agent.infected_with[disease_of_person] = disease_of_person_permissibility
         GU.graph_show_and_save(G, name_to_save="frame" + str(len(next(os.walk(path_to_save_matplotlib_animation))[2])),
                                path_to_save=path_to_save_matplotlib_animation, to_save=True,
-                               text="Graph after agent interfierence")
+                               text="Graph after agent interference in node {0},\nagent : {1}".format(G.nodes[node_to_visit]['data'].name + str(G.nodes[node_to_visit]['data'].number + 1), agent))
         GU.get_map(G, agent, name_to_save="frame" + str(len(next(os.walk(path_to_save_yandex_animation))[2])) + ".png",
                    path_to_save=path_to_save_yandex_animation)
         infection_tick(G)
         GU.graph_show_and_save(G, name_to_save="frame" + str(len(next(os.walk(path_to_save_matplotlib_animation))[2])),
                                path_to_save=path_to_save_matplotlib_animation, to_save=True,
-                               text="Graph after in-node interfiernce")
+                               text="Graph after in-node interference")
         GU.get_map(G, agent, name_to_save="frame" + str(len(next(os.walk(path_to_save_yandex_animation))[2])) + ".png",
                    path_to_save=path_to_save_yandex_animation)
         prev_node = node_to_visit
@@ -120,7 +120,7 @@ def infection_tick(G: nx.Graph) -> None:
 
 
 def main():
-    GU.initialize_fonts(size=35, path_and_name_to_save="resources/fonts/Exo2/Exo2-Italic.otf")
+    GU.initialize_fonts(size=15, path_and_name_to_font="resources/fonts/DejaVu/DejaVuSans.ttf")
     agent = Agent.Agent(age=35, sex='m', receptivity=0.5,
                           infected_with={'Ветрянка': 0.1, 'ОРВИ': 0.5, 'СПИДОРАК': 0.8}, visited_nodes=list())
     G = nx.Graph()  # creates new empty graph
@@ -132,8 +132,7 @@ def main():
         print("node {0}{1} = {2}".format(G.nodes[i]['data'].name, G.nodes[i]['data'].number, G.nodes[i][
             'data'].state))  # https://stackoverflow.com/questions/18169965/how-to-delete-last-item-in-list
     while not (nx.is_connected(G)):  # while each node doesn't have at least one edge
-        G.add_edge(random.randint(0, G.__len__() - 1), random.randint(0, G.__len__() - 1))  # adding random edge
-    print("G.len = {0}, order = {1} ".format(G.__len__(), G.order()))
+        G.add_edge(random.randint(0, G.order() - 1), random.randint(0, G.order() - 1))  # adding random edge
     GU.graph_show_and_save(G, name_to_save="graph", path_to_save="output/matplotlib_animated_map/", to_save=True)
     GU.get_map(G, agent, name_to_save="frame" + str(len(next(os.walk("output/animated_map/frames/"))[2])) + ".png",
                path_to_save="output/animated_map/frames/")
@@ -141,8 +140,8 @@ def main():
     # test_node = list(G.neighbors(0))[0]
     # print(G.nodes[test_node])
     # print(random.choice(list(G.neighbors(0))))
-    do_visit(G, agent=agent, start_node=0, is_node_visited_only_once=False,
-             is_using_strict_order=False)  # see do_visit()
+    do_visit(G, agent=agent, start_node=0, is_node_visited_only_once=True,
+             is_using_strict_order=True)  # see do_visit()
     GU.graph_show_and_save(G, name_to_save="infected_graph", path_to_save="output/matplotlib_animated_map/",
                            to_save=True)
     GU.create_animation_from_dir(path_to_files="output/animated_map/frames/", path_to_save="output/animated_map/",
