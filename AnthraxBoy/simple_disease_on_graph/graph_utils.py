@@ -1,6 +1,6 @@
 import networkx as nx
 import PIL
-from PIL import ImageDraw, Image, ImageFont
+from PIL import ImageDraw, Image, ImageFont, ImageOps
 import infection as Infection
 import math
 import place
@@ -12,10 +12,12 @@ import imageio
 import parsing_utils as PU
 import agent
 
-global_font = ImageFont.load_default()  # setting up global variable for font storing. Probably not best preactice in terms of OOP but simple solution
+global_font: ImageFont = PIL.ImageFont.load_default()  # setting up global variable for font storing. Probably not best practice in
+# terms of OOP but simple solution
+global_path: str = ""  # path to global_font dir will be stored here
 
 
-def initialize_fonts(size: int = 20, path_and_name_to_save: str = "") -> None:
+def initialize_fonts(size: int = 20, path_and_name_to_font: str = "") -> None:
     """
     setting non-default font if needed. If you don't need to use non-default font you  may skip this part
     If you need to set non-default font this function must be called before calling graph_show_and_save
@@ -24,7 +26,7 @@ def initialize_fonts(size: int = 20, path_and_name_to_save: str = "") -> None:
     ----------
     size : int
         Size of font in pixels. Default is 20
-    path_and_name_to_save : int
+    path_and_name_to_font : int
         Full path to file with name of one and extension. May be full (ex  "C:\stuff\fonts\my_font.ttf") or relative (ex "source/font/test.ttf")
 
     Returns
@@ -33,10 +35,13 @@ def initialize_fonts(size: int = 20, path_and_name_to_save: str = "") -> None:
         Setting up global_font if correct path is given, else loading default font  
     """
     try:
-        global_font = ImageFont.truetype(font=path_and_name_to_save, size=size)
-        print("Font changed to " + path_and_name_to_save)
+        global global_font
+        global_font = ImageFont.truetype(font=path_and_name_to_font, size=size)
+        global  global_path
+        global_path = path_and_name_to_font
+        print("Font changed to " + path_and_name_to_font)
     except:
-        print("No suitable font found in " + path_and_name_to_save)
+        print("No suitable font found in " + path_and_name_to_font)
         print("Using default font")
 
 
@@ -120,23 +125,38 @@ def find_next_node_in_ascending_order(G: nx.Graph, current_node_index: int) -> i
 
 def graph_show_and_save(G: nx.Graph, name_to_save: str = "unnamed_graph",
                         path_to_save: str = "/output/matplotlib_animated_map/frames/", to_save: bool = True,
-                        text: str = "", path_and_name_to_font: str = ""):
+                        text: str = None):
     pos = nx.get_node_attributes(G, "pos")
     nx.draw(G, pos, with_labels=True, node_color=form_nodes_color_map(G), labels=form_nodes_labels(G))
     fullpath = name_to_save
     if path_to_save:
         fullpath = os.path.join(path_to_save, name_to_save)
     if to_save == True:
-        pyplot.savefig(fullpath + ".png", format="PNG", transparent=True)
-        image = PIL.Image.open(fullpath + ".png")
-        ImageDraw.Draw(image).text((0, 0), text, (0, 0, 0), font=global_font)
-        image.save(fullpath + ".png")
+        global global_font
+        global global_path
+        pyplot.savefig(fullpath + ".png", format="PNG", transparent=False)
+        if text is not None:
+            image = PIL.Image.open(fullpath + ".png")
+            font = global_font
+            if font.getsize(text)[0] > image.size[0]:
+                print("Text is too width, resizing. Current width {0}, height {1}".format(image.size[0], image.size[1]))
+                resize_factor = font.getsize(text)[0] / image.size[0]
+                image = PIL.ImageOps.fit(image, (int(image.size[0] * resize_factor), int(image.size[1] * resize_factor)),
+                                         method=Image.BICUBIC)
+                print("Resided image width {0}, height {1}".format(image.size[0], image.size[1]))
+            ImageDraw.Draw(image).text((0, 0), text, (0, 0, 0), font=font)
+            image.save(fullpath + ".png", "PNG")    # Saving as actual .png,
+            # not just "name.png" with original extensions
+            # https://stackoverflow.com/questions/19651055/saving-image-with-pil
+        else:
+            print("Nothing to print on image  {0}, text is {1}".format(fullpath, text))
 
     else:
         pyplot.show(block=not to_save)
 
 
-def get_map(G: nx.Graph, agent: agent, path_to_static_map_params: str = "resources/static_map_params.json", with_labels: bool = True,
+def get_map(G: nx.Graph, agent: agent, path_to_static_map_params: str = "resources/static_map_params.json",
+            with_labels: bool = True,
             name_to_save: str = "static_map.png", path_to_save: str = None) -> None:
     URL = "https://static-maps.yandex.ru/1.x/?"
     URL += PU.parse_map_params(path_to_static_map_params)
@@ -148,7 +168,7 @@ def get_map(G: nx.Graph, agent: agent, path_to_static_map_params: str = "resourc
             URL += "gr" if G.nodes[i]['data'].state == PSE.possible_state.not_wisited else "gn" if G.nodes[i][
                                                                                                        'data'].state == PSE.possible_state.not_infected else "rd"
             URL += "s"  # mark will be small
-            URL += str(G.nodes[i]['data'].number+1)  # adding node number + 1 to map
+            URL += str(G.nodes[i]['data'].number + 1)  # adding node number + 1 to map
             URL += "~"
         URL = URL[:-1]  # deleting last element which will be "~"
         if len(agent.visited_nodes) > 1:
@@ -173,6 +193,7 @@ def get_map(G: nx.Graph, agent: agent, path_to_static_map_params: str = "resourc
     except urllib.error.URLError as URLError:
         raise RuntimeError("Something went horribly wrong while trying to access {0}".format(URL))
 
+
 def create_animation_from_dir(path_to_files: str = "output/animated_map/frames/",
                               name_to_save: str = "animated_map.gif", path_to_save: str = None) -> None:
     images = []
@@ -189,6 +210,8 @@ def create_animation_from_dir(path_to_files: str = "output/animated_map/frames/"
 
 
 def calc_infection_probability(target_infection: Infection.infection, target_person, persons: list) -> float:
-        amount_of_infected_with_similar_infection = find_amount_of_person_infected_with(target_infection, persons) if find_amount_of_person_infected_with(target_infection=target_infection, persons=persons) != 0 else 1
-        return 1.0 - math.exp(1.0 * amount_of_infected_with_similar_infection * math.log(
-            1 - target_person.receptivity * target_infection.permissibility))
+    amount_of_infected_with_similar_infection = find_amount_of_person_infected_with(target_infection,
+                                                                                    persons) if find_amount_of_person_infected_with(
+        target_infection=target_infection, persons=persons) != 0 else 1
+    return 1.0 - math.exp(1.0 * amount_of_infected_with_similar_infection * math.log(
+        1 - target_person.receptivity * target_infection.permissibility))
