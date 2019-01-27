@@ -4,6 +4,7 @@ from matplotlib import pyplot
 from matplotlib.pyplot import show, draw
 import math
 import sys  # for future parsing of sys.args
+import threading
 import os  # for file handling  #TODO: should be removed from here ans used only in places.py
 import shutil
 import place  # class for modeling places which may or may not be infected
@@ -13,6 +14,7 @@ import random  # for random int and float numbers generation
 import infection as Infection
 import person as Person
 import agent as Agent
+
 
 def do_visit(G: nx.Graph, agent: Agent.Agent, is_node_visited_only_once: bool = False, start_node: int = None,
              is_animated: bool = True, path_to_save_yandex_animation: str = "output/animated_map/frames/",
@@ -115,7 +117,7 @@ def main():
     path_to_matplotlib_frames = os.path.join(path_to_save_matplotlib_animation, "frames/")
     path_to_yandex_frames = os.path.join(path_to_save_yandex_animation, "frames/")
     # cleansing directory with frames from previous content
-        # https://stackoverflow.com/questions/185936/how-to-delete-the-contents-of-a-folder-in-python
+    # https://stackoverflow.com/questions/185936/how-to-delete-the-contents-of-a-folder-in-python
     for target_dir in [path_to_save_matplotlib_animation, path_to_save_yandex_animation]:
         for the_file in os.listdir(target_dir):
             file_path = os.path.join(target_dir, the_file)
@@ -150,17 +152,27 @@ def main():
     # print(G.nodes[test_node])
     # print(random.choice(list(G.neighbors(0))))
     do_visit(G, agent=agent, start_node=0, is_node_visited_only_once=True,
-             is_using_strict_order=True, path_to_save_matplotlib_animation=path_to_save_matplotlib_animation, path_to_save_yandex_animation = path_to_save_yandex_animation)  # see do_visit()
+             is_using_strict_order=True, path_to_save_matplotlib_animation=path_to_save_matplotlib_animation,
+             path_to_save_yandex_animation=path_to_save_yandex_animation)  # see do_visit()
     GU.graph_show_and_save(G, name_to_save="infected_graph", path_to_save=path_to_save_matplotlib_animation,
                            to_save=True)
     GU.unify_images_size(path_to_matplotlib_frames, "frame", file_name_extension=".png")
-    GU.create_animation_from_dir(path_to_files=path_to_yandex_frames, path_to_save=path_to_save_yandex_animation,
-                                 name_to_save="animated_yandex_map.gif")
-    GU.create_animation_from_dir(path_to_files=path_to_matplotlib_frames,
-                                 path_to_save=path_to_save_matplotlib_animation,
-                                 name_to_save="matplotib_animated_map.gif")
-
+    yandex_animation_processing_thread = threading.Thread(target=(
+        GU.create_animation_from_dir(path_to_files=path_to_yandex_frames, path_to_save=path_to_save_yandex_animation,
+                                     name_to_save="animated_yandex_map.gif")))
+    # GU.create_animation_from_dir(path_to_files=path_to_yandex_frames, path_to_save=path_to_save_yandex_animation,
+    #                             name_to_save="animated_yandex_map.gif")
+    yandex_animation_processing_thread.start()
+    # GU.create_animation_from_dir(path_to_files=path_to_matplotlib_frames,
+    #                             path_to_save=path_to_save_matplotlib_animation,
+    #                             name_to_save="matplotib_animated_map.gif")
+    matplotlib_animation_processing_thread = threading.Thread(
+        target=GU.create_animation_from_dir(path_to_files=path_to_matplotlib_frames,
+                                            path_to_save=path_to_save_matplotlib_animation,
+                                            name_to_save="matplotib_animated_map.gif"))
+    matplotlib_animation_processing_thread.start()  
+    yandex_animation_processing_thread.join()
+    matplotlib_animation_processing_thread.join()
 
 if __name__ == "__main__":
     main()
-
