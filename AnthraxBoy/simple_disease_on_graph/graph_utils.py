@@ -164,14 +164,10 @@ def graph_show_and_save(G: nx.Graph, name_to_save: str = "unnamed_graph",
                 image = PIL.ImageOps.fit(image,
                                          (int(image.size[0] * resize_factor), int(image.size[1] * resize_factor)),
                                          method=Image.BICUBIC)
-                print("Resided image width {0}, height {1}".format(image.size[0], image.size[1]))
             ImageDraw.Draw(image).text((0, 0), text, (0, 0, 0), font=font)
             image.save(fullpath + ".png", "PNG")  # Saving as actual .png,
             # not just "name.png" with original extensions
             # https://stackoverflow.com/questions/19651055/saving-image-with-pil
-            unify_images_size(path_to_save, name_to_save.rstrip(string.digits), file_name_extension=".png")
-            #TODO : remove in main and call it only after saving all images
-            #TODO : In current position it's extremly slow and expensive in terms of memory
         else:
             print("Nothing to print on image  {0}, text is {1}".format(fullpath, text))
 

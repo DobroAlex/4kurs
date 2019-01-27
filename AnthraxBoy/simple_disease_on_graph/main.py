@@ -14,7 +14,6 @@ import infection as Infection
 import person as Person
 import agent as Agent
 
-
 def do_visit(G: nx.Graph, agent: Agent.Agent, is_node_visited_only_once: bool = False, start_node: int = None,
              is_animated: bool = True, path_to_save_yandex_animation: str = "output/animated_map/frames/",
              path_to_save_matplotlib_animation: str = "output/matplotlib_animated_map/frames/",
@@ -154,6 +153,7 @@ def main():
              is_using_strict_order=True, path_to_save_matplotlib_animation=path_to_save_matplotlib_animation, path_to_save_yandex_animation = path_to_save_yandex_animation)  # see do_visit()
     GU.graph_show_and_save(G, name_to_save="infected_graph", path_to_save=path_to_save_matplotlib_animation,
                            to_save=True)
+    GU.unify_images_size(path_to_matplotlib_frames, "frame", file_name_extension=".png")
     GU.create_animation_from_dir(path_to_files=path_to_yandex_frames, path_to_save=path_to_save_yandex_animation,
                                  name_to_save="animated_yandex_map.gif")
     GU.create_animation_from_dir(path_to_files=path_to_matplotlib_frames,
@@ -163,3 +163,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
