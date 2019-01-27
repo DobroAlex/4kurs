@@ -215,8 +215,8 @@ def get_map(G: nx.Graph, agent: agent, path_to_static_map_params: str = "resourc
         raise RuntimeError("Something went horribly wrong while trying to access {0}".format(URL))
 
 
-def create_animation_from_dir(path_to_files: str = "output/animated_map/frames/",
-                              name_to_save: str = "animated_map.gif", path_to_save: str = None) -> None:
+def create_animation_from_dir(path_to_files: str, path_to_save: str,
+                              name_to_save: str) -> None:
     images = []
     for filename in [f for f in os.listdir(path_to_files) if os.path.isfile(os.path.join(path_to_files, f))]:
         filename = os.path.join(path_to_files, filename)
