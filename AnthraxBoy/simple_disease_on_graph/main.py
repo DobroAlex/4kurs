@@ -4,7 +4,7 @@ from matplotlib import pyplot
 from matplotlib.pyplot import show, draw
 import math
 import sys  # for future parsing of sys.args
-import threading
+from multiprocessing import Process
 import os  # for file handling  #TODO: should be removed from here ans used only in places.py
 import shutil
 import place  # class for modeling places which may or may not be infected
@@ -157,20 +157,15 @@ def main():
     GU.graph_show_and_save(G, name_to_save="infected_graph", path_to_save=path_to_save_matplotlib_animation,
                            to_save=True)
     GU.unify_images_size(path_to_matplotlib_frames, "frame", file_name_extension=".png")
-    yandex_animation_processing_thread = threading.Thread(target=(
-        GU.create_animation_from_dir(path_to_files=path_to_yandex_frames, path_to_save=path_to_save_yandex_animation,
-                                     name_to_save="animated_yandex_map.gif")))
+    yandex_animation_processing_thread = Process(target=GU.create_animation_from_dir, args=(path_to_yandex_frames, path_to_save_yandex_animation, "animated_yandex_map.gif"))
     # GU.create_animation_from_dir(path_to_files=path_to_yandex_frames, path_to_save=path_to_save_yandex_animation,
     #                             name_to_save="animated_yandex_map.gif")
     yandex_animation_processing_thread.start()
     # GU.create_animation_from_dir(path_to_files=path_to_matplotlib_frames,
     #                             path_to_save=path_to_save_matplotlib_animation,
     #                             name_to_save="matplotib_animated_map.gif")
-    matplotlib_animation_processing_thread = threading.Thread(
-        target=GU.create_animation_from_dir(path_to_files=path_to_matplotlib_frames,
-                                            path_to_save=path_to_save_matplotlib_animation,
-                                            name_to_save="matplotib_animated_map.gif"))
-    matplotlib_animation_processing_thread.start()  
+    matplotlib_animation_processing_thread = Process(target=GU.create_animation_from_dir, args=(path_to_matplotlib_frames, path_to_save_matplotlib_animation, "matplotib_animated_map.gif"))
+    matplotlib_animation_processing_thread.start()
     yandex_animation_processing_thread.join()
     matplotlib_animation_processing_thread.join()
 
