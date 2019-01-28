@@ -138,7 +138,7 @@ def main():
     parsed_places = place.place.parse_list_of_places_from_json(path_to_file="resources/places.json")
     for item in parsed_places:
         G.add_node(parsed_places.index(item), data=item,
-                   pos=(item.latitude, item.longitude))  # adding places as nodes to graph
+                   pos=(item.longitude, item.latitude))  # adding places as nodes to graph
     for i in G.nodes:
         print("node {0}{1} = {2}".format(G.nodes[i]['data'].name, G.nodes[i]['data'].number, G.nodes[i][
             'data'].state))  # https://stackoverflow.com/questions/18169965/how-to-delete-last-item-in-list
