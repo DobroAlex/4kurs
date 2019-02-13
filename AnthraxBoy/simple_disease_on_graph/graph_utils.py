@@ -70,7 +70,7 @@ def find_amount_of_person_infected_with(target_infection: Infection.infection, p
 
 def is_all_nodes_visited(G: nx.Graph) -> bool:
     """
-    Detect  if all nodes in graph satisfies  condition [some_node]['data'].state != possible_states_enum.possible_state.not_wisited
+    Detect  if all nodes in graph satisfies  condition [some_node]['data'].state != possible_states_enum.possible_state.not_visited
     
     Parameters
     ----------
@@ -83,7 +83,7 @@ def is_all_nodes_visited(G: nx.Graph) -> bool:
 
     """
     for i in G.nodes:
-        if G.nodes[i]['data'].state == PSE.possible_state.not_wisited:
+        if G.nodes[i]['data'].state == PSE.possible_state.not_visited:
             return False
     return True
 
@@ -91,7 +91,7 @@ def is_all_nodes_visited(G: nx.Graph) -> bool:
 def form_nodes_color_map(G: nx.Graph):
     color_map = list()
     for i in G.nodes:
-        if G.nodes[i]['data'].state == PSE.possible_state.not_wisited:
+        if G.nodes[i]['data'].state == PSE.possible_state.not_visited:
             color_map.append('grey')
         elif G.nodes[i]['data'].state == PSE.possible_state.not_infected:
             color_map.append('green')
@@ -186,7 +186,7 @@ def get_map(G: nx.Graph, agent: agent, path_to_static_map_params: str = "resourc
         for i in G.nodes:
             URL += str(G.nodes[i]['data'].longitude) + "," + str(G.nodes[i]['data'].latitude) + ","
             URL += "pm"
-            URL += "gr" if G.nodes[i]['data'].state == PSE.possible_state.not_wisited else "gn" if G.nodes[i][
+            URL += "gr" if G.nodes[i]['data'].state == PSE.possible_state.not_visited else "gn" if G.nodes[i][
                                                                                                        'data'].state == PSE.possible_state.not_infected else "rd"
             URL += "s"  # mark will be small
             URL += str(G.nodes[i]['data'].number + 1)  # adding node number + 1 to map

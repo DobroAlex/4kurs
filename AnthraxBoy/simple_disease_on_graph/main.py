@@ -20,6 +20,8 @@ def do_visit(G: nx.Graph, agent: Agent.Agent, is_node_visited_only_once: bool = 
              is_animated: bool = True, path_to_save_yandex_animation: str = "output/animated_map/frames/",
              path_to_save_matplotlib_animation: str = "output/matplotlib_animated_map/frames/",
              is_using_strict_order: bool = False) -> None:
+    iteration = 0
+
     path_to_matplotlib_frames = os.path.join(path_to_save_matplotlib_animation, "frames/")
     path_to_yandex_frames = os.path.join(path_to_save_yandex_animation, "frames/")
     is_first_visit = True
@@ -35,7 +37,7 @@ def do_visit(G: nx.Graph, agent: Agent.Agent, is_node_visited_only_once: bool = 
             while True:
                 if is_using_strict_order:
                     break
-                if G.nodes[node_to_visit]['data'].state == PSE.possible_state.not_wisited:
+                if G.nodes[node_to_visit]['data'].state == PSE.possible_state.not_visited:
                     break
                 else:
                     node_to_visit = random.randint(0, G.order() - 1)
@@ -91,6 +93,8 @@ def do_visit(G: nx.Graph, agent: Agent.Agent, is_node_visited_only_once: bool = 
         GU.get_map(G, agent, name_to_save="frame" + str(len(next(os.walk(path_to_yandex_frames))[2])) + ".png",
                    path_to_save=path_to_yandex_frames)
         prev_node = node_to_visit
+        iteration += 1
+
         if is_first_visit:
             is_first_visit = False
 

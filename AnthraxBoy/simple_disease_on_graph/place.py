@@ -13,7 +13,7 @@ class place:
                  latitude: float = 100, longitude: float = 100):
         self.name = name
         self.number = number
-        self.state = possible_states_enum.possible_state.not_wisited
+        self.state = possible_states_enum.possible_state.not_visited
         self.direction = direction
         self.population = population
         if persons is None:
