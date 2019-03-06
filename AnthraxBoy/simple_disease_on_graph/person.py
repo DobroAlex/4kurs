@@ -4,7 +4,7 @@ from possible_person_states_enum import PossiblePersonState as PossiblePersonSta
 
 
 class person:
-    def __init__(self, age: int, sex: chr, receptivity: float, infected_with: dict = dict,
+    def __init__(self, age: int, sex: chr, receptivity: float, infected_with: dict = dict(),
                  person_state: PossiblePersonState = PossiblePersonState.not_infected):
         self.age = age
         self.sex = sex
@@ -14,7 +14,7 @@ class person:
 
     def __str__(self):
         return "Age : " + str(self.age) + " sex : " + self.sex + " receptivity : " + str(
-            self.receptivity) + " infected with : " + str(self.infected_with) + "current state : " + str
+            self.receptivity) + " infected with : " + str(self.infected_with) + "current state : " + str(self.person_state)
 
     @staticmethod
     def get_random_age(start: int = 18, end: int = 95) -> int:

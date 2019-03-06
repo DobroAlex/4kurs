@@ -3,15 +3,14 @@ import PIL
 from PIL import ImageDraw, Image, ImageFont, ImageOps
 import infection as Infection
 import math
-import place
 import possible_states_enum as PSE
 from matplotlib import pyplot
 import urllib
 import os
 import imageio
 import parsing_utils as PU
-import string
 import agent
+import person
 
 global_font: ImageFont = PIL.ImageFont.load_default()  # setting up global variable for font storing. Probably not best practice in
 # terms of OOP but simple solution
@@ -230,7 +229,7 @@ def create_animation_from_dir(path_to_files: str, path_to_save: str,
         imageio.mimsave(full_path_and_name_to_save, images, duration=1)
 
 
-def calc_infection_probability(target_infection: Infection.infection, target_person, persons: list) -> float:
+def calc_infection_probability(target_infection: Infection.infection, target_person: person.person, persons: list) -> float:
     amount_of_infected_with_similar_infection = find_amount_of_person_infected_with(target_infection,
                                                                                     persons) if find_amount_of_person_infected_with(
         target_infection=target_infection, persons=persons) != 0 else 1
