@@ -1,8 +1,11 @@
 import random
-import scipy
+from scipy import stats
 from possible_person_states_enum import PossiblePersonState as PossiblePersonState
+
+
 class person:
-    def __init__(self, age: int, sex: chr, receptivity: float, infected_with: dict = dict, person_state: PossiblePersonState = PossiblePersonState.not_infected):
+    def __init__(self, age: int, sex: chr, receptivity: float, infected_with: dict = dict,
+                 person_state: PossiblePersonState = PossiblePersonState.not_infected):
         self.age = age
         self.sex = sex
         self.receptivity = receptivity
@@ -20,9 +23,11 @@ class person:
     @staticmethod
     def parse_person_from_json(json_object: dict):
         ret_person = person(age=json_object.get("age", None),
-                           sex=json_object.get("sex", None),
-                           receptivity=json_object.get("receptivity", random.random())
-                           )
+                            sex=json_object.get("sex", None),
+                            receptivity=json_object.get("receptivity", 0.1 if stats.norm.rvs(loc=0.5,
+                                                                                             scale=0.25 ** 0.5) <= 0 else 0.99 if stats.norm.rvs(
+                                loc=0.5, scale=0.25 ** 0.5) >= 1 else stats.norm.rvs(loc=0.5, scale=0.25 ** 0.5))
+                            )
         if ret_person.infected_with is None:
             ret_person.infected_with = dict()
         return ret_person
