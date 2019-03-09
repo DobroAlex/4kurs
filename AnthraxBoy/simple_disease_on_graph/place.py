@@ -19,7 +19,7 @@ class place:
         if persons is None:
             self.persons = list()
             for person in range(0, population):
-                self.persons.append(Person.person(age=Person.person.get_random_age(),sex=random.choice(['m','f']),receptivity=0.5))
+                self.persons.append(Person.person(age=Person.person.get_random_age(),receptivity=0.1, sex=random.choice(['m','f'])))
 
         self.latitude = latitude
         self.longitude = longitude
