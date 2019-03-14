@@ -24,9 +24,10 @@ class person:
     def parse_person_from_json(json_object: dict):
         ret_person = person(age=json_object.get("age", None),
                             sex=json_object.get("sex", None),
-                            receptivity=json_object.get("receptivity", 0.1 if stats.norm.rvs(loc=0.5,
+                            receptivity=json_object.get("receptivity", 0.111 if stats.norm.rvs(loc=0.5,
                                                                                              scale=0.25 ** 0.5) <= 0 else 0.99 if stats.norm.rvs(
                                 loc=0.5, scale=0.25 ** 0.5) >= 1 else stats.norm.rvs(loc=0.5, scale=0.25 ** 0.5))
+
                             )
         if ret_person.infected_with is None:
             ret_person.infected_with = dict()

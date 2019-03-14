@@ -11,7 +11,7 @@
                         {
                             "age": 18,
                             "sex": "m",
-                            "receptivity": 0.5
+                            "receptivity": 0.51
                         },
                         {
                             "age": 19,
@@ -23,6 +23,9 @@
                         },
                         {
                             "receptivity": 0.8
+                        },
+                        {
+
                         }
                     ]        
     },
