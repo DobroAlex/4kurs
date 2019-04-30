@@ -150,10 +150,11 @@
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties Array="false">
-					<EquationStyle>classic</EquationStyle>
+					<EquationStyle>custom</EquationStyle>
 					<Width>100</Width>
 					<Height>40</Height>
-						<InitialValue><![CDATA[0]]></InitialValue>
+						<Expression><![CDATA[InfectedContactIntensity * Suspected * Infected + FuneralContactIntensity * Suspected * Funeral - IncubationPeriodIntnesity * Exposed]]></Expression>
+						<InitialValue><![CDATA[1]]></InitialValue>
 						<Color>-60269</Color>
 					</Properties>
 				</Variable>
@@ -166,9 +167,10 @@
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties Array="false">
-					<EquationStyle>classic</EquationStyle>
+					<EquationStyle>custom</EquationStyle>
 					<Width>100</Width>
 					<Height>40</Height>
+						<Expression><![CDATA[IncubationPeriodIntnesity * Exposed - Infected * (RecoveringIntensity * (1-DeathProbability) + DyingIntensity * DeathProbability)]]></Expression>
 						<InitialValue><![CDATA[0]]></InitialValue>
 						<Color>-65536</Color>
 					</Properties>
@@ -182,9 +184,10 @@
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties Array="false">
-					<EquationStyle>classic</EquationStyle>
+					<EquationStyle>custom</EquationStyle>
 					<Width>100</Width>
 					<Height>40</Height>
+						<Expression><![CDATA[DyingIntensity * DeathProbability * Infected - FuneralIntensity * Funeral]]></Expression>
 						<InitialValue><![CDATA[0]]></InitialValue>
 						<Color>-8388608</Color>
 					</Properties>
@@ -192,7 +195,7 @@
 				<Variable Class="StockVariable">
 					<Id>1556544367571</Id>
 					<Name><![CDATA[Dead]]></Name>
-					<X>-200</X><Y>650</Y>
+					<X>-250</X><Y>650</Y>
 					<Label><X>0</X><Y>-20</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -214,9 +217,10 @@
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties Array="false">
-					<EquationStyle>classic</EquationStyle>
+					<EquationStyle>custom</EquationStyle>
 					<Width>100</Width>
 					<Height>40</Height>
+						<Expression><![CDATA[RecoveringIntensity * (1-DeathProbability) + FuneralIntensity * Funeral]]></Expression>
 						<InitialValue><![CDATA[0]]></InitialValue>
 						<Color>-16711936</Color>
 					</Properties>
@@ -445,6 +449,336 @@
 					<LineWidth>1</LineWidth>
 					<Delay>false</Delay>
 				</Link>
+				<Link SourceId="1556546366522" TargetId="1556544220122" Polarity="null">
+					<Height>20.0</Height>
+					<PolarityPosition>0.95</PolarityPosition>
+					<Direction><X>-150</X><Y>150</Y></Direction>
+					<Id>1556568435226</Id>
+					<Name><![CDATA[InfectedContactIntensity - Exposed]]></Name>
+					<X>50</X><Y>50</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<Color/>
+					<LineWidth>1</LineWidth>
+					<Delay>false</Delay>
+				</Link>
+				<Link SourceId="1556546366522" TargetId="1556544220122" Polarity="null">
+					<Height>20.0</Height>
+					<PolarityPosition>0.95</PolarityPosition>
+					<Direction><X>-150</X><Y>150</Y></Direction>
+					<Id>1556568436400</Id>
+					<Name><![CDATA[InfectedContactIntensity - Exposed]]></Name>
+					<X>50</X><Y>50</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<Color/>
+					<LineWidth>1</LineWidth>
+					<Delay>false</Delay>
+				</Link>
+				<Link SourceId="1556544328179" TargetId="1556544220122" Polarity="null">
+					<Height>20.0</Height>
+					<PolarityPosition>0.95</PolarityPosition>
+					<Direction><X>150</X><Y>-300</Y></Direction>
+					<Id>1556568437747</Id>
+					<Name><![CDATA[Funeral - Exposed]]></Name>
+					<X>-250</X><Y>500</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<Color/>
+					<LineWidth>1</LineWidth>
+					<Delay>false</Delay>
+				</Link>
+				<Link SourceId="1556544093341" TargetId="1556544220122" Polarity="null">
+					<Height>20.0</Height>
+					<PolarityPosition>0.95</PolarityPosition>
+					<Direction><X>0</X><Y>150</Y></Direction>
+					<Id>1556568438935</Id>
+					<Name><![CDATA[Suspected - Exposed]]></Name>
+					<X>-100</X><Y>50</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<Color/>
+					<LineWidth>1</LineWidth>
+					<Delay>false</Delay>
+				</Link>
+				<Link SourceId="1556546387185" TargetId="1556544220122" Polarity="null">
+					<Height>20.0</Height>
+					<PolarityPosition>0.95</PolarityPosition>
+					<Direction><X>-150</X><Y>100</Y></Direction>
+					<Id>1556568440668</Id>
+					<Name><![CDATA[FuneralContactIntensity - Exposed]]></Name>
+					<X>50</X><Y>100</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<Color/>
+					<LineWidth>1</LineWidth>
+					<Delay>false</Delay>
+				</Link>
+				<Link SourceId="1556546387185" TargetId="1556544220122" Polarity="null">
+					<Height>20.0</Height>
+					<PolarityPosition>0.95</PolarityPosition>
+					<Direction><X>-150</X><Y>100</Y></Direction>
+					<Id>1556568440668</Id>
+					<Name><![CDATA[FuneralContactIntensity - Exposed]]></Name>
+					<X>50</X><Y>100</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<Color/>
+					<LineWidth>1</LineWidth>
+					<Delay>false</Delay>
+				</Link>
+				<Link SourceId="1556546439050" TargetId="1556544220122" Polarity="null">
+					<Height>20.0</Height>
+					<PolarityPosition>0.95</PolarityPosition>
+					<Direction><X>-150</X><Y>50</Y></Direction>
+					<Id>1556568443525</Id>
+					<Name><![CDATA[IncubationPeriodIntnesity - Exposed]]></Name>
+					<X>50</X><Y>150</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<Color/>
+					<LineWidth>1</LineWidth>
+					<Delay>false</Delay>
+				</Link>
+				<Link SourceId="1556544234682" TargetId="1556544220122" Polarity="null">
+					<Height>20.0</Height>
+					<PolarityPosition>0.95</PolarityPosition>
+					<Direction><X>0</X><Y>-150</Y></Direction>
+					<Id>1556568445740</Id>
+					<Name><![CDATA[Infected - Exposed]]></Name>
+					<X>-100</X><Y>350</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<Color/>
+					<LineWidth>1</LineWidth>
+					<Delay>false</Delay>
+				</Link>
+				<Link SourceId="1556546661875" TargetId="1556544234682" Polarity="null">
+					<Height>20.0</Height>
+					<PolarityPosition>0.95</PolarityPosition>
+					<Direction><X>-150</X><Y>0</Y></Direction>
+					<Id>1556568562818</Id>
+					<Name><![CDATA[DeathProbability - Infected]]></Name>
+					<X>50</X><Y>350</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<Color/>
+					<LineWidth>1</LineWidth>
+					<Delay>false</Delay>
+				</Link>
+				<Link SourceId="1556546439050" TargetId="1556544234682" Polarity="null">
+					<Height>20.0</Height>
+					<PolarityPosition>0.95</PolarityPosition>
+					<Direction><X>-150</X><Y>200</Y></Direction>
+					<Id>1556568564069</Id>
+					<Name><![CDATA[IncubationPeriodIntnesity - Infected]]></Name>
+					<X>50</X><Y>150</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<Color/>
+					<LineWidth>1</LineWidth>
+					<Delay>false</Delay>
+				</Link>
+				<Link SourceId="1556544220122" TargetId="1556544234682" Polarity="null">
+					<Height>20.0</Height>
+					<PolarityPosition>0.95</PolarityPosition>
+					<Direction><X>0</X><Y>150</Y></Direction>
+					<Id>1556568565606</Id>
+					<Name><![CDATA[Exposed - Infected]]></Name>
+					<X>-100</X><Y>200</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<Color/>
+					<LineWidth>1</LineWidth>
+					<Delay>false</Delay>
+				</Link>
+				<Link SourceId="1556546631358" TargetId="1556544234682" Polarity="null">
+					<Height>20.0</Height>
+					<PolarityPosition>0.95</PolarityPosition>
+					<Direction><X>-150</X><Y>100</Y></Direction>
+					<Id>1556568567628</Id>
+					<Name><![CDATA[DyingIntensity - Infected]]></Name>
+					<X>50</X><Y>250</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<Color/>
+					<LineWidth>1</LineWidth>
+					<Delay>false</Delay>
+				</Link>
+				<Link SourceId="1556546661875" TargetId="1556544234682" Polarity="null">
+					<Height>20.0</Height>
+					<PolarityPosition>0.95</PolarityPosition>
+					<Direction><X>-150</X><Y>0</Y></Direction>
+					<Id>1556568562818</Id>
+					<Name><![CDATA[DeathProbability - Infected]]></Name>
+					<X>50</X><Y>350</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<Color/>
+					<LineWidth>1</LineWidth>
+					<Delay>false</Delay>
+				</Link>
+				<Link SourceId="1556546572274" TargetId="1556544234682" Polarity="null">
+					<Height>20.0</Height>
+					<PolarityPosition>0.95</PolarityPosition>
+					<Direction><X>-150</X><Y>150</Y></Direction>
+					<Id>1556568589036</Id>
+					<Name><![CDATA[RecoveringIntensity - Infected]]></Name>
+					<X>50</X><Y>200</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<Color/>
+					<LineWidth>1</LineWidth>
+					<Delay>false</Delay>
+				</Link>
+				<Link SourceId="1556546661875" TargetId="1556544328179" Polarity="null">
+					<Height>20.0</Height>
+					<PolarityPosition>0.95</PolarityPosition>
+					<Direction><X>-300</X><Y>150</Y></Direction>
+					<Id>1556568644039</Id>
+					<Name><![CDATA[DeathProbability - Funeral]]></Name>
+					<X>50</X><Y>350</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<Color/>
+					<LineWidth>1</LineWidth>
+					<Delay>false</Delay>
+				</Link>
+				<Link SourceId="1556544234682" TargetId="1556544328179" Polarity="null">
+					<Height>20.0</Height>
+					<PolarityPosition>0.95</PolarityPosition>
+					<Direction><X>-150</X><Y>150</Y></Direction>
+					<Id>1556568647027</Id>
+					<Name><![CDATA[Infected - Funeral]]></Name>
+					<X>-100</X><Y>350</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<Color/>
+					<LineWidth>1</LineWidth>
+					<Delay>false</Delay>
+				</Link>
+				<Link SourceId="1556546631358" TargetId="1556544328179" Polarity="null">
+					<Height>20.0</Height>
+					<PolarityPosition>0.95</PolarityPosition>
+					<Direction><X>-300</X><Y>250</Y></Direction>
+					<Id>1556568648793</Id>
+					<Name><![CDATA[DyingIntensity - Funeral]]></Name>
+					<X>50</X><Y>250</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<Color/>
+					<LineWidth>1</LineWidth>
+					<Delay>false</Delay>
+				</Link>
+				<Link SourceId="1556546645788" TargetId="1556544328179" Polarity="null">
+					<Height>20.0</Height>
+					<PolarityPosition>0.95</PolarityPosition>
+					<Direction><X>-300</X><Y>200</Y></Direction>
+					<Id>1556568650984</Id>
+					<Name><![CDATA[FuneralIntensity - Funeral]]></Name>
+					<X>50</X><Y>300</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<Color/>
+					<LineWidth>1</LineWidth>
+					<Delay>false</Delay>
+				</Link>
+				<Link SourceId="1556546661875" TargetId="1556544852985" Polarity="null">
+					<Height>20.0</Height>
+					<PolarityPosition>0.95</PolarityPosition>
+					<Direction><X>-100</X><Y>150</Y></Direction>
+					<Id>1556568749030</Id>
+					<Name><![CDATA[DeathProbability - Recovered]]></Name>
+					<X>50</X><Y>350</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<Color/>
+					<LineWidth>1</LineWidth>
+					<Delay>false</Delay>
+				</Link>
+				<Link SourceId="1556544328179" TargetId="1556544852985" Polarity="null">
+					<Height>20.0</Height>
+					<PolarityPosition>0.95</PolarityPosition>
+					<Direction><X>200</X><Y>0</Y></Direction>
+					<Id>1556568750148</Id>
+					<Name><![CDATA[Funeral - Recovered]]></Name>
+					<X>-250</X><Y>500</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<Color/>
+					<LineWidth>1</LineWidth>
+					<Delay>false</Delay>
+				</Link>
+				<Link SourceId="1556546572274" TargetId="1556544852985" Polarity="null">
+					<Height>20.0</Height>
+					<PolarityPosition>0.95</PolarityPosition>
+					<Direction><X>-100</X><Y>300</Y></Direction>
+					<Id>1556568751624</Id>
+					<Name><![CDATA[RecoveringIntensity - Recovered]]></Name>
+					<X>50</X><Y>200</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<Color/>
+					<LineWidth>1</LineWidth>
+					<Delay>false</Delay>
+				</Link>
+				<Link SourceId="1556546645788" TargetId="1556544852985" Polarity="null">
+					<Height>20.0</Height>
+					<PolarityPosition>0.95</PolarityPosition>
+					<Direction><X>-100</X><Y>200</Y></Direction>
+					<Id>1556568752963</Id>
+					<Name><![CDATA[FuneralIntensity - Recovered]]></Name>
+					<X>50</X><Y>300</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<Color/>
+					<LineWidth>1</LineWidth>
+					<Delay>false</Delay>
+				</Link>
 			</Dependences>
 			<AgentLinks>
 				<AgentLink>
@@ -469,10 +803,122 @@
 			</AgentLinks>
 
 
+			<Charts>
+    			<TimePlot>
+					<Id>1556568831751</Id>
+					<Name><![CDATA[plot]]></Name>
+					<X>0</X><Y>600</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<AutoUpdate>true</AutoUpdate>
+					<OccurrenceAtTime>true</OccurrenceAtTime>
+					<OccurrenceDate>1556611200000</OccurrenceDate>
+					<OccurrenceTime Class="CodeUnitValue">
+						<Code><![CDATA[0]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[DAY]]></Unit>
+					</OccurrenceTime>
+					<RecurrenceCode Class="CodeUnitValue">
+						<Code><![CDATA[1]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[DAY]]></Unit>
+					</RecurrenceCode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Width>300</Width>
+					<Height>250</Height>
+					<BackgroundColor/>
+					<BorderColor/>
+					<ChartArea>
+						<XOffset>50</XOffset>
+						<YOffset>30</YOffset>
+						<Width>220</Width>
+						<Height>160</Height>
+						<BackgroundColor>-1</BackgroundColor>
+						<BorderColor>-16777216</BorderColor>
+						<GridColor>-12566464</GridColor>
+					</ChartArea>
+					<Legend>
+						<Place>SOUTH</Place>
+						<TextColor>-16777216</TextColor>
+						<Size>30</Size>
+					</Legend>
+					<Labels>
+						<HorLabelsPosition>DEFAULT</HorLabelsPosition>
+						<VerLabelsPosition>DEFAULT</VerLabelsPosition>
+						<TextColor>-12566464</TextColor>
+					</Labels>
+					<ShowLegend>true</ShowLegend>
+					<TimeWindowsMovementType>MOVEMENT_WITH_TIME</TimeWindowsMovementType>		
+					<TimeWindowUnits>MODEL_TIME_UNIT</TimeWindowUnits>
+					<VerScaleFromExpression><![CDATA[0]]></VerScaleFromExpression>
+					<VerScaleToExpression><![CDATA[1]]></VerScaleToExpression>
+					<VerScaleType>AUTO</VerScaleType>
+					<DrawLine>true</DrawLine>
+					<Interpolation>LINEAR</Interpolation>
+					<DatasetExpression>  
+						<Title><![CDATA[Suspected]]></Title>
+					<Expression><![CDATA[my_dataset]]></Expression>
+					<Color>-256</Color>
+					<Expression2><![CDATA[Suspected]]></Expression2>
+					<Expression2Flag>true</Expression2Flag>
+						<PointStyle>NONE</PointStyle>
+						<LineWidth>1.0</LineWidth>
+					</DatasetExpression>
+					<DatasetExpression>  
+						<Title><![CDATA[Exposed]]></Title>
+					<Expression><![CDATA[my_dataset1]]></Expression>
+					<Color>-60269</Color>
+					<Expression2><![CDATA[Exposed]]></Expression2>
+					<Expression2Flag>true</Expression2Flag>
+						<PointStyle>NONE</PointStyle>
+						<LineWidth>1.0</LineWidth>
+					</DatasetExpression>
+					<DatasetExpression>  
+						<Title><![CDATA[Infected]]></Title>
+					<Expression><![CDATA[my_dataset2]]></Expression>
+					<Color>-65536</Color>
+					<Expression2><![CDATA[Infected]]></Expression2>
+					<Expression2Flag>true</Expression2Flag>
+						<PointStyle>CIRCLE</PointStyle>
+						<LineWidth>1.0</LineWidth>
+					</DatasetExpression>
+					<DatasetExpression>  
+						<Title><![CDATA[Funeral]]></Title>
+					<Expression><![CDATA[my_dataset3]]></Expression>
+					<Color>-8388608</Color>
+					<Expression2><![CDATA[Funeral]]></Expression2>
+					<Expression2Flag>true</Expression2Flag>
+						<PointStyle>SQUARE</PointStyle>
+						<LineWidth>1.0</LineWidth>
+					</DatasetExpression>
+					<DatasetExpression>  
+						<Title><![CDATA[Dead]]></Title>
+					<Expression><![CDATA[my_dataset4]]></Expression>
+					<Color>-4144960</Color>
+					<Expression2><![CDATA[Dead]]></Expression2>
+					<Expression2Flag>true</Expression2Flag>
+						<PointStyle>SQUARE</PointStyle>
+						<LineWidth>1.0</LineWidth>
+					</DatasetExpression>
+					<DatasetExpression>  
+						<Title><![CDATA[Recovered]]></Title>
+					<Expression><![CDATA[my_dataset5]]></Expression>
+					<Color>-16711936</Color>
+					<Expression2><![CDATA[Recovered]]></Expression2>
+					<Expression2Flag>true</Expression2Flag>
+						<PointStyle>NONE</PointStyle>
+						<LineWidth>1.0</LineWidth>
+					</DatasetExpression>
+					<SamplesToKeep>23</SamplesToKeep>
+					<TimeWindowExpression><![CDATA[100]]></TimeWindowExpression>
+					<FillAreaUnderLine>true</FillAreaUnderLine>
+					<LabelFormat>MODEL_TIME_UNITS</LabelFormat>
+    			</TimePlot>
+			</Charts>
 
 		</ActiveObjectClass>
 	</ActiveObjectClasses>	
-	<DifferentialEquationsMethod>EULER</DifferentialEquationsMethod>
+	<DifferentialEquationsMethod>RK4</DifferentialEquationsMethod>
 	<MixedEquationsMethod>RK45_NEWTON</MixedEquationsMethod>
 	<AlgebraicEquationsMethod>MODIFIED_NEWTON</AlgebraicEquationsMethod>
 	<AbsoluteAccuracy>1.0E-5</AbsoluteAccuracy>
@@ -496,13 +942,13 @@
 	<RunConfiguration ActiveObjectClassId="1556541312011">
 		<Id>1556541312014</Id>
 		<Name><![CDATA[RunConfiguration]]></Name>
-		<MaximumMemory>512</MaximumMemory>
+		<MaximumMemory>4096</MaximumMemory>
 		<ModelTimeProperties>
 			<StopOption><![CDATA[Stop at specified time]]></StopOption>
-			<InitialDate><![CDATA[1556496000000]]></InitialDate>	
+			<InitialDate><![CDATA[1554076800000]]></InitialDate>	
 			<InitialTime><![CDATA[0.0]]></InitialTime>	
-			<FinalDate><![CDATA[1559088000000]]></FinalDate>	
-			<FinalTime><![CDATA[100.0]]></FinalTime>	
+			<FinalDate><![CDATA[1555977600000]]></FinalDate>	
+			<FinalTime><![CDATA[22.0]]></FinalTime>	
 		</ModelTimeProperties>
 		<AnimationProperties>
 			<StopNever>true</StopNever>
@@ -524,8 +970,8 @@
 			<Name><![CDATA[Simulation]]></Name>
 			<ClientAreaTopLeft><X>0</X><Y>0</Y></ClientAreaTopLeft>
 			<CommandLineArguments><![CDATA[]]></CommandLineArguments>
-			<MaximumMemory>512</MaximumMemory>
-			<RandomNumberGenerationType>fixedSeed</RandomNumberGenerationType>
+			<MaximumMemory>4096</MaximumMemory>
+			<RandomNumberGenerationType>randomSeed</RandomNumberGenerationType>
 			<CustomGeneratorCode>new Random()</CustomGeneratorCode>
 			<SeedValue>1</SeedValue>
 			<SelectionModeForSimultaneousEvents>LIFO</SelectionModeForSimultaneousEvents>
@@ -584,15 +1030,15 @@
 				<ExecutionMode><![CDATA[realTimeScaled]]></ExecutionMode>
 				<Title><![CDATA[SEIFDR Ebola vol 2 : Simulation]]></Title>	
 				<EnableDeveloperPanel>true</EnableDeveloperPanel>
-				<ShowDeveloperPanelOnStart>false</ShowDeveloperPanelOnStart>
+				<ShowDeveloperPanelOnStart>true</ShowDeveloperPanelOnStart>
 				<RealTimeScale>1.0</RealTimeScale>
 			</PresentationProperties>
 			<ModelTimeProperties>
-				<StopOption><![CDATA[Never]]></StopOption>
+				<StopOption><![CDATA[Stop at specified time]]></StopOption>
 				<InitialDate><![CDATA[1556496000000]]></InitialDate>	
 				<InitialTime><![CDATA[0.0]]></InitialTime>	
-				<FinalDate><![CDATA[1559088000000]]></FinalDate>	
-				<FinalTime><![CDATA[100.0]]></FinalTime>	
+				<FinalDate><![CDATA[1558396800000]]></FinalDate>	
+				<FinalTime><![CDATA[22.0]]></FinalTime>	
 			</ModelTimeProperties>
 		</SimulationExperiment>	
 	</Experiments>
