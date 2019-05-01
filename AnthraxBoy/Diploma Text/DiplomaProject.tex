@@ -60,6 +60,8 @@
 \renewcommand*\thesection{\arabic{section}}
     
 \begin{document}
+	\numberwithin{equation}{subsection} %Стилистика нумерования уравненений в \begin{equation} \label{name:\d}. Тут -- номер главы.сабсекция.номер_уравнения_с_лэйблом_name
+	% https://en.wikibooks.org/wiki/LaTeX/Advanced_Mathematics#Equation_numbering
 	\renewcommand{\bibname}{Список использованной литературы}
 	%\pagestyle{empty} % нумерация выкл.
 	\input{Diploma-Title}% это титульный лист
