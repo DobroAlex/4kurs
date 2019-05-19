@@ -136,8 +136,8 @@
 					<EquationStyle>custom</EquationStyle>
 					<Width>100</Width>
 					<Height>40</Height>
-						<Expression><![CDATA[InfectedContactIntensity * Suspected * Infected + FuneralContactIntensity * Suspected * Funeral]]></Expression>
-						<InitialValue><![CDATA[InitialPopulation]]></InitialValue>
+						<Expression><![CDATA[InfectedContactIntensity * Suspected * Infected - FuneralContactIntensity*Suspected*Funeral]]></Expression>
+						<InitialValue><![CDATA[InitialPopulation-Exposed-Infected]]></InitialValue>
 						<Color>-256</Color>
 					</Properties>
 				</Variable>
@@ -171,7 +171,7 @@
 					<Width>100</Width>
 					<Height>40</Height>
 						<Expression><![CDATA[IncubationPeriodIntnesity * Exposed - Infected * (RecoveringIntensity * (1-DeathProbability) + DyingIntensity * DeathProbability)]]></Expression>
-						<InitialValue><![CDATA[0]]></InitialValue>
+						<InitialValue><![CDATA[1]]></InitialValue>
 						<Color>-65536</Color>
 					</Properties>
 				</Variable>
@@ -201,9 +201,10 @@
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties Array="false">
-					<EquationStyle>classic</EquationStyle>
+					<EquationStyle>custom</EquationStyle>
 					<Width>100</Width>
 					<Height>40</Height>
+						<Expression><![CDATA[Funeral * FuneralIntensity]]></Expression>
 						<InitialValue><![CDATA[0]]></InitialValue>
 						<Color>-9868951</Color>
 					</Properties>
@@ -237,6 +238,9 @@
 						<Type><![CDATA[double]]></Type>
 						<UnitType><![CDATA[NONE]]></UnitType>
 						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[0.5]]></Code>
+						</DefaultValue>
 						<ParameterEditor>
 							<Id>1556546366520</Id>
 							<EditorContolType>TEXT_BOX</EditorContolType>
@@ -258,6 +262,9 @@
 						<Type><![CDATA[double]]></Type>
 						<UnitType><![CDATA[NONE]]></UnitType>
 						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[0.3]]></Code>
+						</DefaultValue>
 						<ParameterEditor>
 							<Id>1556546387183</Id>
 							<EditorContolType>TEXT_BOX</EditorContolType>
@@ -278,7 +285,11 @@
 					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
 						<Type><![CDATA[double]]></Type>
 						<UnitType><![CDATA[NONE]]></UnitType>
+						<UnitOfValue Class="RateUnits"><![CDATA[PER_DAY]]></UnitOfValue>
 						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[0.000000001]]></Code>
+						</DefaultValue>
 						<ParameterEditor>
 							<Id>1556546439048</Id>
 							<EditorContolType>TEXT_BOX</EditorContolType>
@@ -300,6 +311,9 @@
 						<Type><![CDATA[double]]></Type>
 						<UnitType><![CDATA[NONE]]></UnitType>
 						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[1./21.]]></Code>
+						</DefaultValue>
 						<ParameterEditor>
 							<Id>1556546572272</Id>
 							<EditorContolType>TEXT_BOX</EditorContolType>
@@ -321,6 +335,9 @@
 						<Type><![CDATA[double]]></Type>
 						<UnitType><![CDATA[NONE]]></UnitType>
 						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[1./20.]]></Code>
+						</DefaultValue>
 						<ParameterEditor>
 							<Id>1556546631356</Id>
 							<EditorContolType>TEXT_BOX</EditorContolType>
@@ -342,6 +359,9 @@
 						<Type><![CDATA[double]]></Type>
 						<UnitType><![CDATA[NONE]]></UnitType>
 						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[3]]></Code>
+						</DefaultValue>
 						<ParameterEditor>
 							<Id>1556546645786</Id>
 							<EditorContolType>TEXT_BOX</EditorContolType>
@@ -363,6 +383,9 @@
 						<Type><![CDATA[double]]></Type>
 						<UnitType><![CDATA[NONE]]></UnitType>
 						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[0.75]]></Code>
+						</DefaultValue>
 						<ParameterEditor>
 							<Id>1556546661873</Id>
 							<EditorContolType>TEXT_BOX</EditorContolType>
@@ -779,6 +802,51 @@
 					<LineWidth>1</LineWidth>
 					<Delay>false</Delay>
 				</Link>
+				<Link SourceId="1556546645788" TargetId="1556544367571" Polarity="null">
+					<Height>20.0</Height>
+					<PolarityPosition>0.95</PolarityPosition>
+					<Direction><X>-300</X><Y>350</Y></Direction>
+					<Id>1558180977922</Id>
+					<Name><![CDATA[FuneralIntensity - Dead]]></Name>
+					<X>50</X><Y>300</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<Color/>
+					<LineWidth>1</LineWidth>
+					<Delay>false</Delay>
+				</Link>
+				<Link SourceId="1556544328179" TargetId="1556544367571" Polarity="null">
+					<Height>20.0</Height>
+					<PolarityPosition>0.95</PolarityPosition>
+					<Direction><X>0</X><Y>150</Y></Direction>
+					<Id>1558180979141</Id>
+					<Name><![CDATA[Funeral - Dead]]></Name>
+					<X>-250</X><Y>500</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<Color/>
+					<LineWidth>1</LineWidth>
+					<Delay>false</Delay>
+				</Link>
+				<Link SourceId="1556544220122" TargetId="1556544093341" Polarity="null">
+					<Height>20.0</Height>
+					<PolarityPosition>0.95</PolarityPosition>
+					<Direction><X>0</X><Y>-150</Y></Direction>
+					<Id>1558181102979</Id>
+					<Name><![CDATA[Exposed - Suspected]]></Name>
+					<X>-100</X><Y>200</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<Color/>
+					<LineWidth>1</LineWidth>
+					<Delay>false</Delay>
+				</Link>
 			</Dependences>
 			<AgentLinks>
 				<AgentLink>
@@ -1012,7 +1080,7 @@
 	</ActiveObjectClasses>	
 	<DifferentialEquationsMethod>RK4</DifferentialEquationsMethod>
 	<MixedEquationsMethod>RK45_NEWTON</MixedEquationsMethod>
-	<AlgebraicEquationsMethod>MODIFIED_NEWTON</AlgebraicEquationsMethod>
+	<AlgebraicEquationsMethod>CLASSICAL_NEWTON</AlgebraicEquationsMethod>
 	<AbsoluteAccuracy>1.0E-5</AbsoluteAccuracy>
 	<FixedTimeStep>0.001</FixedTimeStep>
 	<RelativeAccuracy>1.0E-5</RelativeAccuracy>
