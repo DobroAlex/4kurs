@@ -152,7 +152,7 @@ CPU: Intel(R) Core(TM) i7-8550U CPU @ 1.80GHz (8 CPUs), ~2.0GHz \\
 
 
 \begin{figure}[H] 
-	\centering{\includegraphics[scale=1.5]{Images/RealDeathsDynamic.png}}
+	\centering{\includegraphics[scale=1.25]{Images/RealDeathsDynamic.png}}
 	\caption{Реальная динамика смертности в городах. Кенема и Кайлахун показаны голубым и оранжевым цветом соответственно.}
 	\label{RealDeadData}
 \end{figure}
@@ -166,14 +166,18 @@ CPU: Intel(R) Core(TM) i7-8550U CPU @ 1.80GHz (8 CPUs), ~2.0GHz \\
 %TABLE: таблица параметров для SEIFDR 
 %TABLE: таблица параметров для мультиагентной 
 
-На графиках \ref{FinishedModelDead}  представлены результаты работы откалиброванных моделей для города Кайлахун. 
+На графиках \ref{FinishedModelDead}, \ref{RealInfectedDynamic}  представлены результаты работы откалиброванных моделей для города Кайлахун. 
 
 %IMG: график заболеваемости 
 %IMG: график смертонсти
-
+\begin{figure}[H]
+	\centering{\includegraphics[scale=1.25]{Images/RealInfectedDynamic.png}}
+	\caption{Результаты работы моделей по динамике инфицированных. Реальные данные, SEIFDR и мультиагентная модели показаны соответственно черным, фиолетовым и зеленым цветами.} 
+	\label{RealInfectedDynamic}
+\end{figure}
 \begin{figure}[H]
 	\centering{\includegraphics[scale=1.25]{Images/FinishedModelDead.png}}
-	\caption{Результаты работы моделей. Реальные данные, SEIFDR и мультиагентная модели показаны соответственно черным, фиолетовым и зеленым цветами.}
+	\caption{Результаты работы моделей по динамике умерших. Реальные данные, SEIFDR и мультиагентная модели показаны соответственно черным, фиолетовым и зеленым цветами.}
 	\label{FinishedModelDead}
 \end{figure}
 
