@@ -63,7 +63,8 @@
 \renewcommand{\labelenumii}{\arabic{enumi}.\arabic{en\part{title}umii}.}% Меняем везде перечисления на цифра.цифра
 \renewcommand{\theenumiii}{.\arabic{enumiii}}% Меняем везде перечисления на цифра.цифра
 \renewcommand{\labelenumiii}{\arabic{enumi}.\arabic{enumii}.\arabic{enumiii}.}% Меняем везде перечисления на цифра.цифра
-\addto\captionsrussian{\def\refname{Список используемой литературы}}
+%http://fkn.ktu10.com/?q=node/6860
+\addto\captionsrussian{\def\refname{Список  литературы}}
 \renewcommand{\rmdefault}{ftm}
 %NB: три команды ниже переопределяют некотрые шрифты  и дают поддержку жирного и прочиах текстов https://www.linux.org.ru/forum/general/4219163
 \renewcommand{\rmdefault}{cmr} % Шрифт с засечками
@@ -74,7 +75,8 @@
 \begin{document}
 	\numberwithin{equation}{subsection} %Стилистика нумерования уравненений в \begin{equation} \label{name:\d}. Тут -- номер главы.сабсекция.номер_уравнения_с_лэйблом_name
 	% https://en.wikibooks.org/wiki/LaTeX/Advanced_Mathematics#Equation_numbering
-	\renewcommand{\bibname}{Список использованной литературы}
+	%http://fkn.ktu10.com/?q=node/6860
+	\renewcommand{\bibname}{Список  литературы}
 	%\pagestyle{empty} % нумерация выкл.
 	\input{Diploma-Title}% это титульный лист
 
