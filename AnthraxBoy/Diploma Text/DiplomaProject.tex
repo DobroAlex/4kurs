@@ -52,11 +52,7 @@
 \usepackage{tikz} 
 \usetikzlibrary{arrows, shapes.geometric}
 
-\tikzstyle{SEIFDRState} = [rectangle, rounded corners, minimum width=3cm, minimum height=1cm,text centered, draw=black]
-\tikzstyle{SEIFDRInnerState} =  [trapezium, trapezium left angle=70, trapezium right angle=110, minimum width=1cm, minimum height=1cm, text centered, draw=black]
 
-
-\tikzstyle{arrow} = [thick,->,>=stealth]
 
 \renewcommand{\theenumi}{\arabic{enumi}}% Меняем везде перечисления на цифра.цифра
 \renewcommand{\labelenumi}{\arabic{enumi}}% Меняем везде перечисления на цифра.цифра
@@ -72,7 +68,8 @@
 \renewcommand{\sfdefault}{cmss} % Шрифт без засечек
 \renewcommand{\ttdefault}{cmtt} % Моноширинный шрифт
 \renewcommand*\thesection{\arabic{section}}
-    
+\renewcommand{\thefigure}{\thesubsection.\arabic{figure}} %Нумерация рисунков типа Рис 1.1. http://mydebianblog.blogspot.com/2008/12/latex_15.html
+
 \begin{document}
 	\numberwithin{equation}{subsection} %Стилистика нумерования уравненений в \begin{equation} \label{name:\d}. Тут -- номер главы.сабсекция.номер_уравнения_с_лэйблом_name
 	% https://en.wikibooks.org/wiki/LaTeX/Advanced_Mathematics#Equation_numbering
