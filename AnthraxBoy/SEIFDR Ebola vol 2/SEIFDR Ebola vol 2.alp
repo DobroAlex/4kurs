@@ -120,7 +120,7 @@
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
 						<Type><![CDATA[int]]></Type>        
 						<InitialValue Class="CodeValue">
-							<Code><![CDATA[18000]]></Code>
+							<Code><![CDATA[200]]></Code>
 						</InitialValue>
 					</Properties>
 				</Variable>
@@ -269,7 +269,7 @@
 						<UnitType><![CDATA[NONE]]></UnitType>
 						<SdArray>false</SdArray>
 						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[0.05]]></Code>
+							<Code><![CDATA[0.128+0.80]]></Code>
 						</DefaultValue>
 						<ParameterEditor>
 							<Id>1556546366520</Id>
@@ -293,7 +293,7 @@
 						<UnitType><![CDATA[NONE]]></UnitType>
 						<SdArray>false</SdArray>
 						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[0.03]]></Code>
+							<Code><![CDATA[0.111]]></Code>
 						</DefaultValue>
 						<ParameterEditor>
 							<Id>1556546387183</Id>
@@ -318,7 +318,7 @@
 						<UnitOfValue Class="RateUnits"><![CDATA[PER_DAY]]></UnitOfValue>
 						<SdArray>false</SdArray>
 						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[0.001]]></Code>
+							<Code><![CDATA[1./10.]]></Code>
 						</DefaultValue>
 						<ParameterEditor>
 							<Id>1556546439048</Id>
@@ -342,7 +342,7 @@
 						<UnitType><![CDATA[NONE]]></UnitType>
 						<SdArray>false</SdArray>
 						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[0.05]]></Code>
+							<Code><![CDATA[1./20.]]></Code>
 						</DefaultValue>
 						<ParameterEditor>
 							<Id>1556546572272</Id>
@@ -366,7 +366,7 @@
 						<UnitType><![CDATA[NONE]]></UnitType>
 						<SdArray>false</SdArray>
 						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[0.05]]></Code>
+							<Code><![CDATA[1./10.38]]></Code>
 						</DefaultValue>
 						<ParameterEditor>
 							<Id>1556546631356</Id>
@@ -390,7 +390,7 @@
 						<UnitType><![CDATA[NONE]]></UnitType>
 						<SdArray>false</SdArray>
 						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[1]]></Code>
+							<Code><![CDATA[1./4.50]]></Code>
 						</DefaultValue>
 						<ParameterEditor>
 							<Id>1556546645786</Id>
@@ -414,7 +414,7 @@
 						<UnitType><![CDATA[NONE]]></UnitType>
 						<SdArray>false</SdArray>
 						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[0.09]]></Code>
+							<Code><![CDATA[0.75]]></Code>
 						</DefaultValue>
 						<ParameterEditor>
 							<Id>1556546661873</Id>
