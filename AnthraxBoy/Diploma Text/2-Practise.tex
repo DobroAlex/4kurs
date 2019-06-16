@@ -172,14 +172,14 @@ CPU: Intel(R) Core(TM) i7-8550U CPU @ 1.80GHz (8 CPUs), ~2.0GHz \\
 			\hline
 			Параметр                                                                          & Значение                                       \\ \hline
 			Начальная популяция                                                               & 18000                                          \\ \hline
-			Suspected(0)                                                                      & 18000-Exposed(0)                               \\ \hline
+			Suspected(0)                                                                      & 18000-Exposed(0)-Infected(0)                              \\ \hline
 			Exposed(0)                                                                        & 25 \\ \hline
 			Infected(0)                                                                        & 15 \\ \hline
-			\begin{tabular}[c]{@{}l@{}}Интенсивность контактов \\ между больными\end{tabular} & 0.7937                                          \\ \hline
-			\begin{tabular}[c]{@{}l@{}}Интенсивность контактов\\ с умершими\end{tabular}      & 0.455                                          \\ \hline
-			\begin{tabular}[c]{@{}l@{}}Интенсивность \\ инкубационного периода\end{tabular}   & 0.1                                            \\ \hline
-			Интенсивность выздоровления                                                       & 0.0625                                         \\ \hline
-			\begin{tabular}[c]{@{}l@{}}Интенсивность \\ умирания\end{tabular}                 & 0.1145                                      \\ \hline
+			\begin{tabular}[c]{@{}l@{}}Интенсивность контактов \\ между больными\end{tabular} & 0.5608                                          \\ \hline
+			\begin{tabular}[c]{@{}l@{}}Интенсивность контактов\\ с умершими\end{tabular}      & 0.1481                                          \\ \hline
+			\begin{tabular}[c]{@{}l@{}}Интенсивность \\ инкубационного периода\end{tabular}   & 0.073                                            \\ \hline
+			Интенсивность выздоровления                                                       & 0.064                                         \\ \hline
+			\begin{tabular}[c]{@{}l@{}}Интенсивность \\ умирания\end{tabular}                 & 0.1266                                      \\ \hline
 			Интенсивность похорон                                                             & 0.4868                                        \\ \hline
 			Вероятность смерти                                                                & 0.873                                           \\ \hline
 		\end{tabular}%
@@ -203,16 +203,16 @@ CPU: Intel(R) Core(TM) i7-8550U CPU @ 1.80GHz (8 CPUs), ~2.0GHz \\
 	%
 	$\tau$ & 1 \\ \hline
 	$S_i$ & \begin{tabular}[c]{@{}l@{}}Нормально распределено \\ на интервале [0.1; 2]\end{tabular} \\ \hline
-	\begin{tabular}[c]{@{}l@{}}Начальная \\ поплуяция\end{tabular} & 18000 \\ \hline
-	Suspected(0) & 18000-Exposed(0) \\ \hline
-	Exposed(0) & \begin{tabular}[c]{@{}l@{}}Нормально распределено \\ на интервале [1;10]\end{tabular} \\ \hline
+	\begin{tabular}[c]{@{}l@{}}Начальная \\ популяция\end{tabular} & 18000 \\ \hline
+	Suspected(0) & 18000-Exposed(0)-Infected(0) \\ \hline
+	Exposed(0) & 25 \\ \hline
+	Infected(0)                                                                        & 15 \\ \hline
 	$\rho$ & 0.759 \\ \hline
-	\begin{tabular}[c]{@{}l@{}}Возрастной\\ коэффициент $\beta$\end{tabular} & \begin{tabular}[c]{@{}l@{}}Возраст         Значение $\beta$\\ 0-14                1.8\\ 15-24             1.73\\ 25-54             1\\ 55-64             1.25\\ 65+                1.6\end{tabular} \\ \hline
-	\begin{tabular}[c]{@{}l@{}}Интенсивность \\ выздоровления\end{tabular} & 0.0625 \\ \hline
-	\begin{tabular}[c]{@{}l@{}}Интенсивность\\ умирания\end{tabular} & 0.0963391 \\ \hline
-	\begin{tabular}[c]{@{}l@{}}Интенсивность \\ выздоровления\end{tabular} & 0.0625 \\ \hline
-	\begin{tabular}[c]{@{}l@{}}Интенсивность\\ похорон\end{tabular} & 0.22222 \\ \hline
-	\begin{tabular}[c]{@{}l@{}}Вероятность\\ смерти\end{tabular} & 0.75 \\ \hline
+	\begin{tabular}[c]{@{}l@{}}Возрастной\\ коэффициент $\beta$\end{tabular} & \begin{tabular}[c]{@{}l@{}}Возраст         Значение $\beta$\\ 0-14                1.8\\ 15-24             1.73\\ 25-54             1\\ 55-64             1.25\\ 65\textbf{+}                1.6\end{tabular} \\ \hline
+	\begin{tabular}[c]{@{}l@{}}Интенсивность \\ выздоровления\end{tabular} & 0.064 \\ \hline
+	\begin{tabular}[c]{@{}l@{}}Интенсивность\\ умирания\end{tabular} & 0.1266 \\ \hline
+	\begin{tabular}[c]{@{}l@{}}Интенсивность\\ похорон\end{tabular} & 0.4868 \\ \hline
+	\begin{tabular}[c]{@{}l@{}}Вероятность\\ смерти\end{tabular} & 0.873 \\ \hline
 	
 	\caption{Откалиброванные параметры мультиагентной модели}
 	\label{tab:Marks:InfectedAgent}
