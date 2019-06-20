@@ -117,7 +117,7 @@
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+					<Properties SaveInSnapshot="true" Constant="true" AccessType="public" StaticVariable="false">
 						<Type><![CDATA[int]]></Type>        
 						<InitialValue Class="CodeValue">
 							<Code><![CDATA[200]]></Code>
@@ -184,7 +184,7 @@
 					<Width>100</Width>
 					<Height>40</Height>
 						<Expression><![CDATA[InfectedContactIntensity * Suspected * Infected + FuneralContactIntensity * Suspected * Funeral - IncubationPeriodIntnesity * Exposed]]></Expression>
-						<InitialValue><![CDATA[1]]></InitialValue>
+						<InitialValue><![CDATA[25]]></InitialValue>
 						<Color>-60269</Color>
 					</Properties>
 				</Variable>
@@ -201,7 +201,7 @@
 					<Width>100</Width>
 					<Height>40</Height>
 						<Expression><![CDATA[IncubationPeriodIntnesity * Exposed - Infected * (RecoveringIntensity * (1-DeathProbability) + DyingIntensity * DeathProbability)]]></Expression>
-						<InitialValue><![CDATA[1]]></InitialValue>
+						<InitialValue><![CDATA[15]]></InitialValue>
 						<Color>-65536</Color>
 					</Properties>
 				</Variable>
@@ -269,7 +269,7 @@
 						<UnitType><![CDATA[NONE]]></UnitType>
 						<SdArray>false</SdArray>
 						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[0.128+0.80]]></Code>
+							<Code><![CDATA[0.5608]]></Code>
 						</DefaultValue>
 						<ParameterEditor>
 							<Id>1556546366520</Id>
@@ -293,7 +293,7 @@
 						<UnitType><![CDATA[NONE]]></UnitType>
 						<SdArray>false</SdArray>
 						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[0.111]]></Code>
+							<Code><![CDATA[0.1481]]></Code>
 						</DefaultValue>
 						<ParameterEditor>
 							<Id>1556546387183</Id>
@@ -318,7 +318,7 @@
 						<UnitOfValue Class="RateUnits"><![CDATA[PER_DAY]]></UnitOfValue>
 						<SdArray>false</SdArray>
 						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[1./10.]]></Code>
+							<Code><![CDATA[0.073]]></Code>
 						</DefaultValue>
 						<ParameterEditor>
 							<Id>1556546439048</Id>
@@ -342,7 +342,7 @@
 						<UnitType><![CDATA[NONE]]></UnitType>
 						<SdArray>false</SdArray>
 						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[1./20.]]></Code>
+							<Code><![CDATA[0.064]]></Code>
 						</DefaultValue>
 						<ParameterEditor>
 							<Id>1556546572272</Id>
@@ -366,7 +366,7 @@
 						<UnitType><![CDATA[NONE]]></UnitType>
 						<SdArray>false</SdArray>
 						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[1./10.38]]></Code>
+							<Code><![CDATA[0.1266]]></Code>
 						</DefaultValue>
 						<ParameterEditor>
 							<Id>1556546631356</Id>
@@ -390,7 +390,7 @@
 						<UnitType><![CDATA[NONE]]></UnitType>
 						<SdArray>false</SdArray>
 						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[1./4.50]]></Code>
+							<Code><![CDATA[0.4868]]></Code>
 						</DefaultValue>
 						<ParameterEditor>
 							<Id>1556546645786</Id>
@@ -414,7 +414,7 @@
 						<UnitType><![CDATA[NONE]]></UnitType>
 						<SdArray>false</SdArray>
 						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[0.75]]></Code>
+							<Code><![CDATA[0.873]]></Code>
 						</DefaultValue>
 						<ParameterEditor>
 							<Id>1556546661873</Id>
@@ -901,11 +901,35 @@
 			</AgentLinks>
 
 
+			<Shapes>
+				<Rectangle>
+					<Id>1560947343027</Id>
+					<Name><![CDATA[rectangle]]></Name>
+					<X>-390</X><Y>960</Y>
+					<Label><X>10</X><Y>10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<ZHeight>10</ZHeight>
+					<LineWidth>1</LineWidth>
+					<LineColor/>
+					<LineMaterial>null</LineMaterial>
+					<LineStyle>SOLID</LineStyle>
+					<Width>800</Width>
+					<Height>600</Height>
+					<Rotation>0.0</Rotation>
+					<FillColor>-1579830</FillColor>
+					<FillMaterial>null</FillMaterial>
+				</Rectangle>
+			</Shapes>
 			<Charts>
     			<TimePlot>
 					<Id>1556568831751</Id>
 					<Name><![CDATA[plot]]></Name>
-					<X>0</X><Y>600</Y>
+					<X>50</X><Y>1250</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1015,7 +1039,7 @@
     			<TimePlot>
 					<Id>1556615382443</Id>
 					<Name><![CDATA[IFD_Plot]]></Name>
-					<X>0</X><Y>950</Y>
+					<X>50</X><Y>950</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1073,15 +1097,6 @@
 						<LineWidth>1.0</LineWidth>
 					</DatasetExpression>
 					<DatasetExpression>  
-						<Title><![CDATA[Funeral]]></Title>
-					<Expression><![CDATA[my_dataset3]]></Expression>
-					<Color>-8388608</Color>
-					<Expression2><![CDATA[Funeral]]></Expression2>
-					<Expression2Flag>true</Expression2Flag>
-						<PointStyle>SQUARE</PointStyle>
-						<LineWidth>1.0</LineWidth>
-					</DatasetExpression>
-					<DatasetExpression>  
 						<Title><![CDATA[Dead]]></Title>
 					<Expression><![CDATA[my_dataset4]]></Expression>
 					<Color>-9868951</Color>
@@ -1095,6 +1110,15 @@
 					<Expression><![CDATA[my_dataset5]]></Expression>
 					<Color>-16711936</Color>
 					<Expression2><![CDATA[Recovered]]></Expression2>
+					<Expression2Flag>true</Expression2Flag>
+						<PointStyle>NONE</PointStyle>
+						<LineWidth>1.0</LineWidth>
+					</DatasetExpression>
+					<DatasetExpression>  
+						<Title><![CDATA[Dataset Title]]></Title>
+					<Expression><![CDATA[RealDeadData]]></Expression>
+					<Color>-16777088</Color>
+					<Expression2><![CDATA[0]]></Expression2>
 					<Expression2Flag>true</Expression2Flag>
 						<PointStyle>NONE</PointStyle>
 						<LineWidth>1.0</LineWidth>
@@ -1169,28 +1193,138 @@
 			<LoadRootFromSnapshot>false</LoadRootFromSnapshot>
 
 			<Shapes>
-				<Text>
-					<Id>0</Id>
-					<Name><![CDATA[text]]></Name>
-					<X>50</X><Y>30</Y>
-					<Label><X>10</X><Y>0</Y></Label>
+				<Rectangle>
+					<Id>1561036349745</Id>
+					<Name><![CDATA[rectangleBackGr]]></Name>
+					<X>0</X><Y>0</Y>
+					<Label><X>10</X><Y>10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Z>0</Z>
+					<ZHeight>10</ZHeight>
+					<LineWidth>1</LineWidth>
+					<LineColor>-16777216</LineColor>
+					<LineMaterial>null</LineMaterial>
+					<LineStyle>SOLID</LineStyle>
+					<Width>680</Width>
+					<Height>600</Height>
 					<Rotation>0.0</Rotation>
-					<Color>-12490271</Color>
-					<Text><![CDATA[SEIFDR Ebola vol 2]]></Text>
+					<FillColor>-12566464</FillColor>
+					<FillMaterial>null</FillMaterial>
+				</Rectangle>
+				<Text>
+					<Id>1561036398139</Id>
+					<Name><![CDATA[SEIFDRLogo]]></Name>
+					<X>10</X><Y>20</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-14774017</Color>
+					<Text><![CDATA[SEIFDR model for Ebola Fever]]></Text>
 					<Font>
-						<Name>SansSerif</Name>
-						<Size>24</Size>
+						<Name>Dubai</Name>
+						<Size>36</Size>
+						<Style>3</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1561038212983</Id>
+					<Name><![CDATA[InfectedContactIntensText]]></Name>
+					<X>250</X><Y>80</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-14774017</Color>
+					<Text><![CDATA[Intensity of contact between infected 
+(as 1 day / amount of contacts)]]></Text>
+					<Font>
+						<Name>Times New Roman</Name>
+						<Size>26</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1561038710345</Id>
+					<Name><![CDATA[FuntContactIntensText]]></Name>
+					<X>250</X><Y>160</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-14774017</Color>
+					<Text><![CDATA[Intensity of contact with corpses 
+(as 1 day / amount of contacts)]]></Text>
+					<Font>
+						<Name>Times New Roman</Name>
+						<Size>26</Size>
 						<Style>0</Style>
 					</Font>
 					<Alignment>LEFT</Alignment>
 				</Text>
 			</Shapes>
+			<Controls>
+				<Control Type="Slider">
+				 	<EmbeddedIcon>false</EmbeddedIcon>				
+					<Id>1561038587236</Id>
+					<Name><![CDATA[ContactIntensGlider]]></Name>
+					<X>20</X><Y>80</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<BasicProperties Width="210" Height="60">
+                        <EmbeddedIcon>false</EmbeddedIcon>	
+						<Enabled>true</Enabled>
+					</BasicProperties>
+					<ExtendedProperties>
+						<DefaultValueCode><![CDATA[0.5608]]></DefaultValueCode>
+						<Orientation>HORIZONTAL</Orientation>
+						<MinValue><![CDATA[0.0001]]></MinValue>
+						<MaxValue><![CDATA[5]]></MaxValue>
+						<LinkTo>false</LinkTo>
+					</ExtendedProperties>
+				</Control>
+				<Control Type="Slider">
+				 	<EmbeddedIcon>false</EmbeddedIcon>				
+					<Id>1561038688450</Id>
+					<Name><![CDATA[FunContactIntensGlider]]></Name>
+					<X>20</X><Y>150</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<BasicProperties Width="210" Height="60">
+                        <EmbeddedIcon>false</EmbeddedIcon>	
+						<Enabled>true</Enabled>
+					</BasicProperties>
+					<ExtendedProperties>
+						<DefaultValueCode><![CDATA[0.1481]]></DefaultValueCode>
+						<Orientation>HORIZONTAL</Orientation>
+						<MinValue><![CDATA[0.0001]]></MinValue>
+						<MaxValue><![CDATA[5]]></MaxValue>
+						<LinkTo>false</LinkTo>
+					</ExtendedProperties>
+				</Control>
+			</Controls>
 
 			<Parameters>			
 				<Parameter>
@@ -1217,7 +1351,7 @@
 			</Parameters>			
 			<PresentationProperties>
 				<EnableZoomAndPanning>true</EnableZoomAndPanning>
-				<ExecutionMode><![CDATA[realTimeScaled]]></ExecutionMode>
+				<ExecutionMode><![CDATA[virtualTime]]></ExecutionMode>
 				<Title><![CDATA[SEIFDR Ebola vol 2 : Simulation]]></Title>	
 				<EnableDeveloperPanel>true</EnableDeveloperPanel>
 				<ShowDeveloperPanelOnStart>true</ShowDeveloperPanelOnStart>
