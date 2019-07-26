@@ -1,5 +1,0 @@
-/home/myfamily/MyStudy/4kurs/ChisMetMatPhys/Adams/Adams/bin/Debug/Adams.exe
-/home/myfamily/MyStudy/4kurs/ChisMetMatPhys/Adams/Adams/bin/Debug/Adams.pdb
-/home/myfamily/MyStudy/4kurs/ChisMetMatPhys/Adams/Adams/obj/x86/Debug/Adams.csproj.CoreCompileInputs.cache
-/home/myfamily/MyStudy/4kurs/ChisMetMatPhys/Adams/Adams/obj/x86/Debug/Adams.exe
-/home/myfamily/MyStudy/4kurs/ChisMetMatPhys/Adams/Adams/obj/x86/Debug/Adams.pdb
